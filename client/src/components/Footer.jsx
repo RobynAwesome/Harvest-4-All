@@ -10,11 +10,14 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="col-span-1 md:col-span-1">
             <div className="flex items-center gap-3 mb-5">
-              <img
-                src="/logo.png"
-                alt="Harvest For All logo"
-                className="w-14 h-14 object-contain drop-shadow-lg"
-              />
+              {/* Crop bottom ~28% to hide the text baked into the image */}
+              <div className="overflow-hidden flex-shrink-0 drop-shadow-lg" style={{ width: 52, height: 38 }}>
+                <img
+                  src="/logo512.png"
+                  alt="Harvest For All logo"
+                  style={{ width: 52, height: 52, objectFit: "cover", objectPosition: "top" }}
+                />
+              </div>
               <div>
                 <div className="text-white font-black text-lg leading-none tracking-tight font-heading">
                   HARVEST <span className="text-[#2ecc71]">4</span> ALL

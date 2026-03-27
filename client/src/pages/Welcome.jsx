@@ -119,17 +119,21 @@ const Welcome = ({ onDone }) => {
         pointerEvents: "none",
       }} />
 
-      {/* ── Logo ── */}
-      <div style={{ ...fadeUp(w), marginBottom: 2, zIndex: 1 }}>
+      {/* ── Logo — cropped to hide text baked into image ── */}
+      <div style={{ ...fadeUp(w), marginBottom: 4, zIndex: 1 }}>
+        <div style={{ width: 160, height: 116, overflow: "hidden", filter: "drop-shadow(0 0 32px rgba(46,204,113,0.65)) drop-shadow(0 8px 24px rgba(0,0,0,0.5))" }}>
         <img
-          src="/logo.png"
+          src="/logo512.png"
           alt="Harvest For All"
           style={{
-            width: 74, height: 74,
-            objectFit: "contain",
-            filter: "drop-shadow(0 0 18px rgba(46,204,113,0.55))",
+            width: 160, height: 160,
+            objectFit: "cover",
+            objectPosition: "top",
+            imageRendering: "high-quality",
+            filter: "none",
           }}
         />
+        </div>
       </div>
 
       {/* ── Plant + can scene ── */}

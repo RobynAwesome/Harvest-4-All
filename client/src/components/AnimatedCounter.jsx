@@ -76,4 +76,5 @@ const AnimatedCounter = ({
   );
 };
 
-export default AnimatedCounter;
+// Memo stops re-animation when parent re-renders but props haven't changed
+export default React.memo(AnimatedCounter);

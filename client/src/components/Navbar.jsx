@@ -45,11 +45,15 @@ const Navbar = () => {
             role="link"
             aria-label="Harvest For All Home"
           >
-            <img
-              src="/logo.png"
-              alt="Harvest For All Logo"
-              className="w-14 h-14 object-contain group-hover:scale-110 transition-transform drop-shadow-md"
-            />
+            {/* Crop bottom ~28% to hide the text baked into the image */}
+            <div className="overflow-hidden flex-shrink-0 drop-shadow-md" style={{ width: 52, height: 38 }}>
+              <img
+                src="/logo512.png"
+                alt="Harvest For All Logo"
+                className="group-hover:scale-110 transition-transform"
+                style={{ width: 52, height: 52, objectFit: "cover", objectPosition: "top" }}
+              />
+            </div>
             <div className="leading-none">
               <div className="text-2xl font-black text-[#111827] tracking-tighter font-heading">
                 HARVEST <span className="text-[#2ecc71]">4</span> ALL
