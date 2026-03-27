@@ -12,6 +12,7 @@ import Save from "./pages/Save";
 import Market from "./pages/Market";
 import Impact from "./pages/Impact";
 import Admin from "./pages/Admin";
+import Welcome from "./pages/Welcome";
 import BadgePopup from "./components/BadgePopup";
 
 function AppContent() {
@@ -50,10 +51,21 @@ function AppContent() {
 }
 
 function App() {
+  const [showWelcome, setShowWelcome] = useState(
+    () => !window.location.pathname.startsWith("/admin") &&
+          !sessionStorage.getItem("harvest_welcomed")
+  );
+
+  const handleWelcomeDone = () => {
+    sessionStorage.setItem("harvest_welcomed", "1");
+    setShowWelcome(false);
+  };
+
   return (
     <ThemeProvider>
       <AppProvider>
         <Router>
+          {showWelcome && <Welcome onDone={handleWelcomeDone} />}
           <AppContent />
         </Router>
       </AppProvider>
