@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harvest For All | Sustainable Community Action</title>
+    <meta name="description" content="Community-driven sustainability platform for AgriTech, Food Security, and GreenTech in the Western Cape.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        forest: '#166534',
+                        growth: '#4ade80',
+                        beige: '#f5f5f4',
+                        dark: '#111827',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', "Segoe UI", 'Roboto', "Helvetica Neue", 'Arial', "Noto Sans", 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- External Libraries -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .section-fade {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        .section-hidden {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        .section-visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-beige text-dark min-h-screen flex flex-col">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 glass border-b border-forest/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2 cursor-pointer" onclick="navigateTo('home')">
+                    <div class="bg-forest p-1.5 rounded-lg text-white">
+                        <i data-lucide="sprout" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-xl font-bold text-forest tracking-tight">Harvest<span class="text-growth">4</span>All</span>
+                </div>
+                
+                <!-- Desktop Nav -->
+                <div class="hidden md:flex space-x-8">
+                    <button onclick="navigateTo('grow')" class="nav-link hover:text-forest font-medium transition-colors">Grow</button>
+                    <button onclick="navigateTo('reduce')" class="nav-link hover:text-forest font-medium transition-colors">Reduce</button>
+                    <button onclick="navigateTo('save')" class="nav-link hover:text-forest font-medium transition-colors">Save</button>
+                    <button onclick="navigateTo('market')" class="nav-link hover:text-forest font-medium transition-colors">Market</button>
+                    <button onclick="navigateTo('impact')" class="bg-forest text-white px-4 py-2 rounded-full hover:bg-forest/90 transition-all shadow-md active:scale-95">My Impact</button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-forest">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Nav -->
+        <div id="mobile-menu" class="hidden md:hidden glass border-t border-forest/10 p-4 space-y-4">
+            <button onclick="navigateTo('grow')" class="block w-full text-left font-medium">Grow Projects</button>
+            <button onclick="navigateTo('reduce')" class="block w-full text-left font-medium">Reduce Waste</button>
+            <button onclick="navigateTo('save')" class="block w-full text-left font-medium">Save Energy/Water</button>
+            <button onclick="navigateTo('market')" class="block w-full text-left font-medium">Local Market</button>
+            <button onclick="navigateTo('impact')" class="block w-full text-center bg-forest text-white py-2 rounded-lg">My Impact</button>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main id="content-root" class="flex-grow">
+        <!-- Sections will be injected here -->
+        <div id="loader" class="flex items-center justify-center min-h-[60vh]">
+            <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-forest"></div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white/70 py-12 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center gap-2 mb-4 text-white">
+                        <i data-lucide="sprout" class="w-5 h-5 text-growth"></i>
+                        <span class="text-lg font-bold">Harvest For All</span>
+                    </div>
+                    <p class="text-sm">Empowering Western Cape communities through sustainable action and digital innovation.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Resources</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-growth">MICT SETA Hackathon</a></li>
+                        <li><a href="#" class="hover:text-growth">CCT Waste Strategy</a></li>
+                        <li><a href="#" class="hover:text-growth">Water Wise Tips</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Legal</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-growth">Open Source (MIT)</a></li>
+                        <li><a href="#" class="hover:text-growth">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-growth">Demo Mode Disclaimer</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-xs">&copy; 2026 Harvest For All. Built for MICT SETA National Skills Challenge.</p>
+                <div class="flex gap-4">
+                    <i data-lucide="github" class="w-5 h-5 cursor-pointer hover:text-white transition-colors"></i>
+                    <i data-lucide="twitter" class="w-5 h-5 cursor-pointer hover:text-white transition-colors"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Templates (Hidden) -->
+    <template id="home-template">
+        <section class="section-fade">
+            <!-- Hero -->
+            <div class="relative overflow-hidden pt-16 pb-24 md:pt-24 md:pb-32 bg-gradient-to-b from-white to-beige">
+                <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+                    <div class="flex-1 text-center md:text-left">
+                        <span class="inline-block bg-growth/20 text-forest px-4 py-1.5 rounded-full text-sm font-bold mb-6 tracking-wide uppercase">Creating Sustainable Crops for All</span>
+                        <h1 class="text-5xl md:text-7xl font-extrabold text-dark leading-tight mb-6">
+                            Grow Your Own <span class="text-forest">Future.</span>
+                        </h1>
+                        <p class="text-lg text-dark/70 mb-10 max-w-xl mx-auto md:mx-0">
+                            The community-driven platform to solve food security, reduce waste, and save money in the Western Cape.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                            <button onclick="navigateTo('grow')" class="bg-forest text-white px-8 py-4 rounded-xl font-bold text-lg hover:shadow-xl transition-all active:scale-95 flex items-center justify-center gap-2">
+                                Start Growing <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </button>
+                            <button onclick="navigateTo('save')" class="bg-white text-forest border-2 border-forest/10 px-8 py-4 rounded-xl font-bold text-lg hover:bg-forest/5 transition-all flex items-center justify-center gap-2">
+                                Track Savings <i data-lucide="trending-up" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex-1 relative">
+                        <div class="absolute -z-10 bg-growth/30 w-72 h-72 rounded-full blur-3xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+                        <img src="https://images.unsplash.com/photo-1592419044706-39796d40f98c?auto=format&fit=crop&q=80&w=800" alt="Urban Garden" class="rounded-3xl shadow-2xl animate-float" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Counters -->
+            <div class="max-w-5xl mx-auto px-4 -mt-12 relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-8 rounded-2xl shadow-lg text-center border-b-4 border-forest">
+                    <div class="text-4xl font-black text-forest mb-2" id="stat-meals">12,450</div>
+                    <div class="text-sm font-bold text-dark/40 uppercase tracking-widest leading-none">Meals Grown</div>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-lg text-center border-b-4 border-growth">
+                    <div class="text-4xl font-black text-forest mb-2" id="stat-water">487,000L</div>
+                    <div class="text-sm font-bold text-dark/40 uppercase tracking-widest leading-none">Water Saved</div>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-lg text-center border-b-4 border-amber-400">
+                    <div class="text-4xl font-black text-forest mb-2" id="stat-money">R184,000</div>
+                    <div class="text-sm font-bold text-dark/40 uppercase tracking-widest leading-none">Rands Saved</div>
+                </div>
+            </div>
+
+            <!-- Community Feed -->
+            <div class="max-w-7xl mx-auto px-4 py-24">
+                <div class="flex justify-between items-end mb-12">
+                    <div>
+                        <h2 class="text-3xl font-black text-dark">Community Impact</h2>
+                        <p class="text-dark/60">Live updates from neighbors taking action.</p>
+                    </div>
+                    <button class="text-forest font-bold flex items-center gap-1 hover:underline">View all posts <i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="bg-growth/10 text-forest text-xs font-bold px-2 py-1 rounded">GROW</span>
+                                <span class="text-xs text-dark/40">2 hours ago • Khayelitsha</span>
+                            </div>
+                            <h3 class="font-bold text-lg mb-2">Thandi just harvested 5kg of spinach!</h3>
+                            <p class="text-sm text-dark/60 mb-4">"First harvest from my vertical tire garden. Fed the whole family tonight!"</p>
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-full bg-forest flex items-center justify-center text-white text-xs font-bold font-mono">T</div>
+                                <span class="text-sm font-medium">Thandi M.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1621451537084-482c73073a0f?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="bg-blue-100 text-blue-600 text-xs font-bold px-2 py-1 rounded">SAVE</span>
+                                <span class="text-xs text-dark/40">5 hours ago • Mitchells Plain</span>
+                            </div>
+                            <h3 class="font-bold text-lg mb-2">Leon saved R120 on his Eskom bill</h3>
+                            <p class="text-sm text-dark/60 mb-4">Using the greywater filtration system for his garden reduced his municipal water and energy cost.</p>
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold font-mono">L</div>
+                                <span class="text-sm font-medium">Leon D.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+                        <div class="h-48 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="bg-amber-100 text-amber-600 text-xs font-bold px-2 py-1 rounded">MARKET</span>
+                                <span class="text-xs text-dark/40">Yesterday • Gugulethu</span>
+                            </div>
+                            <h3 class="font-bold text-lg mb-2">New Seedling Swap available</h3>
+                            <p class="text-sm text-dark/60 mb-4">"I have 10 tomato seedlings to swap for some kale or compost. Let's grow together!"</p>
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-full bg-amber-600 flex items-center justify-center text-white text-xs font-bold font-mono">S</div>
+                                <span class="text-sm font-medium">Sipho K.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="grow-template">
+        <section class="section-fade py-16 px-4">
+            <div class="max-w-7xl mx-auto">
+                <div class="mb-12">
+                    <h2 class="text-4xl font-black text-dark mb-4">Start Your <span class="text-forest">Grow Project</span></h2>
+                    <p class="text-dark/60">Follow our guides tailored for Western Cape townships.</p>
+                </div>
+
+                <!-- Quiz Progress -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-forest/5 mb-12">
+                    <div id="quiz-container">
+                        <div class="flex items-center gap-4 mb-8">
+                            <span class="w-10 h-10 rounded-full bg-forest text-white flex items-center justify-center font-bold">1</span>
+                            <div>
+                                <h3 class="font-bold text-xl">Grow Quiz</h3>
+                                <p class="text-sm text-dark/40">Find the perfect crops for your space.</p>
+                            </div>
+                        </div>
+                        <div id="quiz-step-1" class="quiz-step">
+                            <h4 class="text-lg font-bold mb-6">How much space do you have?</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <button onclick="selectQuizOption(1, 'small')" class="p-6 border-2 border-forest/10 rounded-2xl hover:border-forest hover:bg-forest/5 transition-all text-left">
+                                    <div class="font-bold mb-1 italic text-forest">Small</div>
+                                    <div class="text-sm text-dark/60">Windowsill or balcony (1-2m²)</div>
+                                </button>
+                                <button onclick="selectQuizOption(1, 'medium')" class="p-6 border-2 border-forest/10 rounded-2xl hover:border-forest hover:bg-forest/5 transition-all text-left">
+                                    <div class="font-bold mb-1 italic text-forest">Medium</div>
+                                    <div class="text-sm text-dark/60">Small backyard (2-5m²)</div>
+                                </button>
+                                <button onclick="selectQuizOption(1, 'large')" class="p-6 border-2 border-forest/10 rounded-2xl hover:border-forest hover:bg-forest/5 transition-all text-left">
+                                    <div class="font-bold mb-1 italic text-forest">Large</div>
+                                    <div class="text-sm text-dark/60">Community plot (5m²+)</div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Crop Recommendations (SA specific) -->
+                <h3 class="text-2xl font-bold mb-8">Recommended for <span class="text-forest">Western Cape</span></h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                    <!-- Spinach -->
+                    <div class="bg-white p-6 rounded-2xl border border-forest/5 hover:shadow-md transition-shadow">
+                        <img src="https://images.unsplash.com/photo-1592419044706-39796d40f98c?auto=format&fit=crop&q=80&w=200" class="w-20 h-20 rounded-xl mb-4 object-cover" />
+                        <h4 class="font-bold text-lg mb-1">Swiss Chard / Spinach</h4>
+                        <p class="text-xs text-forest font-bold mb-3">EASY • 4-6 WEEKS</p>
+                        <p class="text-sm text-dark/60 mb-4">Hardy, nutrient-dense, and loves the WC winter sun. Perfect for containers.</p>
+                        <button class="w-full py-2 bg-beige text-forest font-bold rounded-lg text-sm hover:bg-forest/5">View Guide</button>
+                    </div>
+                    <!-- Kale -->
+                    <div class="bg-white p-6 rounded-2xl border border-forest/5 hover:shadow-md transition-shadow">
+                        <img src="https://images.unsplash.com/photo-1524179524541-1bb169720078?auto=format&fit=crop&q=80&w=200" class="w-20 h-20 rounded-xl mb-4 object-cover" />
+                        <h4 class="font-bold text-lg mb-1">Kale</h4>
+                        <p class="text-xs text-forest font-bold mb-3">MEDIUM • 6-8 WEEKS</p>
+                        <p class="text-sm text-dark/60 mb-4">The ultimate "superfood" that grows high. Great for small spaces.</p>
+                        <button class="w-full py-2 bg-beige text-forest font-bold rounded-lg text-sm hover:bg-forest/5">View Guide</button>
+                    </div>
+                    <!-- Tomatoes -->
+                    <div class="bg-white p-6 rounded-2xl border border-forest/5 hover:shadow-md transition-shadow">
+                        <img src="https://images.unsplash.com/photo-1592419044706-39796d40f98c?auto=format&fit=crop&q=80&w=200" class="w-20 h-20 rounded-xl mb-4 object-cover" />
+                        <h4 class="font-bold text-lg mb-1">Tomatoes</h4>
+                        <p class="text-xs text-amber-600 font-bold mb-3">MEDIUM • 10-12 WEEKS</p>
+                        <p class="text-sm text-dark/60 mb-4">Summer favorite (Dec-Mar). Requires sun and some space for trellis.</p>
+                        <button class="w-full py-2 bg-beige text-forest font-bold rounded-lg text-sm hover:bg-forest/5">View Guide</button>
+                    </div>
+                    <!-- Spring Onion -->
+                    <div class="bg-white p-6 rounded-2xl border border-forest/5 hover:shadow-md transition-shadow">
+                        <img src="https://images.unsplash.com/photo-1596464716127-f2a82984de30?auto=format&fit=crop&q=80&w=200" class="w-20 h-20 rounded-xl mb-4 object-cover" />
+                        <h4 class="font-bold text-lg mb-1">Spring Onions</h4>
+                        <p class="text-xs text-forest font-bold mb-3">EASY • 3-4 WEEKS</p>
+                        <p class="text-sm text-dark/60 mb-4">Minimal space required. Can even regrow from kitchen scraps!</p>
+                        <button class="w-full py-2 bg-beige text-forest font-bold rounded-lg text-sm hover:bg-forest/5">View Guide</button>
+                    </div>
+                </div>
+
+                <!-- Action Checklist -->
+                <div class="bg-forest text-white p-12 rounded-3xl shadow-xl flex flex-col md:flex-row gap-12 items-center">
+                    <div class="flex-1">
+                        <h3 class="text-3xl font-bold mb-6">Today's Growing Task</h3>
+                        <div class="space-y-4">
+                            <label class="flex items-center gap-4 cursor-pointer group">
+                                <div class="w-6 h-6 border-2 border-white/20 rounded flex items-center justify-center group-hover:border-white transition-colors">
+                                    <i data-lucide="check" class="w-4 h-4 text-white opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                                </div>
+                                <span class="text-lg">Check soil moisture level</span>
+                            </label>
+                            <label class="flex items-center gap-4 cursor-pointer group">
+                                <div class="w-6 h-6 border-2 border-white/20 rounded flex items-center justify-center">
+                                    <i data-lucide="check" class="w-4 h-4 text-white opacity-0"></i>
+                                </div>
+                                <span class="text-lg">Check for pests (aphids/snails)</span>
+                            </label>
+                            <label class="flex items-center gap-4 cursor-pointer group">
+                                <div class="w-6 h-6 border-2 border-white/20 rounded flex items-center justify-center">
+                                    <i data-lucide="check" class="w-4 h-4 text-white opacity-0"></i>
+                                </div>
+                                <span class="text-lg">Empty greywater collection bucket</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/3 bg-white/10 p-8 rounded-2xl backdrop-blur-sm border border-white/10">
+                        <h4 class="font-bold mb-2">Did you know?</h4>
+                        <p class="text-sm text-white/80 italic">"Using tire gardens can save up to 90% of water compared to traditional ground planting in sandy WC soil."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="save-template">
+        <section class="section-fade py-16 px-4">
+            <div class="max-w-7xl mx-auto">
+                <div class="mb-12">
+                    <h2 class="text-4xl font-black text-dark mb-4">Save <span class="text-forest">Water & Energy</span></h2>
+                    <p class="text-dark/60">Reduce your bills with Eskom-aligned tracking and Western Cape water tips.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                    <!-- Energy Calc -->
+                    <div class="bg-white p-8 rounded-3xl shadow-lg border border-forest/10">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="bg-amber-100 p-2 rounded-lg text-amber-600">
+                                <i data-lucide="zap" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="font-bold text-2xl uppercase tracking-tight">Eskom Tariff Calc</h3>
+                        </div>
+                        <p class="text-sm text-dark/60 mb-6 italic">Based on 2025/26 Projected Rates (Avg R3.20/kWh)</p>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-bold mb-2">Select Appliance</label>
+                                <select id="energy-appliance" class="w-full bg-beige border-none rounded-xl p-4 font-medium focus:ring-2 ring-forest/20">
+                                    <option value="1500">Kettle (1500W)</option>
+                                    <option value="2000" selected>Geyser (2000W)</option>
+                                    <option value="1000">Heater (1000W)</option>
+                                    <option value="100">LED Lights (100W Total)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-2">Daily Usage (Hours)</label>
+                                <input type="range" id="energy-hours" min="0" max="24" step="0.5" value="2" class="w-full h-2 bg-beige rounded-lg appearance-none cursor-pointer accent-forest">
+                                <div class="flex justify-between text-xs font-bold text-dark/40 mt-2">
+                                    <span>0h</span>
+                                    <span id="hours-display">2 Hours</span>
+                                    <span>24h</span>
+                                </div>
+                            </div>
+                            <div class="bg-beige/50 p-6 rounded-2xl text-center">
+                                <div class="text-xs font-bold text-dark/40 uppercase mb-1">Estimated Monthly Cost</div>
+                                <div class="text-3xl font-black text-forest" id="energy-result">R384.00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Water Tracker -->
+                    <div class="bg-white p-8 rounded-3xl shadow-lg border border-forest/10">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="bg-blue-100 p-2 rounded-lg text-blue-600">
+                                <i data-lucide="droplet" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="font-bold text-2xl uppercase tracking-tight">Water Action Log</h3>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mb-8">
+                            <button onclick="logWater(40)" class="p-4 bg-beige rounded-2xl hover:bg-blue-50 transition-colors text-center group">
+                                <div class="text-blue-600 font-bold mb-1">Short Shower</div>
+                                <div class="text-xs text-dark/40 italic">Saves ~40L</div>
+                            </button>
+                            <button onclick="logWater(10)" class="p-4 bg-beige rounded-2xl hover:bg-blue-50 transition-colors text-center group">
+                                <div class="text-blue-600 font-bold mb-1">Greywater Use</div>
+                                <div class="text-xs text-dark/40 italic">Saves ~10L/bucket</div>
+                            </button>
+                            <button onclick="logWater(2)" class="p-4 bg-beige rounded-2xl hover:bg-blue-50 transition-colors text-center group">
+                                <div class="text-blue-600 font-bold mb-1">Cup for Brushing</div>
+                                <div class="text-xs text-dark/40 italic">Saves ~2L</div>
+                            </button>
+                            <button onclick="logWater(100)" class="p-4 bg-beige rounded-2xl hover:bg-blue-50 transition-colors text-center group">
+                                <div class="text-blue-600 font-bold mb-1">Rain Tank Fill</div>
+                                <div class="text-xs text-dark/40 italic">Saves 100L+</div>
+                            </button>
+                        </div>
+                        <div class="bg-blue-600 p-6 rounded-2xl text-white text-center shadow-inner">
+                            <div class="text-xs font-bold text-white/60 uppercase mb-1">Total Savings This Week</div>
+                            <div class="text-3xl font-black" id="water-weekly-total">1,250 Liters</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="market-template">
+        <section class="section-fade py-16 px-4">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12">
+                    <div>
+                        <h2 class="text-4xl font-black text-dark mb-4">Local <span class="text-forest">Sustainable Market</span></h2>
+                        <p class="text-dark/60">Swap, buy, and sell home-grown produce and recycled goods.</p>
+                    </div>
+                    <button class="bg-forest text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:shadow-lg transition-all active:scale-95 shrink-0">
+                        <i data-lucide="plus" class="w-5 h-5"></i> Post Listing
+                    </button>
+                </div>
+
+                <!-- Market Filters -->
+                <div class="flex flex-wrap gap-2 mb-8">
+                    <button class="bg-forest text-white px-4 py-1.5 rounded-full text-sm font-bold">All</button>
+                    <button class="bg-white border border-forest/10 px-4 py-1.5 rounded-full text-sm font-bold hover:bg-forest/5">Vegetables</button>
+                    <button class="bg-white border border-forest/10 px-4 py-1.5 rounded-full text-sm font-bold hover:bg-forest/5">Seedlings</button>
+                    <button class="bg-white border border-forest/10 px-4 py-1.5 rounded-full text-sm font-bold hover:bg-forest/5">Compost/Soil</button>
+                    <button class="bg-white border border-forest/10 px-4 py-1.5 rounded-full text-sm font-bold hover:bg-forest/5">Upcycled Tools</button>
+                </div>
+
+                <!-- Market Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <!-- Item 1 -->
+                    <div class="bg-white rounded-2xl border border-forest/10 overflow-hidden group">
+                        <div class="h-48 overflow-hidden bg-beige">
+                            <img src="https://images.unsplash.com/photo-1596464716127-f2a82984de30?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-bold text-lg">Fresh Spinach Bundle</h4>
+                                <span class="text-forest font-black">R15</span>
+                            </div>
+                            <div class="flex items-center gap-1 text-dark/40 text-xs font-bold mb-4 uppercase tracking-wider">
+                                <i data-lucide="map-pin" class="w-3 h-3"></i> Khayelitsha
+                            </div>
+                            <button class="w-full py-2 bg-growth text-forest font-bold rounded-lg text-sm hover:shadow-md transition-shadow">Contact Seller</button>
+                        </div>
+                    </div>
+                    <!-- Item 2 -->
+                    <div class="bg-white rounded-2xl border border-forest/10 overflow-hidden group">
+                        <div class="h-48 overflow-hidden bg-beige">
+                            <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-bold text-lg">Tomato Seedlings (4)</h4>
+                                <span class="bg-blue-100 text-blue-600 px-2 py-0.5 rounded text-[10px] font-bold uppercase">Swap Only</span>
+                            </div>
+                            <div class="flex items-center gap-1 text-dark/40 text-xs font-bold mb-4 uppercase tracking-wider">
+                                <i data-lucide="map-pin" class="w-3 h-3"></i> Mitchells Plain
+                            </div>
+                            <button class="w-full py-2 border-2 border-forest/10 text-forest font-bold rounded-lg text-sm hover:bg-forest/5 transition-colors">Offer Swap</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="impact-template">
+        <section class="section-fade py-16 px-4">
+            <div class="max-w-7xl mx-auto">
+                <div class="mb-12">
+                    <h2 class="text-4xl font-black text-dark mb-4">Your <span class="text-forest">Impact Dashboard</span></h2>
+                    <p class="text-dark/60">Real data from your actions, contributing to the Western Cape's future.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                    <!-- Stats Sidebar -->
+                    <div class="space-y-6">
+                        <div class="bg-white p-6 rounded-3xl border border-forest/10 shadow-sm text-center">
+                            <div class="w-16 h-16 bg-forest/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i data-lucide="award" class="w-8 h-8 text-forest"></i>
+                            </div>
+                            <h3 class="text-xs font-bold text-dark/40 uppercase tracking-widest mb-1">Level 4</h3>
+                            <div class="text-2xl font-black text-dark mb-4 uppercase italic">Urban Guardian</div>
+                            <div class="w-full bg-beige h-3 rounded-full overflow-hidden mb-2">
+                                <div class="bg-forest h-full w-2/3"></div>
+                            </div>
+                            <p class="text-[10px] font-bold text-dark/40">450 XP TO LEVEL 5</p>
+                        </div>
+
+                        <div class="bg-forest p-6 rounded-3xl text-white shadow-xl">
+                            <h4 class="font-bold text-sm uppercase text-white/60 mb-4 tracking-widest">Lifetime Savings</h4>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm font-medium">Food Value</span>
+                                    <span class="font-black text-lg">R2,450</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm font-medium">Water Saved</span>
+                                    <span class="font-black text-lg">4,500L</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm font-medium">Waste Diverted</span>
+                                    <span class="font-black text-lg">85kg</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Chart Section -->
+                    <div class="lg:col-span-2 space-y-8">
+                        <div class="bg-white p-8 rounded-3xl shadow-lg border border-forest/10">
+                            <h3 class="font-bold text-xl mb-6">Savings History (ZAR)</h3>
+                            <canvas id="impactChart" class="w-full h-64"></canvas>
+                        </div>
+
+                        <!-- Badges Gallery -->
+                        <div>
+                            <h3 class="font-bold text-xl mb-6">Badges Earned</h3>
+                            <div class="grid grid-cols-4 sm:grid-cols-6 gap-4">
+                                <div class="aspect-square bg-forest rounded-2xl flex items-center justify-center text-white shadow-md" title="First Harvest">
+                                    <i data-lucide="shield-check" class="w-8 h-8"></i>
+                                </div>
+                                <div class="aspect-square bg-growth rounded-2xl flex items-center justify-center text-forest shadow-md" title="Water Warrior">
+                                    <i data-lucide="droplet" class="w-8 h-8"></i>
+                                </div>
+                                <div class="aspect-square bg-amber-400 rounded-2xl flex items-center justify-center text-dark shadow-md" title="Waste Buster">
+                                    <i data-lucide="trash-2" class="w-8 h-8"></i>
+                                </div>
+                                <div class="aspect-square bg-beige border-2 border-dashed border-dark/10 rounded-2xl flex items-center justify-center text-dark/20">
+                                    <i data-lucide="lock" class="w-6 h-6"></i>
+                                </div>
+                                <div class="aspect-square bg-beige border-2 border-dashed border-dark/10 rounded-2xl flex items-center justify-center text-dark/20">
+                                    <i data-lucide="lock" class="w-6 h-6"></i>
+                                </div>
+                                <div class="aspect-square bg-beige border-2 border-dashed border-dark/10 rounded-2xl flex items-center justify-center text-dark/20">
+                                    <i data-lucide="lock" class="w-6 h-6"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <!-- JS Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+/* 
+ * Harvest For All - Custom Styles
+ * Modern, premium, and sustainable aesthetic.
+ */
+
+:root {
+    --forest: #166534;
+    --growth: #4ade80;
+    --beige: #f5f5f4;
+    --dark: #111827;
+}
+
+/* Glassmorphism Utility */
+.glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(22, 101, 52, 0.05);
+}
+
+/* Section Transitions */
+.section-fade {
+    animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Floating Animation for Hero Images */
+@keyframes float {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(1deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--beige);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #d6d3d1;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a29e;
+}
+
+/* Navigation Links */
+.nav-link {
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: var(--forest);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Badge Pulse */
+@keyframes pulse-soft {
+	0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4); }
+	70% { box-shadow: 0 0 0 10px rgba(74, 222, 128, 0); }
+	100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+}
+
+.pulse-badge {
+    animation: pulse-soft 2s infinite;
+}
+
+/* Chart Container shadow */
+canvas {
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.05));
+}
