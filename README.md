@@ -1,4 +1,4 @@
-![Introduction](./README-bannner.jpg)
+![Introduction](./README-bannner.png)
 
 # 🌱 Harvest For All
 
