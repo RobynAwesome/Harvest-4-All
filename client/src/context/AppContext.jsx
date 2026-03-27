@@ -9,7 +9,14 @@ export const AppProvider = ({ children }) => {
     return saved ? parseInt(saved) : 1250;
   });
 
-  const [energySaved, setEnergySaved] = useState(0);
+  const [energySaved, setEnergySaved] = useState(() => {
+    const saved = localStorage.getItem("energySaved");
+    return saved ? parseInt(saved) : 184000;
+  });
+  const [wasteReduced, setWasteReduced] = useState(() => {
+    const saved = localStorage.getItem("wasteReduced");
+    return saved ? parseInt(saved) : 85;
+  });
   const [impactData, setImpactData] = useState([]);
   const [marketListings, setMarketListings] = useState([]);
   const [growProjects, setGrowProjects] = useState([]);
@@ -33,20 +40,37 @@ export const AppProvider = ({ children }) => {
   }, [earnedBadges]);
 
   useEffect(() => {
+    localStorage.setItem("wasteReduced", wasteReduced);
+  }, [wasteReduced]);
+
+  useEffect(() => {
+    localStorage.setItem("energySaved", energySaved);
+  }, [energySaved]);
+
+  useEffect(() => {
     localStorage.setItem("totalPoints", totalPoints);
   }, [totalPoints]);
+
+  const addEnergySaving = (amount) => {
+    setEnergySaved((prev) => prev + amount);
+  };
+
+  const addWasteReduction = (amount) => {
+    setWasteReduced((prev) => prev + amount);
+  };
 
   // Fetch data from APIs
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [impactRes, marketRes, growRes, actionsRes, badgesRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/impact"),
-          axios.get("http://localhost:5000/api/market"),
-          axios.get("http://localhost:5000/api/grow"),
-          axios.get("http://localhost:5000/api/actions"),
-          axios.get("http://localhost:5000/api/actions/badges"),
-        ]);
+        const [impactRes, marketRes, growRes, actionsRes, badgesRes] =
+          await Promise.all([
+            axios.get("http://localhost:5000/api/impact"),
+            axios.get("http://localhost:5000/api/market"),
+            axios.get("http://localhost:5000/api/grow"),
+            axios.get("http://localhost:5000/api/actions"),
+            axios.get("http://localhost:5000/api/actions/badges"),
+          ]);
         setImpactData(impactRes.data);
         setMarketListings(marketRes.data);
         setGrowProjects(growRes.data);
@@ -90,25 +114,43 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  const [badgePopup, setBadgePopup] = useState(null);
+
   const logAction = async (action) => {
     try {
       const res = await axios.post("http://localhost:5000/api/actions", action);
-      setActions((prev) => [res.data, ...prev]);
-      setTotalPoints((prev) => prev + res.data.points);
+      const actionData = res.data;
+      
+      setActions((prev) => [actionData, ...prev]);
+      setTotalPoints((prev) => prev + actionData.points);
+
+      // Special handling for stats to show instant local updates
+      if (actionData.type === 'save' || actionData.type === 'water_saved') {
+          addWaterSaving(actionData.value);
+      } else if (actionData.type === 'save_energy') {
+          addEnergySaving(actionData.value);
+      } else if (actionData.type === 'reduce') {
+          addWasteReduction(actionData.value);
+      }
 
       // Check for new badges earned
-      if (res.data.badgesEarned && res.data.badgesEarned.length > 0) {
-        const newBadges = res.data.badgesEarned.filter(badgeId =>
-          !earnedBadges.includes(badgeId)
+      if (actionData.badgesEarned && actionData.badgesEarned.length > 0) {
+        const newBadges = actionData.badgesEarned.filter(
+          (badgeId) => !earnedBadges.includes(badgeId),
         );
+        
         if (newBadges.length > 0) {
           setEarnedBadges((prev) => [...prev, ...newBadges]);
-          // Could add notification here
-          console.log("New badges earned:", newBadges);
+          // Find the first new badge details to show in popup
+          const badgeDetails = badges.find(b => b._id === newBadges[0]);
+          if (badgeDetails) {
+            setBadgePopup(badgeDetails);
+            setTimeout(() => setBadgePopup(null), 5000);
+          }
         }
       }
 
-      return res.data;
+      return actionData;
     } catch (error) {
       console.error("Error logging action:", error);
       return null;
@@ -116,7 +158,7 @@ export const AppProvider = ({ children }) => {
   };
 
   const getEarnedBadgeDetails = () => {
-    return badges.filter(badge => earnedBadges.includes(badge._id));
+    return badges.filter((badge) => earnedBadges.includes(badge._id));
   };
 
   return (
@@ -125,7 +167,9 @@ export const AppProvider = ({ children }) => {
         waterSaved,
         addWaterSaving,
         energySaved,
-        setEnergySaved,
+        addEnergySaving,
+        wasteReduced,
+        addWasteReduction,
         impactData,
         addImpact,
         marketListings,
@@ -138,6 +182,8 @@ export const AppProvider = ({ children }) => {
         totalPoints,
         logAction,
         getEarnedBadgeDetails,
+        badgePopup,
+        setBadgePopup,
       }}
     >
       {children}

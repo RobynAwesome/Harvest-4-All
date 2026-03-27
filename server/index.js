@@ -40,7 +40,7 @@ app.use("/api/market", require("./routes/market"));
 app.use("/api/actions", require("./routes/actions"));
 
 // Handle SPA routing
-app.get("*", (req, res) => {
+app.get(/^\/(?!api).*/, (req, res) => {
   res.sendFile(path.join(__dirname, "../client/dist/index.html"));
 });
 

@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
         points: 5,
         badgesEarned: [],
         date: new Date(Date.now() - 86400000), // Yesterday
-        userId: "anonymous"
+        userId: "anonymous",
       },
       {
         _id: "action_2",
@@ -30,8 +30,8 @@ router.get("/", async (req, res) => {
         points: 10,
         badgesEarned: [],
         date: new Date(),
-        userId: "anonymous"
-      }
+        userId: "anonymous",
+      },
     ];
     res.json(mockActions);
   } catch (err) {
@@ -46,9 +46,9 @@ router.post("/", async (req, res) => {
 
     // Calculate points based on action type
     let points = 5; // default
-    if (type === 'grow') points = value * 0.5;
-    if (type === 'save') points = value * 0.2;
-    if (type === 'reduce') points = value * 0.3;
+    if (type === "grow") points = value * 0.5;
+    if (type === "save") points = value * 0.2;
+    if (type === "reduce") points = value * 0.3;
 
     // Check for badges earned
     const badgesEarned = await checkBadgesEarned(type, value);
@@ -64,7 +64,7 @@ router.post("/", async (req, res) => {
       points: Math.round(points),
       badgesEarned,
       date: new Date(),
-      userId: "anonymous"
+      userId: "anonymous",
     };
 
     res.status(201).json(mockAction);
@@ -85,7 +85,7 @@ router.get("/badges", async (req, res) => {
         icon: "🌱",
         criteria: { actionType: "grow", threshold: 1, unit: "seeds" },
         points: 10,
-        rarity: "common"
+        rarity: "common",
       },
       {
         _id: "badge_2",
@@ -94,7 +94,7 @@ router.get("/badges", async (req, res) => {
         icon: "💧",
         criteria: { actionType: "save", threshold: 100, unit: "liters" },
         points: 25,
-        rarity: "rare"
+        rarity: "rare",
       },
       {
         _id: "badge_3",
@@ -103,8 +103,8 @@ router.get("/badges", async (req, res) => {
         icon: "♻️",
         criteria: { actionType: "reduce", threshold: 10, unit: "kg" },
         points: 15,
-        rarity: "common"
-      }
+        rarity: "common",
+      },
     ];
     res.json(mockBadges);
   } catch (err) {
@@ -116,13 +116,13 @@ router.get("/badges", async (req, res) => {
 async function checkBadgesEarned(actionType, value) {
   // Mock badge checking logic
   const badges = [];
-  if (actionType === 'grow' && value >= 1) {
+  if (actionType === "grow" && value >= 1) {
     badges.push("badge_1"); // Green Thumb
   }
-  if (actionType === 'save' && value >= 100) {
+  if (actionType === "save" && value >= 100) {
     badges.push("badge_2"); // Water Warrior
   }
-  if (actionType === 'reduce' && value >= 10) {
+  if (actionType === "reduce" && value >= 10) {
     badges.push("badge_3"); // Waste Reducer
   }
   return badges;

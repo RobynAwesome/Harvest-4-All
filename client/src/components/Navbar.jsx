@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Sprout, Menu, X } from 'lucide-react';
+import { Sprout, Menu, X, Trophy } from 'lucide-react';
+import { useAppContext } from '../context/AppContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const { totalPoints, earnedBadges } = useAppContext();
 
   return (
     <nav className="sticky top-0 z-50 glass border-b border-[#166534]/10">
@@ -20,13 +22,23 @@ const Navbar = () => {
           </div>
           
           {/* Desktop Nav */}
-          <div className="hidden md:flex space-x-8 items-center">
-            <Link to="/grow" className="text-sm font-medium hover:text-[#166534] transition-colors">Grow</Link>
-            <Link to="/reduce" className="text-sm font-medium hover:text-[#166534] transition-colors">Reduce</Link>
-            <Link to="/save" className="text-sm font-medium hover:text-[#166534] transition-colors">Save</Link>
-            <Link to="/market" className="text-sm font-medium hover:text-[#166534] transition-colors">Market</Link>
-            <Link to="/impact" className="bg-[#166534] text-white px-4 py-2 rounded-full hover:bg-[#166534]/90 transition-all shadow-md active:scale-95">
-              My Impact
+          <div className="hidden md:flex space-x-6 items-center">
+            <Link to="/grow" className="text-sm font-bold hover:text-[#166534] transition-colors text-[#111827]/60">Grow</Link>
+            <Link to="/reduce" className="text-sm font-bold hover:text-[#166534] transition-colors text-[#111827]/60">Reduce</Link>
+            <Link to="/save" className="text-sm font-bold hover:text-[#166534] transition-colors text-[#111827]/60">Save</Link>
+            <Link to="/market" className="text-sm font-bold hover:text-[#166534] transition-colors text-[#111827]/60">Market</Link>
+            
+            <div className="h-6 w-px bg-[#166534]/10"></div>
+            
+            <Link to="/impact" className="flex items-center gap-3 group">
+                <div className="bg-[#166534] text-white px-4 py-2 rounded-xl hover:bg-[#166534]/90 transition-all shadow-md active:scale-95 flex items-center gap-2">
+                   <Trophy className="w-4 h-4" /> <span>{totalPoints} pts</span>
+                </div>
+                {earnedBadges.length > 0 && (
+                    <div className="bg-amber-400 text-[#166534] font-black text-[10px] w-5 h-5 rounded-full flex items-center justify-center animate-bounce">
+                        {earnedBadges.length}
+                    </div>
+                )}
             </Link>
           </div>
 
