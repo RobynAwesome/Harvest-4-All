@@ -63,8 +63,8 @@ Open-source for social impact. Pull requests welcome!
 MIT License
 
 Built for MICT SETA Hackathon 2026
-Slogan: Creating Sustainable Crops for All
-Made with ❤️ by <img width="3751" height="130" alt="image" src="https://github.com/user-attachments/assets/e6fceb45-2e30-4190-ade5-acd5f25611e2" /> for Western Cape communities 🌍🌱
+- Slogan: Creating Sustainable Crops for All
+- Made with ❤️ by <img width="3751" height="130" alt="image" src="https://github.com/user-attachments/assets/e6fceb45-2e30-4190-ade5-acd5f25611e2" /> for Western Cape communities 🌍🌱
 
 ## 🏃‍♂️ How to Run Locally
 ```bash
