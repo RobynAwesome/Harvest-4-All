@@ -2,6 +2,15 @@
 
 **Creating Sustainable Crops for All**
 
+## 🛠 **Tech Stack**
+
+[![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)](https://react.dev)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)](https://vitejs.dev)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B67F?logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?logo=chart.js&logoColor=white)](https://www.chartjs.org)
+[![Leaflet](https://img.shields.io/badge/Leaflet-199900?logo=leaflet&logoColor=white)](https://leafletjs.com)
+[![Font Awesome](https://img.shields.io/badge/Font%20Awesome-538DD7?logo=font-awesome&logoColor=white)](https://fontawesome.com)
+[![Lucide](https://img.shields.io/badge/Lucide-2C3E50?logo=lucide&logoColor=white)](https://lucide.dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
 [![Hackathon](https://img.shields.io/badge/MICT%20SETA%20Hackathon-2026-4ade80)](https://www.cxia4irhack.co.za) 
 [![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)](https://react.dev) 
@@ -12,16 +21,6 @@ A **community-driven sustainability action platform** that empowers Western Cape
 Built in **3 days** for the **MICT SETA Hackathon 2026** (Theme: Food Insecurity).
 
 ---
-
-## 🛠 Tech Stack
-
-[![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)](https://react.dev)
-[![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)](https://vitejs.dev)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B67F?logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
-[![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?logo=chart.js&logoColor=white)](https://www.chartjs.org)
-[![Leaflet](https://img.shields.io/badge/Leaflet-199900?logo=leaflet&logoColor=white)](https://leafletjs.com)
-[![Font Awesome](https://img.shields.io/badge/Font%20Awesome-538DD7?logo=font-awesome&logoColor=white)](https://fontawesome.com)
-[![Lucide](https://img.shields.io/badge/Lucide-2C3E50?logo=lucide&logoColor=white)](https://lucide.dev)
 
 **Fully responsive & lightweight** (< 2 MB) — perfect for township data connections  
 **State management**: localStorage (no backend needed for prototype)
@@ -65,9 +64,7 @@ MIT License
 
 Built for MICT SETA Hackathon 2026
 Slogan: Creating Sustainable Crops for All
-Made with ❤️ by KHOLOFELO ROBYN RABABALELA , KEA PULE, KARABO MOKWENA, LISAKHANYA NDWANDWA, MATTHEW WILLEMSE   
-<img width="3751" height="130" alt="image" src="https://github.com/user-attachments/assets/e6fceb45-2e30-4190-ade5-acd5f25611e2" />
- for Western Cape communities 🌍🌱
+Made with ❤️ by <img width="3751" height="130" alt="image" src="https://github.com/user-attachments/assets/e6fceb45-2e30-4190-ade5-acd5f25611e2" /> for Western Cape communities 🌍🌱
 
 ## 🏃‍♂️ How to Run Locally
 ```bash
