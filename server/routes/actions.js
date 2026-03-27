@@ -56,22 +56,40 @@ router.get("/badges", async (req, res) => {
       // Seed if empty (First time)
       const seedBadges = [
         {
-          name: "Green Thumb",
-          description: "Plant your first seeds",
+          name: "First Harvest",
+          description: "Successfully logged your first crop harvest.",
           icon: "🌱",
-          requirement: { type: "grow", count: 1 }
+          requirement: { type: "harvest", count: 1 }
         },
         {
           name: "Water Warrior",
-          description: "Save 100 liters of water",
+          description: "Saved over 100L of water through greywater recycling.",
           icon: "💧",
-          requirement: { type: "save", count: 100 }
+          requirement: { type: "water_saved", count: 100 }
         },
         {
-          name: "Waste Reducer",
-          description: "Reduce 10kg of waste",
-          icon: "♻️",
-          requirement: { type: "reduce", count: 10 }
+          name: "Eco Champion",
+          description: "Completed a 7-day Zero Waste challenge.",
+          icon: "🏆",
+          requirement: { type: "any", count: 50 }
+        },
+        {
+          name: "Market Maven",
+          description: "Completed your first community swap or sale.",
+          icon: "🤝",
+          requirement: { type: "market", count: 1 }
+        },
+        {
+          name: "Green Guardian",
+          description: "Shared 5 gardening tips with the community.",
+          icon: "🛡️",
+          requirement: { type: "any", count: 10 }
+        },
+        {
+          name: "Community Hero",
+          description: "Earned 500 total sustainability points.",
+          icon: "❤️",
+          requirement: { type: "points", count: 500 }
         }
       ];
       badges = await Badge.insertMany(seedBadges);
@@ -123,5 +141,16 @@ async function checkBadgesEarned(action) {
   }
   return earned;
 }
+
+// DELETE action
+router.delete("/:id", async (req, res) => {
+  try {
+    const action = await Action.findByIdAndDelete(req.params.id);
+    if (!action) return res.status(404).json({ message: "Action not found" });
+    res.json({ message: "Action deleted" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 module.exports = router;

@@ -30,4 +30,15 @@ router.post("/", async (req, res) => {
   }
 });
 
+// DELETE impact record
+router.delete("/:id", async (req, res) => {
+  try {
+    const impact = await Impact.findByIdAndDelete(req.params.id);
+    if (!impact) return res.status(404).json({ message: "Impact not found" });
+    res.json({ message: "Impact deleted" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;

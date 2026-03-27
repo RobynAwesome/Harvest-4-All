@@ -1,18 +1,31 @@
 import React from "react";
-import { Sprout } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate();
   return (
     <footer className="bg-[#111827] text-white/70 py-12 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="col-span-1 md:col-span-1">
-            <div className="flex items-center gap-2 mb-4 text-white">
-              <Sprout className="w-6 h-6 text-[#4ade80]" />
-              <span className="text-xl font-black tracking-tight">Harvest<span className="text-[#4ade80]">4</span>All</span>
+            <div className="flex items-center gap-3 mb-5">
+              <img
+                src="/logo.png"
+                alt="Harvest For All logo"
+                className="w-14 h-14 object-contain drop-shadow-lg"
+              />
+              <div>
+                <div className="text-white font-black text-lg leading-none tracking-tight font-heading">
+                  HARVEST <span className="text-[#2ecc71]">4</span> ALL
+                </div>
+                <div className="text-[#2ecc71] text-[10px] font-black uppercase tracking-[0.2em] mt-1">
+                  Sustainable Communities
+                </div>
+              </div>
             </div>
             <p className="text-sm leading-relaxed max-w-xs">
-              Empowering Western Cape communities through sustainable action, 
+              Empowering Western Cape communities through sustainable action,
               digital inclusion, and local economic resilience.
             </p>
           </div>
@@ -52,11 +65,18 @@ const Footer = () => {
           <p>
             &copy; 2026 Harvest For All | National Skills Challenge Hackathon Prototype
           </p>
-          <div className="flex gap-6">
+          <div className="flex gap-6 items-center">
             <a href="https://github.com/RobynAwesome/Harvest-4-All" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
               GitHub
             </a>
             <a href="#" className="hover:text-white transition-colors">Discord</a>
+            <button
+              onClick={() => navigate("/admin")}
+              className="flex items-center gap-1.5 text-white/20 hover:text-white/60 transition-colors"
+              aria-label="Admin login"
+            >
+              <ShieldCheck className="w-3 h-3" /> Admin
+            </button>
           </div>
         </div>
       </div>

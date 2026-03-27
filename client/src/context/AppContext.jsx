@@ -185,6 +185,67 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  const [trash, setTrash] = useState(() => {
+    const saved = localStorage.getItem("trash");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("trash", JSON.stringify(trash.slice(0, 100)));
+  }, [trash]);
+
+  const deleteListing = async (id) => {
+    try { await axios.delete(`${API_BASE_URL}/market/${id}`); } catch (_) {}
+    setMarketListings((prev) => {
+      const item = prev.find((l) => l._id === id);
+      if (item) setTrash((t) => [{ ...item, _deletedType: "listing", _deletedAt: new Date().toISOString() }, ...t]);
+      return prev.filter((l) => l._id !== id);
+    });
+  };
+
+  const deleteAction = async (id) => {
+    try { await axios.delete(`${API_BASE_URL}/actions/${id}`); } catch (_) {}
+    setActions((prev) => {
+      const item = prev.find((a) => a._id === id);
+      if (item) setTrash((t) => [{ ...item, _deletedType: "action", _deletedAt: new Date().toISOString() }, ...t]);
+      return prev.filter((a) => a._id !== id);
+    });
+  };
+
+  const deleteGrowProject = async (id) => {
+    try { await axios.delete(`${API_BASE_URL}/grow/${id}`); } catch (_) {}
+    setGrowProjects((prev) => {
+      const item = prev.find((g) => g._id === id);
+      if (item) setTrash((t) => [{ ...item, _deletedType: "grow", _deletedAt: new Date().toISOString() }, ...t]);
+      return prev.filter((g) => g._id !== id);
+    });
+  };
+
+  const restoreItem = (id) => {
+    setTrash((prev) => {
+      const item = prev.find((i) => i._id === id);
+      if (!item) return prev;
+      const { _deletedType, _deletedAt, ...restored } = item;
+      if (_deletedType === "listing") setMarketListings((l) => [restored, ...l]);
+      else if (_deletedType === "action") setActions((a) => [restored, ...a]);
+      else if (_deletedType === "grow") setGrowProjects((g) => [restored, ...g]);
+      return prev.filter((i) => i._id !== id);
+    });
+  };
+
+  const emptyTrash = () => setTrash([]);
+
+  const resetToDemo = () => {
+    setMarketListings(MOCK_MARKET_LISTINGS);
+    setActions(MOCK_ACTIONS);
+    setGrowProjects([]);
+    setTotalPoints(0);
+    setEarnedBadges([]);
+    setWaterSaved(487000);
+    setEnergySaved(184000);
+    setWasteReduced(85);
+  };
+
   const [badgePopup, setBadgePopup] = useState(null);
 
   const getPointsForAction = (type) => {
@@ -328,9 +389,16 @@ export const AppProvider = ({ children }) => {
         addImpact,
         marketListings,
         addListing,
+        deleteListing,
         growProjects,
         addGrowProject,
+        deleteGrowProject,
         actions,
+        deleteAction,
+        resetToDemo,
+        trash,
+        restoreItem,
+        emptyTrash,
         badges,
         earnedBadges,
         totalPoints,

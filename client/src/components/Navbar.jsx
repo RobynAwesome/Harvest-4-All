@@ -1,12 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Sprout, Menu, X, Trophy, Leaf } from "lucide-react";
+import { Menu, X, Trophy, Download } from "lucide-react";
 import { useAppContext } from "../context/useAppContext";
+import { useTheme } from "../context/ThemeContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [showInstallBtn, setShowInstallBtn] = useState(false);
   const navigate = useNavigate();
   const { totalPoints, earnedBadges } = useAppContext();
+  const { cycleTheme, current, theme } = useTheme();
+
+  useEffect(() => {
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallBtn(true);
+    });
+
+    window.addEventListener("appinstalled", () => {
+      setShowInstallBtn(false);
+      setDeferredPrompt(null);
+    });
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === "accepted") {
+      setShowInstallBtn(false);
+    }
+    setDeferredPrompt(null);
+  };
 
   return (
     <nav className="sticky top-0 z-50 glass border-b border-[#115e59]/10" aria-label="Main Navigation">
@@ -18,16 +45,32 @@ const Navbar = () => {
             role="link"
             aria-label="Harvest For All Home"
           >
-            <div className="bg-[#115e59] p-2 rounded-xl text-white shadow-lg group-hover:rotate-6 transition-transform">
-              <Leaf className="w-6 h-6" />
+            <img
+              src="/logo.png"
+              alt="Harvest For All Logo"
+              className="w-14 h-14 object-contain group-hover:scale-110 transition-transform drop-shadow-md"
+            />
+            <div className="leading-none">
+              <div className="text-2xl font-black text-[#111827] tracking-tighter font-heading">
+                HARVEST <span className="text-[#2ecc71]">4</span> ALL
+              </div>
+              <div className="text-[9px] font-black uppercase tracking-[0.2em] text-[#115e59]/60 mt-0.5">
+                Sustainable Communities
+              </div>
             </div>
-            <span className="text-2xl font-black text-[#111827] tracking-tighter font-heading">
-              HARVEST <span className="text-[#2ecc71]">4</span> ALL
-            </span>
           </div>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex space-x-8 items-center" role="menubar">
+            {showInstallBtn && (
+              <button
+                onClick={handleInstallClick}
+                className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#2ecc71] hover:text-[#115e59] transition-all bg-[#2ecc71]/10 px-3 py-1.5 rounded-lg border border-[#2ecc71]/20"
+              >
+                <Download className="w-3.5 h-3.5" /> Install App
+              </button>
+            )}
+
             {["Grow", "Reduce", "Save", "Market"].map((item) => (
               <Link
                 key={item}
@@ -38,6 +81,15 @@ const Navbar = () => {
                 {item}
               </Link>
             ))}
+
+            <button
+              onClick={cycleTheme}
+              title={`Switch theme (current: ${current.name})`}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest border border-[#115e59]/10 hover:border-[#2ecc71]/30 hover:bg-[#115e59]/5 transition-all"
+            >
+              <span className="text-base leading-none">{current.emoji}</span>
+              <span className="text-[#115e59]/60">{current.name}</span>
+            </button>
 
             <div className="h-6 w-px bg-[#115e59]/10"></div>
 
@@ -57,7 +109,15 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
+          <div className="md:hidden flex items-center gap-4">
+             {showInstallBtn && (
+                <button
+                  onClick={handleInstallClick}
+                  className="p-2 text-[#2ecc71] bg-[#2ecc71]/10 rounded-lg"
+                >
+                   <Download className="w-5 h-5" />
+                </button>
+             )}
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-[#115e59] p-2 hover:bg-[#115e59]/5 rounded-lg transition-colors"
@@ -94,6 +154,12 @@ const Navbar = () => {
           >
             My Impact ({totalPoints} pts)
           </Link>
+          <button
+            onClick={cycleTheme}
+            className="w-full flex items-center justify-center gap-2 border border-[#115e59]/10 py-3 rounded-xl text-xs font-black uppercase tracking-widest text-[#115e59]/60 hover:bg-[#115e59]/5 transition-all"
+          >
+            <span className="text-lg">{current.emoji}</span> {current.name} Mode
+          </button>
         </div>
       )}
     </nav>

@@ -33,4 +33,15 @@ router.post("/", async (req, res) => {
   }
 });
 
+// DELETE grow project
+router.delete("/:id", async (req, res) => {
+  try {
+    const grow = await Grow.findByIdAndDelete(req.params.id);
+    if (!grow) return res.status(404).json({ message: "Project not found" });
+    res.json({ message: "Project deleted" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;
