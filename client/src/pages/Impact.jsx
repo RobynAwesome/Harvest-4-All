@@ -17,7 +17,6 @@ import {
   Award,
   ShieldCheck,
   Droplet,
-  Trash2,
   Lock,
   Loader2,
   TrendingUp,
