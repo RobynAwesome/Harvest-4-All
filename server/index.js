@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
 require("dotenv").config();
 
 const app = express();
@@ -9,6 +10,9 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Serve static files from the React app (if building for production)
+app.use(express.static(path.join(__dirname, "../client/dist")));
 
 // MongoDB Connection
 const MONGODB_URI =
@@ -31,6 +35,14 @@ app.use("/api/grow", require("./routes/grow"));
 
 // Market Routes
 app.use("/api/market", require("./routes/market"));
+
+// Actions Routes
+app.use("/api/actions", require("./routes/actions"));
+
+// Handle SPA routing
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+});
 
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on port ${PORT}`);

@@ -3,7 +3,7 @@ import { Zap, Droplet } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 
 const Save = () => {
-  const { waterSaved, addWaterSaving } = useAppContext();
+  const { waterSaved, addWaterSaving, addImpact } = useAppContext();
   const [appliancePower, setAppliancePower] = useState(2000);
   const [hours, setHours] = useState(2);
   const [energyCost, setEnergyCost] = useState(0);
@@ -16,6 +16,13 @@ const Save = () => {
 
   const logWater = (amount) => {
     addWaterSaving(amount);
+    addImpact({
+      type: 'water_saved',
+      value: amount,
+      unit: 'L',
+      location: 'Local User',
+      notes: 'Logged via Save module'
+    });
   };
 
   return (

@@ -67,8 +67,14 @@ const Footer = () => {
             Challenge.
           </p>
           <div className="flex gap-4">
-            <Github className="w-5 h-5 cursor-pointer hover:text-white transition-colors" />
-            <Twitter className="w-5 h-5 cursor-pointer hover:text-white transition-colors" />
+            <a
+              href="https://github.com/RobynAwesome/Harvest-4-All"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 hover:text-[#4ade80] transition-colors"
+            >
+              <i className="fa-brands fa-github text-xl"></i>
+            </a>
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Check } from 'lucide-react';
+import LogActionButton from '../components/LogActionButton';
 
 const Grow = () => {
   const [step, setStep] = useState(1);

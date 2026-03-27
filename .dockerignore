@@ -1,0 +1,10 @@
+node_modules
+client/node_modules
+server/node_modules
+.git
+.gemini
+dist
+client/dist
+tmp
+.env
+*.log
