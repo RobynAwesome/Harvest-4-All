@@ -1,7 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Trophy, X } from "lucide-react";
+import confetti from "canvas-confetti";
 
 const BadgePopup = ({ badge, onClose }) => {
+  useEffect(() => {
+    if (badge) {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.9, x: 0.9 },
+        colors: ["#166534", "#4ade80", "#fbbf24"],
+      });
+    }
+  }, [badge]);
+
   if (!badge) return null;
 
   return (

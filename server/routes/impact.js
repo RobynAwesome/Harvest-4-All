@@ -5,26 +5,8 @@ const Impact = require("../models/Impact");
 // GET all impact data
 router.get("/", async (req, res) => {
   try {
-    // Mock data for debugging without DB
-    const mockImpacts = [
-      {
-        type: "water_saved",
-        value: 1000,
-        unit: "liters",
-        location: "Cape Town",
-        notes: "Community garden irrigation",
-        date: new Date(),
-      },
-      {
-        type: "waste_reduced",
-        value: 50,
-        unit: "kg",
-        location: "Stellenbosch",
-        notes: "Food waste composting",
-        date: new Date(),
-      },
-    ];
-    res.json(mockImpacts);
+    const impacts = await Impact.find().sort({ date: -1 }).limit(100);
+    res.json(impacts);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -32,17 +14,20 @@ router.get("/", async (req, res) => {
 
 // POST new impact action
 router.post("/", async (req, res) => {
-  // Mock response for debugging
-  const mockImpact = {
-    _id: "mock_" + Date.now(),
-    type: req.body.type,
-    value: req.body.value,
-    unit: req.body.unit,
-    location: req.body.location,
-    notes: req.body.notes,
-    date: new Date(),
-  };
-  res.status(201).json(mockImpact);
+  try {
+    const impact = new Impact({
+      type: req.body.type,
+      value: parseFloat(req.body.value),
+      unit: req.body.unit,
+      location: req.body.location,
+      notes: req.body.notes,
+      date: new Date(),
+    });
+    const savedImpact = await impact.save();
+    res.status(201).json(savedImpact);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
 });
 
 module.exports = router;

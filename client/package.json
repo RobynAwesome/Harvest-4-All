@@ -12,6 +12,7 @@
   "dependencies": {
     "@tailwindcss/postcss": "^4.2.2",
     "axios": "^1.13.6",
+    "canvas-confetti": "^1.9.4",
     "chart.js": "^4.5.1",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.7.0",

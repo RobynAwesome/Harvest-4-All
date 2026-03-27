@@ -44,7 +44,9 @@ const Impact = () => {
     wasteReduced,
   } = useAppContext();
 
-  const data = {
+  const [viewMode, setViewMode] = React.useState('monthly');
+
+  const monthlyData = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Current"],
     datasets: [
       {
@@ -58,14 +60,35 @@ const Impact = () => {
     ],
   };
 
+  const weeklyData = {
+    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    datasets: [
+      {
+        fill: true,
+        label: "Weekly Points",
+        data: [10, 40, 30, 80, 50, 90, totalPoints % 100],
+        borderColor: "#059669",
+        backgroundColor: "rgba(5, 150, 105, 0.1)",
+        tension: 0.4,
+      },
+    ],
+  };
+
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
     },
     scales: {
       y: { beginAtZero: true },
     },
+  };
+
+  const handleShare = () => {
+    const text = `I've earned ${totalPoints} points and saved ${waterSaved}L of water on Harvest-4-All! 🌿 Supporting sustainability in ${actions[0]?.location || 'Western Cape townships'}. #Harvest4All #MICTSETA2026`;
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
   };
 
   return (
@@ -154,10 +177,39 @@ const Impact = () => {
           {/* Main Chart */}
           <div className="lg:col-span-2 space-y-8">
             <div className="bg-white p-8 rounded-3xl shadow-lg border border-[#166534]/10">
-              <h3 className="font-bold text-xl mb-6">Savings History (ZAR)</h3>
-              <div className="h-64">
-                <Line data={data} options={options} />
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="font-bold text-xl">Sustainability Index</h3>
+                <div className="flex bg-[#f5f5f4] p-1 rounded-xl">
+                  {['weekly', 'monthly'].map((mode) => (
+                    <button
+                      key={mode}
+                      onClick={() => setViewMode(mode)}
+                      className={`px-3 py-1 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all ${
+                        viewMode === mode ? 'bg-[#166534] text-white shadow-sm' : 'text-[#111827]/40 hover:text-[#111827]'
+                      }`}
+                    >
+                      {mode}
+                    </button>
+                  ))}
+                </div>
               </div>
+              <div className="h-64">
+                <Line data={viewMode === 'weekly' ? weeklyData : monthlyData} options={options} />
+              </div>
+            </div>
+
+            {/* Share Impact CTA */}
+            <div className="bg-gradient-to-r from-blue-600 to-emerald-600 p-8 rounded-3xl text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+              <div className="flex-1">
+                <h3 className="text-xl font-bold mb-2">Showcase Your Progress!</h3>
+                <p className="text-white/70 text-sm">Share your sustainability journey with your community and inspire others to grow.</p>
+              </div>
+              <button 
+                onClick={handleShare}
+                className="bg-white text-blue-600 px-8 py-3 rounded-xl font-black text-sm uppercase tracking-widest hover:bg-white/90 transition-all flex items-center gap-2 active:scale-95"
+              >
+                Share My Impact
+              </button>
             </div>
 
             {/* Recent Activity */}

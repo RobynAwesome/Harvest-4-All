@@ -5,32 +5,8 @@ const Listing = require("../models/Listing");
 // GET all listings
 router.get("/", async (req, res) => {
   try {
-    // Mock data for debugging
-    const mockListings = [
-      {
-        _id: "mock_1",
-        title: "Organic Tomatoes",
-        description: "Fresh organic tomatoes from local farm",
-        price: 25,
-        type: "sell",
-        category: "vegetables",
-        location: "Cape Town",
-        imageUrl: "/images/tomatoes.jpg",
-        createdAt: new Date(),
-      },
-      {
-        _id: "mock_2",
-        title: "Composting Workshop",
-        description: "Learn how to compost food waste",
-        price: 0,
-        type: "service",
-        category: "education",
-        location: "Stellenbosch",
-        imageUrl: "/images/compost.jpg",
-        createdAt: new Date(),
-      },
-    ];
-    res.json(mockListings);
+    const listings = await Listing.find().sort({ createdAt: -1 });
+    res.json(listings);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -38,19 +14,21 @@ router.get("/", async (req, res) => {
 
 // POST new listing
 router.post("/", async (req, res) => {
-  // Mock response for debugging
-  const mockListing = {
-    _id: "mock_" + Date.now(),
-    title: req.body.title,
-    description: req.body.description,
-    price: req.body.price,
-    type: req.body.type,
-    category: req.body.category,
-    location: req.body.location,
-    imageUrl: req.body.imageUrl,
-    createdAt: new Date(),
-  };
-  res.status(201).json(mockListing);
+  try {
+    const listing = new Listing({
+      title: req.body.title,
+      description: req.body.description,
+      price: req.body.price,
+      type: req.body.type,
+      category: req.body.category,
+      location: req.body.location,
+      imageUrl: req.body.imageUrl || "https://images.unsplash.com/photo-1596464716127-f2a82984de30?auto=format&fit=crop&q=80&w=400",
+    });
+    const savedListing = await listing.save();
+    res.status(201).json(savedListing);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
 });
 
 module.exports = router;

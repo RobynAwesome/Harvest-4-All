@@ -45,6 +45,7 @@ const LogActionButton = ({
     <button
       onClick={handleLogAction}
       disabled={isLoading}
+      aria-label={isLoading ? "Logging action..." : showSuccess ? "Action logged successfully" : `Log your ${actionType} action`}
       className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
         isLoading
           ? "bg-gray-400 cursor-not-allowed"
@@ -60,6 +61,7 @@ const LogActionButton = ({
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
             <circle
               className="opacity-25"
