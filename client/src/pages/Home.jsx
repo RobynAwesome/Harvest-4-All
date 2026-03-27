@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowRight, TrendingUp, ChevronRight, Trash2, Quote } from "lucide-react";
+import { ArrowRight, TrendingUp, ChevronRight, Trash2, Quote, Leaf, Zap, Droplet, Recycle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/useAppContext";
 import AnimatedCounter from "../components/AnimatedCounter";
@@ -12,292 +12,184 @@ const Home = () => {
 
   return (
     <section className="section-fade">
-      {/* Hero */}
-      <div className="relative overflow-hidden pt-16 pb-24 md:pt-24 md:pb-32 bg-gradient-to-b from-white to-[#f5f5f4]">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
-          <div className="flex-1 text-center md:text-left">
-            <span className="inline-block bg-[#166534]/10 text-[#166534] px-4 py-1.5 rounded-full text-sm font-bold mb-6 tracking-wide uppercase">
-              Creating Sustainable Crops for All
-            </span>
-            <h1 className="text-5xl md:text-7xl font-black text-[#111827] leading-tight mb-6">
-              Grow Your Own <span className="text-[#166534]">Future.</span>
+      {/* Hero Section */}
+      <div className="relative overflow-hidden pt-20 pb-28 md:pt-32 md:pb-40 bg-white">
+        <div className="absolute top-0 right-0 -z-10 w-1/2 h-full bg-[#115e59]/5 skew-x-12 transform origin-right"></div>
+        <div className="max-w-7xl mx-auto px-4 flex flex-col lg:flex-row items-center gap-16">
+          <div className="flex-1 text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 bg-[#2ecc71]/10 text-[#115e59] px-4 py-2 rounded-full text-xs font-black mb-8 tracking-[0.2em] uppercase border border-[#2ecc71]/20">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2ecc71] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2ecc71]"></span>
+              </span>
+              Western Cape Community Action
+            </div>
+            <h1 className="text-6xl md:text-8xl font-black text-[#111827] leading-[0.9] mb-8 font-heading">
+              Grow Your Own <br />
+              <span className="text-gradient">Future.</span>
             </h1>
-            <p className="text-lg text-[#111827]/70 mb-10 max-w-xl mx-auto md:mx-0 font-medium">
-              A community-driven sustainability action platform that empowers
-              disadvantaged communities to grow food, reduce costs, and track
-              environmental impact — using simple, accessible digital tools.
+            <p className="text-xl text-[#111827]/60 mb-12 max-w-xl mx-auto lg:mx-0 font-medium leading-relaxed">
+              Empowering South African communities to bypass food insecurity and rising costs through smart urban farming and sustainable action.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+            <div className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start">
               <button
                 onClick={() => navigate("/grow")}
-                className="bg-[#166534] text-white px-8 py-4 rounded-xl font-bold text-lg hover:shadow-xl transition-all active:scale-95 flex items-center justify-center gap-2"
+                className="btn-premium btn-emerald flex items-center justify-center gap-3 text-lg"
               >
-                Start Growing <ArrowRight className="w-5 h-5" />
+                Start Growing <ArrowRight className="w-6 h-6" />
               </button>
               <button
-                onClick={() => navigate("/save")}
-                className="bg-white text-[#166534] border-2 border-[#166534]/10 px-8 py-4 rounded-xl font-bold text-lg hover:bg-[#166534]/5 transition-all flex items-center justify-center gap-2"
+                onClick={() => navigate("/impact")}
+                className="btn-premium bg-[#111827] text-white hover:bg-[#115e59] flex items-center justify-center gap-3 text-lg shadow-xl"
               >
-                Track Savings <TrendingUp className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => navigate("/reduce")}
-                className="bg-white text-amber-600 border-2 border-amber-200 px-8 py-4 rounded-xl font-bold text-lg hover:bg-amber-50 transition-all flex items-center justify-center gap-2"
-              >
-                Log Waste <Trash2 className="w-5 h-5" />
+                View Live Impact <TrendingUp className="w-5 s-5" />
               </button>
             </div>
           </div>
-          <div className="flex-1 relative">
-            <div className="absolute -z-10 bg-[#4ade80]/30 w-72 h-72 rounded-full blur-3xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
-            <img
-              src="https://images.unsplash.com/photo-1592419044706-39796d40f98c?auto=format&fit=crop&q=80&w=800"
-              alt="Urban container garden with fresh vegetables growing in recycled containers"
-              loading="lazy"
-              className="rounded-3xl shadow-2xl animate-float"
-            />
+          <div className="flex-1 relative animate-float">
+            <div className="absolute -z-10 bg-[#2ecc71]/20 w-80 h-80 rounded-full blur-[100px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+            <div className="relative p-4 md:p-8 bg-white/40 backdrop-blur-sm rounded-[3rem] border border-[#115e59]/10 shadow-2xl">
+              <img
+                src="https://images.unsplash.com/photo-1592419044706-39796d40f98c?auto=format&fit=crop&q=80&w=1000"
+                alt="Urban container garden with fresh vegetables"
+                loading="lazy"
+                className="rounded-[2rem] shadow-lg w-full h-[400px] object-cover"
+              />
+              <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-3xl shadow-2xl border border-[#115e59]/5 animate-bounce">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-[#2ecc71] rounded-2xl flex items-center justify-center text-white shadow-lg">
+                    <Leaf className="w-7 h-7" />
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-black uppercase text-[#111827]/40 tracking-widest">Global Status</div>
+                    <div className="font-black text-[#111827]">Growing +12%</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Problem Statement */}
-      <div className="max-w-7xl mx-auto px-4 py-16 text-center">
-        <div className="bg-[#166534]/5 p-12 rounded-[3.5rem] border border-[#166534]/10 animate-in fade-in duration-1000">
-          <h2 className="text-sm font-black text-[#166534] uppercase tracking-[0.3em] mb-4">
-            The Challenge
-          </h2>
-          <h3 className="text-3xl font-black mb-6">
-            Food insecurity affects 1 in 4 households in South Africa.
-          </h3>
-          <p className="text-[#111827]/60 leading-relaxed max-w-3xl mx-auto text-lg italic">
-            "In Western Cape townships, 15-18% face severe food insecurity.
-            Sandy soil, water restrictions from the 2018 Day Zero drought, and
-            Eskom tariff hikes (+12.74% in 2025/26) make self-sufficiency
-            critical. Harvest For All provides the digital tools and community
-            wisdom to bypass these barriers."
-          </p>
+      {/* Stats Board */}
+      <div className="max-w-7xl mx-auto px-4 -mt-20 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            { label: "Meals Grown", val: totalMeals, suf: "", icon: Leaf, color: "text-[#2ecc71]", border: "border-[#2ecc71]" },
+            { label: "Water Saved", val: waterSaved, suf: "L", icon: Droplet, color: "text-blue-500", border: "border-blue-500" },
+            { label: "Energy Saved", val: energySaved, suf: "pts", icon: Zap, color: "text-amber-500", border: "border-amber-500" },
+            { label: "Waste Diverted", val: wasteReduced, suf: "kg", icon: Recycle, color: "text-emerald-500", border: "border-emerald-500" },
+          ].map((stat, i) => (
+            <div key={i} className={`bg-white p-10 rounded-3xl shadow-xl border-t-8 ${stat.border} transition-all hover:scale-105`}>
+              <div className={`${stat.color} mb-4`}>
+                <stat.icon className="w-10 h-10" />
+              </div>
+              <div className="text-4xl font-black text-[#111827] font-heading leading-none mb-2">
+                <AnimatedCounter end={stat.val} suffix={stat.suf} />
+              </div>
+              <div className="text-xs font-black text-[#111827]/40 uppercase tracking-widest leading-none">
+                {stat.label}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Stats Counters */}
-      <div className="max-w-6xl mx-auto px-4 -mt-12 relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white p-8 rounded-2xl shadow-lg text-center border-b-4 border-[#166534]">
-          <div className="text-3xl md:text-4xl font-black text-[#166534] mb-2 leading-none">
-            <AnimatedCounter end={totalMeals} />
-          </div>
-          <div className="text-[10px] md:text-xs font-bold text-[#111827]/60 uppercase tracking-widest leading-none">
-            Meals Grown
-          </div>
-        </div>
-        <div className="bg-white p-8 rounded-2xl shadow-lg text-center border-b-4 border-[#4ade80]">
-          <div className="text-3xl md:text-4xl font-black text-[#166534] mb-2 leading-none">
-            <AnimatedCounter end={waterSaved} suffix="L" />
-          </div>
-          <div className="text-[10px] md:text-xs font-bold text-[#111827]/60 uppercase tracking-widest leading-none">
-            Water Saved
-          </div>
-        </div>
-        <div className="bg-white p-8 rounded-2xl shadow-lg text-center border-b-4 border-amber-400">
-          <div className="text-3xl md:text-4xl font-black text-[#166534] mb-2 leading-none">
-            R
-            <AnimatedCounter
-              end={typeof energySaved === "number" ? energySaved : 0}
-            />
-          </div>
-          <div className="text-[10px] md:text-xs font-bold text-[#111827]/60 uppercase tracking-widest leading-none">
-            Rands Saved
-          </div>
-        </div>
-        <div className="bg-white p-8 rounded-2xl shadow-lg text-center border-b-4 border-emerald-400">
-          <div className="text-3xl md:text-4xl font-black text-[#166534] mb-2 leading-none">
-            <AnimatedCounter end={wasteReduced} suffix="kg" />
-          </div>
-          <div className="text-[10px] md:text-xs font-bold text-[#111827]/60 uppercase tracking-widest leading-none">
-            Waste Diverted
-          </div>
-        </div>
-      </div>
-
-      {/* Live Community Feed */}
-      <div className="max-w-7xl mx-auto px-4 py-24">
-        <div className="flex justify-between items-end mb-12">
-          <div>
-            <h2 className="text-3xl font-black text-[#111827]">
-              Live Community Feed
+      {/* Live Feed */}
+      <div className="max-w-7xl mx-auto px-4 py-32">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+          <div className="max-w-xl">
+            <h2 className="text-5xl font-black text-[#111827] mb-4 font-heading leading-[0.9]">
+              Community <span className="text-[#2ecc71]">Resilience</span>
             </h2>
-            <p className="text-[#111827]/60">
-              Recent updates from neighbors taking action.
+            <p className="text-[#111827]/60 font-medium">
+              Real-time evidence of change from neighbors taking control of their food supply and environmental footprint.
             </p>
           </div>
           <button 
             onClick={() => navigate("/impact")}
-            className="text-[#166534] font-bold flex items-center gap-1 hover:underline active:scale-95 transition-transform"
+            className="group flex items-center gap-3 font-black text-xs uppercase tracking-[0.2em] text-[#115e59] hover:text-[#2ecc71] transition-all"
           >
-            View all posts <ChevronRight className="w-4 h-4" />
+            Explore Global Feed <ChevronRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
           </button>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div 
-            onClick={() => navigate("/grow")}
-            className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group cursor-pointer active:scale-[0.98]"
-          >
-            <div className="h-48 overflow-hidden">
-              <img
-                src="https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&q=80&w=600"
-                alt="Fresh spinach harvest from a township garden"
-                loading="lazy"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-            </div>
-            <div className="p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="bg-[#4ade80]/10 text-[#166534] text-xs font-bold px-2 py-1 rounded">
-                  GROW
-                </span>
-                <span className="text-xs text-[#111827]/60">
-                  2 hours ago &bull; Khayelitsha
-                </span>
-              </div>
-              <h3 className="font-bold text-lg mb-2">
-                Thandi harvested 5kg of spinach!
-              </h3>
-              <p className="text-sm text-[#111827]/60 mb-4">
-                "First harvest from my vertical tire garden. Fed the whole
-                family tonight!"
-              </p>
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-[#166534] flex items-center justify-center text-white text-xs font-bold uppercase">
-                  T
-                </div>
-                <span className="text-sm font-medium">Thandi M.</span>
-              </div>
-            </div>
-          </div>
-          <div 
-            onClick={() => navigate("/save")}
-            className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group cursor-pointer active:scale-[0.98]"
-          >
-            <div className="h-48 overflow-hidden">
-              <img
-                src="https://images.unsplash.com/photo-1621451537084-482c73073a0f?auto=format&fit=crop&q=80&w=600"
-                alt="Water conservation system in a township home"
-                loading="lazy"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-            </div>
-            <div className="p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="bg-blue-100 text-blue-600 text-xs font-bold px-2 py-1 rounded">
-                  SAVE
-                </span>
-                <span className="text-xs text-[#111827]/60">
-                  5 hours ago &bull; Mitchells Plain
-                </span>
-              </div>
-              <h3 className="font-bold text-lg mb-2">
-                Leon saved R120 on his bill
-              </h3>
-              <p className="text-sm text-[#111827]/60 mb-4">
-                Reduced municipal water and energy cost using a greywater
-                filtration system.
-              </p>
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold uppercase">
-                  L
-                </div>
-                <span className="text-sm font-medium">Leon D.</span>
-              </div>
-            </div>
-          </div>
-          <div 
-            onClick={() => navigate("/market")}
-            className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group cursor-pointer active:scale-[0.98]"
-          >
-            <div className="h-48 overflow-hidden">
-              <img
-                src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=600"
-                alt="Fresh produce at a local sustainable market"
-                loading="lazy"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-            </div>
-            <div className="p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="bg-amber-100 text-amber-600 text-xs font-bold px-2 py-1 rounded">
-                  MARKET
-                </span>
-                <span className="text-xs text-[#111827]/60">
-                  Yesterday &bull; Gugulethu
-                </span>
-              </div>
-              <h3 className="font-bold text-lg mb-2">
-                New Seedling Swap available
-              </h3>
-              <p className="text-sm text-[#111827]/60 mb-4">
-                "I have 10 tomato seedlings to swap for some kale or compost.
-                Let's grow together!"
-              </p>
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-amber-600 flex items-center justify-center text-white text-xs font-bold uppercase">
-                  S
-                </div>
-                <span className="text-sm font-medium">Sipho K.</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Testimonials */}
-      <div className="max-w-7xl mx-auto px-4 pb-24">
-        <h2 className="text-3xl font-black text-[#111827] mb-12 text-center">
-          Voices from the <span className="text-[#166534]">Community</span>
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {[
-            {
-              quote:
-                "Since starting my tyre garden in Khayelitsha, my family saves R400/month on vegetables. The kids love watching things grow.",
-              name: "Noluthando M.",
-              location: "Khayelitsha",
-              color: "bg-[#166534]",
-            },
-            {
-              quote:
-                "The greywater system tips from Harvest4All cut our water bill by 60%. Every rand counts when you're feeding four.",
-              name: "Ahmad D.",
-              location: "Mitchells Plain",
-              color: "bg-blue-600",
-            },
-            {
-              quote:
-                "My kids now know where food comes from. We trade seedlings with neighbours every weekend. It's brought the street together.",
-              name: "Mama Zuki",
-              location: "Gugulethu",
-              color: "bg-amber-600",
-            },
-          ].map((t, i) => (
-            <div
+            { tag: "GROW", city: "Khayelitsha", title: "Thandi harvested 5kg", desc: "First harvest from my vertical tire garden. Fed the whole family tonight!", img: "https://images.unsplash.com/photo-1589923188900-85dae523342b", icon: "T", route: "/grow", color: "text-[#2ecc71]" },
+            { tag: "SAVE", city: "Mitchells Plain", title: "Leon saved R120", desc: "Reduced municipal water and energy cost using a greywater filtration system.", img: "https://images.unsplash.com/photo-1621451537084-482c73073a0f", icon: "L", route: "/save", color: "text-blue-500" },
+            { tag: "MARKET", city: "Gugulethu", title: "New Seedlings", desc: "I have 10 tomato seedlings to swap for some kale or compost. Let's grow!", img: "https://images.unsplash.com/photo-1542838132-92c53300491e", icon: "S", route: "/market", color: "text-amber-500" },
+          ].map((post, i) => (
+            <div 
               key={i}
-              className="bg-white p-8 rounded-3xl border border-[#166534]/10 relative"
+              onClick={() => navigate(post.route)}
+              className="card-premium group cursor-pointer overflow-hidden"
             >
-              <Quote className="w-8 h-8 text-[#166534]/10 mb-4" />
-              <p className="text-[#111827]/70 mb-6 italic leading-relaxed">
-                "{t.quote}"
-              </p>
-              <div className="flex items-center gap-3">
-                <div
-                  className={`w-10 h-10 rounded-full ${t.color} flex items-center justify-center text-white text-sm font-bold`}
-                >
-                  {t.name[0]}
+              <div className="h-64 overflow-hidden relative">
+                <img
+                  src={`${post.img}?auto=format&fit=crop&q=80&w=800`}
+                  alt={post.title}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase">
+                  {post.city}
                 </div>
-                <div>
-                  <div className="font-bold text-sm">{t.name}</div>
-                  <div className="text-xs text-[#111827]/60">{t.location}</div>
+              </div>
+              <div className="p-8">
+                <div className={`flex items-center gap-2 mb-6 text-[10px] font-black tracking-widest uppercase ${post.color}`}>
+                  {post.tag}
+                </div>
+                <h3 className="text-2xl font-black mb-4 leading-tight font-heading group-hover:text-[#115e59] transition-colors">
+                  {post.title}
+                </h3>
+                <p className="text-[#111827]/60 text-sm italic font-medium mb-8 leading-relaxed">
+                  "{post.desc}"
+                </p>
+                <div className="flex items-center gap-3 border-t border-[#111827]/5 pt-6">
+                  <div className="w-10 h-10 rounded-full bg-[#111827] flex items-center justify-center text-white text-xs font-black">
+                    {post.icon}
+                  </div>
+                  <span className="text-xs font-black uppercase tracking-widest text-[#111827]/40">Verified Member</span>
                 </div>
               </div>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Community Testimonials */}
+      <div className="max-w-7xl mx-auto px-4 pb-40">
+        <div className="bg-[#115e59] rounded-[4rem] p-16 md:p-24 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#2ecc71]/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
+          <div className="relative text-center mb-20">
+            <h2 className="text-white text-5xl font-black font-heading mb-6 leading-none">
+              Voices of Change
+            </h2>
+            <div className="w-24 h-2 bg-[#2ecc71] mx-auto rounded-full"></div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {[
+              { text: "My kids now know where food comes from. We trade seedlings with neighbours every weekend. It's brought the street together.", name: "Mama Zuki", loc: "Gugulethu" },
+              { text: "The greywater system tips cut our water bill by 60%. Every rand counts when you're feeding a large family in the Cape.", name: "Ahmad D.", loc: "Mitchells Plain" },
+              { text: "Since starting my tyre garden, we save R400/month on veg. The kids love watching the spinach grow from seeds.", name: "Noluthando M.", loc: "Khayelitsha" },
+            ].map((t, i) => (
+              <div key={i} className="bg-white/5 backdrop-blur-sm p-10 rounded-3xl border border-white/10 relative">
+                <Quote className="w-10 h-10 text-[#2ecc71]/20 absolute -top-5 left-10" />
+                <p className="text-white/80 italic text-lg leading-relaxed mb-8">
+                  "{t.text}"
+                </p>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-[#2ecc71] rounded-2xl flex items-center justify-center text-[#115e59] font-black text-xl">
+                    {t.name[0]}
+                  </div>
+                  <div>
+                    <div className="text-white font-black text-sm uppercase tracking-widest">{t.name}</div>
+                    <div className="text-[#2ecc71] text-[10px] font-black uppercase tracking-widest">{t.loc}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Sprout, Menu, X, Trophy } from "lucide-react";
+import { Sprout, Menu, X, Trophy, Leaf } from "lucide-react";
 import { useAppContext } from "../context/useAppContext";
 
 const Navbar = () => {
@@ -9,63 +9,45 @@ const Navbar = () => {
   const { totalPoints, earnedBadges } = useAppContext();
 
   return (
-    <nav className="sticky top-0 z-50 glass border-b border-[#166534]/10" aria-label="Main Navigation">
+    <nav className="sticky top-0 z-50 glass border-b border-[#115e59]/10" aria-label="Main Navigation">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
+        <div className="flex justify-between h-20 items-center">
           <div
-            className="flex items-center gap-2 cursor-pointer"
+            className="flex items-center gap-3 cursor-pointer group"
             onClick={() => navigate("/")}
             role="link"
             aria-label="Harvest For All Home"
           >
-            <div className="bg-[#166534] p-1.5 rounded-lg text-white">
-              <Sprout className="w-6 h-6" />
+            <div className="bg-[#115e59] p-2 rounded-xl text-white shadow-lg group-hover:rotate-6 transition-transform">
+              <Leaf className="w-6 h-6" />
             </div>
-            <span className="text-xl font-bold text-[#166534] tracking-tight">
-              Harvest<span className="text-[#4ade80]">4</span>All
+            <span className="text-2xl font-black text-[#111827] tracking-tighter font-heading">
+              HARVEST <span className="text-[#2ecc71]">4</span> ALL
             </span>
           </div>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex space-x-6 items-center" role="menubar">
-            <Link
-              to="/grow"
-              className="text-sm font-bold hover:text-[#166534] transition-colors text-[#111827]/60"
-              aria-label="Grow Projects"
-            >
-              Grow
-            </Link>
-            <Link
-              to="/reduce"
-              className="text-sm font-bold hover:text-[#166534] transition-colors text-[#111827]/60"
-              aria-label="Waste Reduction"
-            >
-              Reduce
-            </Link>
-            <Link
-              to="/save"
-              className="text-sm font-bold hover:text-[#166534] transition-colors text-[#111827]/60"
-              aria-label="Save Energy and Water"
-            >
-              Save
-            </Link>
-            <Link
-              to="/market"
-              className="text-sm font-bold hover:text-[#166534] transition-colors text-[#111827]/60"
-              aria-label="Community Market"
-            >
-              Market
-            </Link>
+          <div className="hidden md:flex space-x-8 items-center" role="menubar">
+            {["Grow", "Reduce", "Save", "Market"].map((item) => (
+              <Link
+                key={item}
+                to={`/${item.toLowerCase()}`}
+                className="text-sm font-black uppercase tracking-widest text-[#111827]/60 hover:text-[#115e59] transition-colors"
+                aria-label={item}
+              >
+                {item}
+              </Link>
+            ))}
 
-            <div className="h-6 w-px bg-[#166534]/10"></div>
+            <div className="h-6 w-px bg-[#115e59]/10"></div>
 
             <Link to="/impact" className="flex items-center gap-3 group" aria-label="View My Impact Dashboard">
-              <div className="bg-[#166534] text-white px-4 py-2 rounded-xl hover:bg-[#166534]/90 transition-all shadow-md active:scale-95 flex items-center gap-2">
-                <Trophy className="w-4 h-4" /> <span>{totalPoints} pts</span>
+              <div className="bg-[#115e59] text-white px-5 py-2.5 rounded-xl hover:bg-[#2ecc71] transition-all shadow-md active:scale-95 flex items-center gap-2 font-black text-xs uppercase tracking-widest">
+                <Trophy className="w-4 h-4 text-amber-400" /> <span>{totalPoints} pts</span>
               </div>
               {earnedBadges.length > 0 && (
                 <div 
-                  className="bg-amber-400 text-[#166534] font-black text-[10px] w-5 h-5 rounded-full flex items-center justify-center animate-bounce"
+                  className="bg-[#2ecc71] text-white font-black text-[10px] w-6 h-6 rounded-full flex items-center justify-center animate-bounce shadow-lg border-2 border-white"
                   aria-label={`${earnedBadges.length} badges earned`}
                 >
                   {earnedBadges.length}
@@ -78,14 +60,14 @@ const Navbar = () => {
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-[#166534]"
+              className="text-[#115e59] p-2 hover:bg-[#115e59]/5 rounded-lg transition-colors"
               aria-expanded={isOpen}
               aria-label="Toggle Mobile Menu"
             >
               {isOpen ? (
-                <X className="w-6 h-6" />
+                <X className="w-7 h-7" />
               ) : (
-                <Menu className="w-6 h-6" />
+                <Menu className="w-7 h-7" />
               )}
             </button>
           </div>
@@ -94,41 +76,23 @@ const Navbar = () => {
 
       {/* Mobile Nav */}
       {isOpen && (
-        <div className="md:hidden bg-white border-t border-[#166534]/10 p-6 space-y-4 shadow-xl animate-in slide-in-from-top-4 duration-300">
-          <Link
-            to="/grow"
-            onClick={() => setIsOpen(false)}
-            className="block w-full text-left font-bold text-lg text-[#111827]/70 hover:text-[#166534]"
-          >
-            Grow Projects
-          </Link>
-          <Link
-            to="/reduce"
-            onClick={() => setIsOpen(false)}
-            className="block w-full text-left font-bold text-lg text-[#111827]/70 hover:text-[#166534]"
-          >
-            Reduce Waste
-          </Link>
-          <Link
-            to="/save"
-            onClick={() => setIsOpen(false)}
-            className="block w-full text-left font-bold text-lg text-[#111827]/70 hover:text-[#166534]"
-          >
-            Save Energy/Water
-          </Link>
-          <Link
-            to="/market"
-            onClick={() => setIsOpen(false)}
-            className="block w-full text-left font-bold text-lg text-[#111827]/70 hover:text-[#166534]"
-          >
-            Local Market
-          </Link>
+        <div className="md:hidden bg-white border-t border-[#115e59]/10 p-8 space-y-6 shadow-2xl animate-in slide-in-from-top-4 duration-300">
+          {["Grow", "Reduce", "Save", "Market"].map((item) => (
+            <Link
+              key={item}
+              to={`/${item.toLowerCase()}`}
+              onClick={() => setIsOpen(false)}
+              className="block w-full text-left font-black text-xl uppercase tracking-widest text-[#111827]/70 hover:text-[#115e59]"
+            >
+              {item}
+            </Link>
+          ))}
           <Link
             to="/impact"
             onClick={() => setIsOpen(false)}
-            className="block w-full text-center bg-[#166534] text-white py-3 rounded-xl font-black uppercase tracking-widest text-sm shadow-md"
+            className="block w-full text-center bg-[#115e59] text-white py-4 rounded-xl font-black uppercase tracking-widest text-sm shadow-xl active:scale-95"
           >
-            My Impact
+            My Impact ({totalPoints} pts)
           </Link>
         </div>
       )}
