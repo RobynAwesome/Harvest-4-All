@@ -30,6 +30,16 @@ People struggle with rising food prices, lack of practical knowledge for urban g
 
 ---
 
+## 🛠 Tech Stack
+- **Frontend**: React + Vite + Tailwind CSS
+- **Charts**: Chart.js
+- **Maps**: Leaflet.js
+- **State**: localStorage (no backend needed for prototype)
+- **Icons**: Font Awesome + Lucide
+- **Fully responsive** & lightweight (< 2 MB) — perfect for township data connections
+
+---
+
 ## 🚀 Live Demo
 [Click here to view the live prototype](https://your-username.github.io/harvest-for-all)  
 *(Replace with your GitHub Pages link once deployed)*
