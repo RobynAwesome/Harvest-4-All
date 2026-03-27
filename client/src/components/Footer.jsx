@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sprout, Github, Twitter } from 'lucide-react';
+import { Sprout } from 'lucide-react';
 
 const Footer = () => {
   return (
