@@ -1,3 +1,5 @@
+![Introduction](./README-bannner.jpg)
+
 # 🌱 Harvest For All
 
 **Creating Sustainable Crops for All**
