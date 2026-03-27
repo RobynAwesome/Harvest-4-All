@@ -54,17 +54,6 @@ People struggle with rising food prices, lack of practical knowledge for urban g
 
 ---
 
-## 🚀 Live Demo
-
-[View live prototype](https://your-username.github.io/harvest-for-all)  
-*(Replace with your GitHub Pages link after deployment)*
-
-## 📸 Screenshots
-
-*(Add your actual screenshots here)*
-
----
-
 ## 🤝 Contributing
 
 Open-source for social impact. Pull requests are welcome!
