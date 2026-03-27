@@ -89,10 +89,16 @@ async function checkBadgesEarned(action) {
     // 1. Get all badges
     const allBadges = await Badge.find();
     
-    // 2. Get user's current stats (Simplified: just count total actions of this type)
-    const actionCount = await Action.countDocuments({ type: action.type });
+    // 2. Get user stats
+    const totalActionCount = await Action.countDocuments({ userId: "anonymous" });
+    const totalPointsResult = await Action.aggregate([
+      { $match: { userId: "anonymous" } },
+      { $group: { _id: null, total: { $sum: "$points" } } }
+    ]);
+    const currentPoints = (totalPointsResult[0]?.total || 0) + action.points;
+
     const totalValueResult = await Action.aggregate([
-      { $match: { type: action.type } },
+      { $match: { type: action.type, userId: "anonymous" } },
       { $group: { _id: null, total: { $sum: "$value" } } }
     ]);
     const totalValue = (totalValueResult[0]?.total || 0) + action.value;
@@ -101,10 +107,15 @@ async function checkBadgesEarned(action) {
       const req = badge.requirement;
       if (!req) continue;
 
-      if (req.type === action.type) {
-        if (totalValue >= req.count) {
-          earned.push(badge._id);
-        }
+      let earnedBadge = false;
+      if (req.type === "any" && totalActionCount + 1 >= req.count) earnedBadge = true;
+      else if (req.type === "points" && currentPoints >= req.count) earnedBadge = true;
+      else if (req.type === action.type && totalValue >= req.count) earnedBadge = true;
+      // Map 'save' (water) to 'water_saved' for badge compatibility
+      else if (req.type === "water_saved" && action.type === "save" && totalValue >= req.count) earnedBadge = true;
+
+      if (earnedBadge) {
+        earned.push(badge._id);
       }
     }
   } catch (err) {

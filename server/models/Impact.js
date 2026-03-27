@@ -4,7 +4,7 @@ const impactSchema = new mongoose.Schema({
     type: {
         type: String,
         required: true,
-        enum: ['water', 'energy', 'meals', 'waste']
+        enum: ['water', 'energy', 'meals', 'waste', 'water_saved', 'energy_saved', 'waste_reduced', 'meals_grown']
     },
     value: {
         type: Number,

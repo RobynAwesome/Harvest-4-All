@@ -4,7 +4,7 @@ const actionSchema = new mongoose.Schema({
   type: {
     type: String,
     required: true,
-    enum: ["grow", "save", "reduce", "impact"],
+    enum: ["grow", "save", "reduce", "impact", "harvest", "save_energy", "market"],
   },
   description: {
     type: String,

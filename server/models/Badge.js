@@ -14,18 +14,17 @@ const badgeSchema = new mongoose.Schema({
     type: String,
     default: "🏆",
   },
-  criteria: {
-    actionType: {
+  requirement: {
+    type: {
       type: String,
       required: true,
-      enum: ["grow", "save", "reduce", "impact"],
+      enum: ["grow", "save", "reduce", "impact", "harvest", "save_energy", "market", "water_saved", "energy_saved", "waste_reduced", "any", "points"],
     },
-    threshold: {
+    count: {
       type: Number,
       required: true,
       default: 1,
     },
-    unit: String, // e.g., 'plants', 'liters', 'kg'
   },
   points: {
     type: Number,
