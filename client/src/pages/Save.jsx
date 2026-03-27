@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Zap, Droplet } from "lucide-react";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "../context/useAppContext";
 import LogActionButton from "../components/LogActionButton";
 
 const Save = () => {
-  const { waterSaved, addWaterSaving, addImpact } = useAppContext();
+  const { waterSaved, addWaterSaving, addEnergySaving, addImpact } =
+    useAppContext();
   const [appliancePower, setAppliancePower] = useState(2000);
   const [hours, setHours] = useState(2);
-  const [energyCost, setEnergyCost] = useState(0);
 
-  useEffect(() => {
-    // Current estimated Eskom residential rate R3.20/kWh
-    const monthlyCost = (appliancePower / 1000) * hours * 30 * 3.2;
-    setEnergyCost(monthlyCost.toFixed(2));
-  }, [appliancePower, hours]);
+  // Calculate energy cost directly
+  const energyCost = ((appliancePower / 1000) * hours * 30 * 3.2).toFixed(2);
 
   const logWater = (amount) => {
     addWaterSaving(amount);

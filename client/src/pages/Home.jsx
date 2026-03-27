@@ -1,7 +1,7 @@
 import React from "react";
 import { ArrowRight, TrendingUp, ChevronRight, Sprout } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "../context/useAppContext";
 import AnimatedCounter from "../components/AnimatedCounter";
 
 const Home = () => {
@@ -9,7 +9,7 @@ const Home = () => {
   const { waterSaved, energySaved, wasteReduced } = useAppContext();
 
   // Simulated meals count logic
-  const totalMeals = 12450 + (wasteReduced * 2);
+  const totalMeals = 12450 + wasteReduced * 2;
 
   return (
     <section className="section-fade">
@@ -24,8 +24,9 @@ const Home = () => {
               Grow Your Own <span className="text-[#166534]">Future.</span>
             </h1>
             <p className="text-lg text-[#111827]/70 mb-10 max-w-xl mx-auto md:mx-0 font-medium">
-              Our mission is to help those who are less fortunate help themselves through
-              an educational and informational open-source platform.
+              Our mission is to help those who are less fortunate help
+              themselves through an educational and informational open-source
+              platform.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
               <button
@@ -56,39 +57,55 @@ const Home = () => {
       {/* Problem Statement */}
       <div className="max-w-7xl mx-auto px-4 py-16 text-center">
         <div className="bg-[#166534]/5 p-12 rounded-[3.5rem] border border-[#166534]/10 animate-in fade-in duration-1000">
-          <h2 className="text-sm font-black text-[#166534] uppercase tracking-[0.3em] mb-4">The Challenge</h2>
-          <h3 className="text-3xl font-black mb-6">Food insecurity affects 1 in 4 households in South Africa.</h3>
+          <h2 className="text-sm font-black text-[#166534] uppercase tracking-[0.3em] mb-4">
+            The Challenge
+          </h2>
+          <h3 className="text-3xl font-black mb-6">
+            Food insecurity affects 1 in 4 households in South Africa.
+          </h3>
           <p className="text-[#111827]/60 leading-relaxed max-w-3xl mx-auto text-lg italic">
-            "In Western Cape townships, sandy soil and water scarcity make traditional farming difficult. 
-            Harvest For All provides the digital tools and community wisdom to bypass these barriers."
+            "In Western Cape townships, sandy soil and water scarcity make
+            traditional farming difficult. Harvest For All provides the digital
+            tools and community wisdom to bypass these barriers."
           </p>
         </div>
       </div>
 
       {/* Stats Counters */}
-      <div className="max-w-5xl mx-auto px-4 -mt-12 relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="max-w-6xl mx-auto px-4 -mt-12 relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-white p-8 rounded-2xl shadow-lg text-center border-b-4 border-[#166534]">
-          <div className="text-4xl font-black text-[#166534] mb-2">
+          <div className="text-3xl md:text-4xl font-black text-[#166534] mb-2 leading-none">
             <AnimatedCounter end={totalMeals} />
           </div>
-          <div className="text-sm font-bold text-[#111827]/40 uppercase tracking-widest leading-none">
+          <div className="text-[10px] md:text-xs font-bold text-[#111827]/40 uppercase tracking-widest leading-none">
             Meals Grown
           </div>
         </div>
         <div className="bg-white p-8 rounded-2xl shadow-lg text-center border-b-4 border-[#4ade80]">
-          <div className="text-4xl font-black text-[#166534] mb-2">
+          <div className="text-3xl md:text-4xl font-black text-[#166534] mb-2 leading-none">
             <AnimatedCounter end={waterSaved} suffix="L" />
           </div>
-          <div className="text-sm font-bold text-[#111827]/40 uppercase tracking-widest leading-none">
+          <div className="text-[10px] md:text-xs font-bold text-[#111827]/40 uppercase tracking-widest leading-none">
             Water Saved
           </div>
         </div>
         <div className="bg-white p-8 rounded-2xl shadow-lg text-center border-b-4 border-amber-400">
-          <div className="text-4xl font-black text-[#166534] mb-2">
-            R<AnimatedCounter end={typeof energySaved === 'number' ? energySaved : 0} />
+          <div className="text-3xl md:text-4xl font-black text-[#166534] mb-2 leading-none">
+            R
+            <AnimatedCounter
+              end={typeof energySaved === "number" ? energySaved : 0}
+            />
           </div>
-          <div className="text-sm font-bold text-[#111827]/40 uppercase tracking-widest leading-none">
+          <div className="text-[10px] md:text-xs font-bold text-[#111827]/40 uppercase tracking-widest leading-none">
             Rands Saved
+          </div>
+        </div>
+        <div className="bg-white p-8 rounded-2xl shadow-lg text-center border-b-4 border-emerald-400">
+          <div className="text-3xl md:text-4xl font-black text-[#166534] mb-2 leading-none">
+            <AnimatedCounter end={wasteReduced} suffix="kg" />
+          </div>
+          <div className="text-[10px] md:text-xs font-bold text-[#111827]/40 uppercase tracking-widest leading-none">
+            Waste Diverted
           </div>
         </div>
       </div>

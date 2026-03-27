@@ -1,5 +1,5 @@
 import React from "react";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "../context/useAppContext";
 import LogActionButton from "../components/LogActionButton";
 import {
   Chart as ChartJS,
@@ -36,9 +36,7 @@ ChartJS.register(
 const Impact = () => {
   const {
     waterSaved,
-    impactData,
     actions,
-    badges,
     earnedBadges,
     totalPoints,
     getEarnedBadgeDetails,
@@ -136,7 +134,12 @@ const Impact = () => {
                   <span className="text-sm font-medium text-white/80">
                     Energy Savings
                   </span>
-                  <span className="font-black text-lg">R{typeof energySaved === 'number' ? energySaved.toLocaleString() : energySaved}</span>
+                  <span className="font-black text-lg">
+                    R
+                    {typeof energySaved === "number"
+                      ? energySaved.toLocaleString()
+                      : energySaved}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-medium text-white/80">
@@ -195,7 +198,7 @@ const Impact = () => {
                 Badges Earned ({earnedBadges.length})
               </h3>
               <div className="grid grid-cols-4 sm:grid-cols-6 gap-4">
-                {getEarnedBadgeDetails().map((badge, i) => (
+                {getEarnedBadgeDetails().map((badge) => (
                   <div
                     key={badge._id}
                     className="aspect-square bg-[#166534] rounded-2xl flex flex-col items-center justify-center text-white shadow-md p-2"

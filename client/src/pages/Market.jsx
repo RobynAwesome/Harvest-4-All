@@ -1,16 +1,30 @@
 import React, { useState } from "react";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "../context/useAppContext";
 import { Plus, MapPin, Loader2 } from "lucide-react";
 import PostListingModal from "../components/PostListingModal";
 
 const Market = () => {
-  const { marketListings, addListing } = useAppContext();
+  const { marketListings, addListing, logAction } = useAppContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filter, setFilter] = useState("All");
 
-  const filteredListings = filter === "All" 
-    ? marketListings 
-    : marketListings.filter(item => item.category?.toLowerCase() === filter.toLowerCase());
+  const handleMarketAction = (item) => {
+    logAction({
+      type: "market",
+      description: `Participated in ${item.type} for ${item.title}`,
+      value: item.price || 5, // Default points for swap
+      unit: item.type === "swap" ? "swap" : "ZAR",
+      location: item.location,
+      notes: `Connected with neighbor in ${item.location}`,
+    });
+  };
+
+  const filteredListings =
+    filter === "All"
+      ? marketListings
+      : marketListings.filter(
+          (item) => item.category?.toLowerCase() === filter.toLowerCase(),
+        );
 
   return (
     <section className="section-fade py-16 px-4">
@@ -24,7 +38,7 @@ const Market = () => {
               Swap, buy, and sell home-grown produce and recycled goods.
             </p>
           </div>
-          <button 
+          <button
             onClick={() => setIsModalOpen(true)}
             className="bg-[#166534] text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:shadow-lg transition-all active:scale-95 shrink-0"
           >
@@ -33,10 +47,10 @@ const Market = () => {
         </div>
 
         {/* Modal */}
-        <PostListingModal 
-          isOpen={isModalOpen} 
-          onClose={() => setIsModalOpen(false)} 
-          onSubmit={addListing} 
+        <PostListingModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={addListing}
         />
 
         {/* Filters */}
@@ -85,6 +99,7 @@ const Market = () => {
                     <MapPin className="w-3 h-3" /> {item.location}
                   </div>
                   <button
+                    onClick={() => handleMarketAction(item)}
                     className={`w-full py-2 font-bold rounded-lg text-sm transition-all ${item.type === "swap" ? "border-2 border-[#166534]/10 text-[#166534] hover:bg-[#166534]/5" : "bg-[#4ade80] text-[#166534] hover:shadow-md"}`}
                   >
                     {item.type === "swap" ? "Offer Swap" : "Contact Seller"}
@@ -94,7 +109,9 @@ const Market = () => {
             ))
           ) : (
             <div className="col-span-full py-24 text-center">
-                <p className="text-[#111827]/40 font-bold uppercase tracking-widest">No listings found in this category</p>
+              <p className="text-[#111827]/40 font-bold uppercase tracking-widest">
+                No listings found in this category
+              </p>
             </div>
           )}
         </div>

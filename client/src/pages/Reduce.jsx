@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { MapPin, Trash2 } from "lucide-react";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext } from "../context/useAppContext";
 import LogActionButton from "../components/LogActionButton";
 
 // Fix Leaflet icon issue
@@ -116,8 +116,12 @@ const Reduce = () => {
             <div className="bg-white p-6 rounded-3xl border border-[#166534]/10">
               <h3 className="font-bold mb-4">Log Waste Reduction</h3>
               <div className="bg-[#f5f5f4] p-4 rounded-2xl mb-4 text-center">
-                <div className="text-xs font-bold text-[#111827]/40 uppercase mb-1">Total Reduced</div>
-                <div className="text-2xl font-black text-[#166534]">{wasteReduced} kg</div>
+                <div className="text-xs font-bold text-[#111827]/40 uppercase mb-1">
+                  Total Reduced
+                </div>
+                <div className="text-2xl font-black text-[#166534]">
+                  {wasteReduced} kg
+                </div>
               </div>
               <p className="text-sm text-[#111827]/60 mb-4">
                 Track your recycling and upcycling efforts
