@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // Serve static files from the React app (if building for production)
 app.use(express.static(path.join(__dirname, "../client/dist")));
@@ -38,6 +39,12 @@ app.use("/api/market", require("./routes/market"));
 
 // Actions Routes
 app.use("/api/actions", require("./routes/actions"));
+
+// Messaging Routes
+app.use("/api/messaging", require("./routes/messaging"));
+
+// USSD Routes (Interactive Menu)
+app.use("/api/ussd", require("./routes/ussd"));
 
 // Handle SPA routing
 app.get(/^\/(?!api).*/, (req, res) => {

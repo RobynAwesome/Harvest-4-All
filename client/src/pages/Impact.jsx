@@ -106,9 +106,9 @@ const Impact = () => {
   };
 
   const handleShare = () => {
-    const text = `I've earned ${totalPoints} points and saved ${waterSaved}L of water on Harvest-4-All! 🌿 Supporting sustainability in ${actions[0]?.location || 'Western Cape townships'}. #Harvest4All #MICTSETA2026`;
-    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
-    window.open(url, '_blank');
+    const text = `🇿🇦 I've earned ${totalPoints} XP points and saved ${waterSaved.toLocaleString()}L of water in ${actions[0]?.location || 'the Western Cape'} using Harvest For All! 🌿 Let's grow a sustainable future together! #Harvest4All #Sustainability #MICTSETA2026`;
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
+    window.open(whatsappUrl, '_blank');
   };
 
   return (

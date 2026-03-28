@@ -3,6 +3,7 @@ import { ArrowRight, TrendingUp, ChevronRight, Trash2, Quote, Leaf, Zap, Droplet
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/useAppContext";
 import AnimatedCounter from "../components/AnimatedCounter";
+import SMSTips from "../components/SMSTips";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ const Home = () => {
               </span>
               Western Cape Community Action
             </div>
+
             <h1 className="text-6xl md:text-8xl font-black text-[#111827] leading-[0.9] mb-8 font-heading">
               Grow Your Own <br />
               <span className="text-gradient">Future.</span>
@@ -89,6 +91,39 @@ const Home = () => {
               </div>
               <div className="text-xs font-black text-[#111827]/40 uppercase tracking-widest leading-none">
                 {stat.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Latest Activity Feed */}
+      <div className="max-w-7xl mx-auto px-4 py-20 border-b border-[#115e59]/5 animate-in slide-in-from-bottom-10 fade-in duration-700">
+        <div className="flex items-center gap-6 mb-16">
+           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#115e59]/10 to-[#115e59]/20"></div>
+           <h3 className="text-[10px] font-black uppercase tracking-[0.5em] text-[#115e59]/60 font-heading">Provincial Activity Dispatch</h3>
+           <div className="h-px flex-1 bg-gradient-to-l from-transparent via-[#115e59]/10 to-[#115e59]/20"></div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[
+            { user: "Mama Sisulu", loc: "Khayelitsha", act: "Logged 5.2kg Carrots", time: "2m ago", icon: <Leaf className="w-5 h-5" /> },
+            { user: "JP Jordaan", loc: "Mitchells Plain", act: "Filtered 45L Greywater", time: "14m ago", icon: <Droplet className="w-5 h-5" /> },
+            { user: "Noli M.", loc: "Gugulethu", act: "Swap: 10 Tomato Seedlings", time: "1h ago", icon: <ArrowRight className="w-5 h-5" /> },
+          ].map((item, j) => (
+            <div key={j} className="flex items-center gap-6 p-8 rounded-3xl bg-white/40 backdrop-blur-sm border border-[#115e59]/10 hover:shadow-2xl hover:bg-white transition-all group relative overflow-hidden">
+               <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none group-hover:scale-150 transition-transform">
+                  {item.icon}
+               </div>
+              <div className="w-14 h-14 rounded-2xl bg-[#115e59]/5 flex items-center justify-center text-[#115e59] group-hover:bg-[#115e59] group-hover:text-white transition-all shadow-inner">
+                {item.icon}
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center justify-between gap-2 mb-1.5">
+                  <span className="font-black text-[#111827] text-base leading-none font-heading">{item.user}</span>
+                  <span className="px-2 py-0.5 rounded-lg bg-[#2ecc71]/10 text-[#2ecc71] text-[7px] font-black uppercase tracking-widest border border-[#2ecc71]/20">Verified Gardener</span>
+                </div>
+                <div className="text-sm font-bold text-[#115e59]/80 group-hover:text-[#115e59] transition-colors">{item.act}</div>
+                <div className="text-[9px] font-black text-[#111827]/40 uppercase tracking-widest mt-2">{item.loc} • {item.time}</div>
               </div>
             </div>
           ))}
@@ -191,6 +226,11 @@ const Home = () => {
             ))}
           </div>
         </div>
+      </div>
+
+      {/* Accessibility Section (SMS Tips) */}
+      <div className="max-w-4xl mx-auto px-4 pb-40">
+        <SMSTips />
       </div>
     </section>
   );

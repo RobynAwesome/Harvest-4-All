@@ -5,6 +5,7 @@ import {
   MOCK_MARKET_LISTINGS,
   MOCK_ACTIONS,
 } from "../data/mockData";
+import confetti from "canvas-confetti";
 
 export const AppContext = createContext();
 
@@ -41,6 +42,7 @@ export const AppProvider = ({ children }) => {
   });
 
   const [badges, setBadges] = useState([]);
+  const [dispatchLogs, setDispatchLogs] = useState([]);
 
   const [earnedBadges, setEarnedBadges] = useState(() => {
     const saved = localStorage.getItem("earnedBadges");
@@ -95,16 +97,18 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [impactRes, marketRes, growRes, actionsRes, badgesRes] =
+        const [impactRes, marketRes, growRes, actionsRes, badgesRes, dispatchRes] =
           await Promise.all([
             axios.get(`${API_BASE_URL}/impact`),
             axios.get(`${API_BASE_URL}/market`),
             axios.get(`${API_BASE_URL}/grow`),
             axios.get(`${API_BASE_URL}/actions`),
             axios.get(`${API_BASE_URL}/actions/badges`),
+            axios.get(`${API_BASE_URL}/impact/dispatch`),
           ]);
         
         setImpactData(impactRes.data);
+        setDispatchLogs(dispatchRes.data);
         
         // Use server data if available, otherwise check local storage (which might have mock defaults)
         if (marketRes.data.length > 0) {
@@ -320,6 +324,12 @@ export const AppProvider = ({ children }) => {
           setEarnedBadges((prev) => [...prev, ...newBadges]);
           const badgeDetails = badges.find((b) => b._id === newBadges[0]);
           if (badgeDetails) {
+            confetti({
+              particleCount: 150,
+              spread: 70,
+              origin: { y: 0.6 },
+              colors: ["#115e59", "#2ecc71", "#4ade80"],
+            });
             setBadgePopup(badgeDetails);
             setTimeout(() => setBadgePopup(null), 5000);
           }
@@ -362,6 +372,12 @@ export const AppProvider = ({ children }) => {
           (b) => b._id === newBadgesEarned[0],
         );
         if (badgeDetails) {
+          confetti({
+            particleCount: 150,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ["#115e59", "#2ecc71", "#4ade80"],
+          });
           setBadgePopup(badgeDetails);
           setTimeout(() => setBadgePopup(null), 5000);
         }
@@ -406,6 +422,7 @@ export const AppProvider = ({ children }) => {
         getEarnedBadgeDetails,
         badgePopup,
         setBadgePopup,
+        dispatchLogs,
       }}
     >
       {children}

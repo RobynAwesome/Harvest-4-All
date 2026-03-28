@@ -84,6 +84,45 @@ const Reduce = () => {
             </MapContainer>
           </div>
 
+          {/* The Circular Resilience Explanation Section */}
+          <div className="bg-white/60 backdrop-blur-xl rounded-[2.5rem] p-10 md:p-14 border border-[#166534]/10 shadow-2xl relative overflow-hidden group mb-12 animate-in fade-in slide-in-from-bottom-5 duration-700">
+            <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-[#166534] to-[#4ade80]"></div>
+            <div className="relative z-10">
+              <div className="inline-block bg-[#166534]/10 text-[#166534] px-4 py-1 rounded-full text-[10px] font-black tracking-widest uppercase mb-6">
+                The Circular Resilience Model
+              </div>
+              <h3 className="text-3xl font-black text-[#111827] mb-10 font-heading">
+                Why <span className="text-[#166534]">Waste Reduction</span> Matters
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div className="space-y-4">
+                  <div className="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-700 shadow-sm mb-6">🥗</div>
+                  <h4 className="text-xl font-black text-[#111827] font-heading">Food Insecurity</h4>
+                  <p className="text-sm font-medium text-[#111827]/60 leading-relaxed">
+                    Upcycling household waste (tires, bottles, pallets) creates **Zero-Cost Infrastructure**. By converting "trash" into vertical planters, we bypass the need for expensive land and equipment, making fresh food accessible to everyone.
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="w-12 h-12 bg-amber-100 rounded-2xl flex items-center justify-center text-amber-700 shadow-sm mb-6">💼</div>
+                  <h4 className="text-xl font-black text-[#111827] font-heading">Unemployment</h4>
+                  <p className="text-sm font-medium text-[#111827]/60 leading-relaxed">
+                    Sustainability is a **Job Engine**. Training community members to collect, separate, and upcycle waste into agricultural assets creates micro-enterprise opportunities. Trash isn't just waste; it's the raw material for new livelihoods.
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-700 shadow-sm mb-6">🌍</div>
+                  <h4 className="text-xl font-black text-[#111827] font-heading">Total Sustainability</h4>
+                  <p className="text-sm font-medium text-[#111827]/60 leading-relaxed">
+                    A circular township economy diverts 90% of waste from landfills. By redirecting nutrients back into the soil via composting and reuse, we build a **Regenerative Loop** that scales without depleting community resources.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="space-y-6">
             <div className="bg-[#166534] text-white p-8 rounded-3xl shadow-xl">
               <div className="flex items-center gap-3 mb-6">

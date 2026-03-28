@@ -1,12 +1,23 @@
 const express = require("express");
 const router = express.Router();
 const Impact = require("../models/Impact");
+const DispatchLog = require("../models/DispatchLog");
 
 // GET all impact data
 router.get("/", async (req, res) => {
   try {
     const impacts = await Impact.find().sort({ date: -1 }).limit(100);
     res.json(impacts);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Get Dispatch Activity Logs
+router.get("/dispatch", async (req, res) => {
+  try {
+    const logs = await DispatchLog.find().sort({ timestamp: -1 }).limit(50);
+    res.json(logs);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

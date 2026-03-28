@@ -10,6 +10,7 @@ const Grow = () => {
   const [step, setStep] = useState(1);
   const [answers, setAnswers] = useState({});
   const [showAllCrops, setShowAllCrops] = useState(false);
+  const [selectedPlant, setSelectedPlant] = useState(null);
 
   const handleSelect = (key, val) => {
     setAnswers({ ...answers, [key]: val });
@@ -204,61 +205,73 @@ const Grow = () => {
           {step >= 4 ? "Projected " : ""}Agricultural <span className="text-[#115e59]">Selection</span>
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-24">
-          {displayCrops.map((crop, i) => (
-            <div
-              key={i}
-              className="card-premium group overflow-hidden flex flex-col h-full"
-            >
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src={crop.img}
-                  alt={crop.name}
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-[10px] font-black text-[#115e59] uppercase tracking-widest border border-[#115e59]/10">
-                  {crop.difficulty}
-                </div>
-                {crop.container && (
-                  <div className="absolute top-4 left-4 bg-[#2ecc71] px-3 py-1 rounded-lg text-[10px] font-black text-white uppercase tracking-widest shadow-lg">
-                    Container OK
-                  </div>
-                )}
-              </div>
-              <div className="p-8 flex-1 flex flex-col">
-                <div className="text-[10px] font-black text-[#2ecc71] uppercase tracking-[0.2em] mb-2">
-                   {crop.category}
-                </div>
-                <h4 className="font-black text-2xl mb-2 font-heading">{crop.name}</h4>
-                <p className="text-sm text-[#111827]/50 font-medium mb-6 line-clamp-2 italic">
-                  "{crop.description}"
-                </p>
-                
-                <div className="mt-auto">
-                  <div className="flex justify-between text-[10px] font-black text-[#111827]/40 uppercase tracking-widest mb-2">
-                    <span>Maturity Timeline</span>
-                    <span className="text-[#115e59]">
-                      {crop.time} {crop.unit}
-                    </span>
-                  </div>
-                  <div className="w-full bg-[#f5f5f4] h-2 rounded-full overflow-hidden mb-8">
-                    <div
-                      className="bg-gradient-to-r from-[#115e59] to-[#2ecc71] h-full rounded-full transition-all duration-1000"
-                      style={{ width: `${Math.min(100, (crop.time / 12) * 100)}%` }}
-                    />
-                  </div>
-                  <LogActionButton
-                    actionType="harvest"
-                    description={`Recorded harvest for ${crop.name}`}
-                    value={1}
-                    unit="kg"
-                    location="Local Garden"
-                    onActionLogged={() => handleHarvest(crop)}
+          {displayCrops.map((crop, i) => {
+            // Augmented Data for Modal
+            const details = {
+              timeline: `${crop.time} ${crop.unit.toLowerCase()}`,
+              soil: crop.difficulty === "EASY" ? "Well-drained sandy loam with mulch layer" : "Rich organic compost mix, deep tilling",
+              nutrition: crop.category.includes("Nutrient") ? "High Vitamin K, Iron, and Dietary Fiber" : "Rich in antioxidants and Vitamin C",
+            };
+
+            return (
+              <div
+                key={i}
+                className="card-premium group overflow-hidden flex flex-col h-full cursor-pointer transition-all hover:translate-y-[-8px]"
+                onClick={() => setSelectedPlant({ ...crop, details })}
+              >
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={crop.img}
+                    alt={crop.name}
+                    loading="lazy"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
+                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-[10px] font-black text-[#115e59] uppercase tracking-widest border border-[#115e59]/10">
+                    {crop.difficulty}
+                  </div>
+                  {crop.container && (
+                    <div className="absolute top-4 left-4 bg-[#2ecc71] px-3 py-1 rounded-lg text-[10px] font-black text-white uppercase tracking-widest shadow-lg">
+                      Container OK
+                    </div>
+                  )}
+                </div>
+                <div className="p-8 flex-1 flex flex-col">
+                  <div className="text-[10px] font-black text-[#2ecc71] uppercase tracking-[0.2em] mb-2">
+                     {crop.category}
+                  </div>
+                  <h4 className="font-black text-2xl mb-2 font-heading">{crop.name}</h4>
+                  <p className="text-sm text-[#111827]/50 font-medium mb-6 line-clamp-2 italic">
+                    "{crop.description}"
+                  </p>
+                  
+                  <div className="mt-auto">
+                    <div className="flex justify-between text-[10px] font-black text-[#111827]/40 uppercase tracking-widest mb-2">
+                      <span>Maturity Timeline</span>
+                      <span className="text-[#115e59]">
+                        {crop.time} {crop.unit}
+                      </span>
+                    </div>
+                    <div className="w-full bg-[#f5f5f4] h-2 rounded-full overflow-hidden mb-8">
+                      <div
+                        className="bg-gradient-to-r from-[#115e59] to-[#2ecc71] h-full rounded-full transition-all duration-1000"
+                        style={{ width: `${Math.min(100, (crop.time / 12) * 100)}%` }}
+                      />
+                    </div>
+                    <div onClick={(e) => e.stopPropagation()}>
+                      <LogActionButton
+                        actionType="harvest"
+                        description={`Recorded harvest for ${crop.name}`}
+                        value={1}
+                        unit="kg"
+                        location="Local Garden"
+                        onActionLogged={() => handleHarvest(crop)}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Guides Grid */}
@@ -321,6 +334,100 @@ const Grow = () => {
           </div>
         </div>
 
+        {/* Know More: Pesticide Truth Section */}
+        <div className="mb-24">
+          <div className="mb-12">
+            <div className="inline-block bg-amber-100 text-amber-800 px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase mb-4">
+              Community Resilience
+            </div>
+            <h3 className="text-4xl font-black font-heading">
+              Know <span className="text-amber-600">More</span>: The Pesticide Truth
+            </h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                title: "The Invisible Cost",
+                icon: "⚠️",
+                content: "Chemical pesticides strip the soil of its natural biome, making it harder to grow food long-term without expensive refills.",
+                type: "con"
+              },
+              {
+                title: "Green Alternatives",
+                icon: "🌿",
+                content: "Neem oil and companion planting (Marigolds) naturally repel aphids without poisoning your family's dinner table.",
+                type: "pro"
+              },
+              {
+                title: "Water Contamination",
+                icon: "💧",
+                content: "In townships, runoff goes directly into shared groundwater. Pesticides turn community assets into toxic liabilities.",
+                type: "con"
+              }
+            ].map((item, i) => (
+              <div key={i} className="card-premium p-8 border-l-8 border-amber-500">
+                <div className="text-4xl mb-6">{item.icon}</div>
+                <h4 className="font-black text-xl mb-3 font-heading text-amber-900">{item.title}</h4>
+                <p className="text-sm font-medium text-amber-900/70 leading-relaxed">
+                  {item.content}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Sustainability Blogs Section */}
+        <div className="mb-24">
+          <div className="flex justify-between items-end mb-12">
+            <div>
+              <h3 className="text-4xl font-black font-heading">
+                 Resource <span className="text-[#115e59]">Dispatch</span>
+              </h3>
+              <p className="text-[#111827]/40 font-bold uppercase text-xs tracking-[0.2em] mt-2">External Agricultural Intelligence</p>
+            </div>
+            <ArrowRight className="w-10 h-10 text-[#115e59]/20" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              { 
+                title: "AgriSA: Sustainable Farming Guide 2026", 
+                category: "POLICY", 
+                link: "https://agrisa.co.za",
+                desc: "Expert guidelines on managing high-yield crops under South African climate pressure."
+              },
+              { 
+                title: "Urban Farming: The Cape Town Model", 
+                category: "CASE STUDY", 
+                link: "https://www.capetown.gov.za",
+                desc: "How local township initiatives are reducing food prices by 40% through community gardens."
+              },
+              { 
+                title: "Renewable Soil: The Compost Manifesto", 
+                category: "TUTORIAL", 
+                link: "https://organic-seeds.co.za/blogs/news",
+                desc: "Turn your household waste into R1000 worth of nutrient-rich soil per month."
+              }
+            ].map((blog, i) => (
+              <a 
+                key={i} 
+                href={blog.link} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="card-premium p-8 group hover:bg-[#115e59] transition-all duration-300"
+              >
+                <div className="text-[10px] font-black text-[#2ecc71] mb-2 tracking-widest">{blog.category}</div>
+                <h4 className="font-black text-xl mb-4 text-[#111827] group-hover:text-white transition-colors">{blog.title}</h4>
+                <p className="text-sm text-[#111827]/50 group-hover:text-white/60 mb-6 font-medium leading-relaxed">
+                  {blog.desc}
+                </p>
+                <div className="flex items-center gap-2 text-xs font-black text-[#115e59] group-hover:text-[#2ecc71] transition-colors">
+                  READ ARTICLE <ArrowRight className="w-4 h-4" />
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+
         {/* Daily Operations Panel */}
         <div className="bg-[#115e59] text-white p-16 md:p-24 rounded-[4rem] shadow-2xl flex flex-col lg:flex-row gap-16 items-center border border-white/5 relative overflow-hidden">
            <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#2ecc71]/10 rounded-full translate-y-1/2 translate-x-1/2 blur-[100px]"></div>
@@ -376,6 +483,79 @@ const Grow = () => {
           </div>
         </div>
       </div>
+
+      {/* Plant Modal: Intelligence Overlay */}
+      {selectedPlant && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8">
+          <div 
+            className="absolute inset-0 bg-[#061e1b]/80 backdrop-blur-md animate-fade-in"
+            onClick={() => setSelectedPlant(null)}
+          ></div>
+          <div className="bg-white rounded-[3rem] w-full max-w-4xl overflow-hidden shadow-2xl relative z-10 animate-scale-in flex flex-col md:flex-row max-h-[90vh]">
+            <div className="w-full md:w-1/2 h-64 md:h-auto relative">
+              <img 
+                src={selectedPlant.img} 
+                alt={selectedPlant.name} 
+                className="w-full h-full object-cover"
+              />
+              <button 
+                onClick={() => setSelectedPlant(null)}
+                className="absolute top-6 left-6 w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-xl hover:scale-110 transition-transform md:hidden"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="flex-1 p-8 md:p-12 overflow-y-auto">
+               <div className="flex justify-between items-start mb-8">
+                  <div>
+                    <div className="text-[10px] font-black text-[#2ecc71] uppercase tracking-[0.2em] mb-2">{selectedPlant.category}</div>
+                    <h3 className="text-4xl font-black font-heading text-[#111827]">{selectedPlant.name}</h3>
+                  </div>
+                  <button 
+                    onClick={() => setSelectedPlant(null)}
+                    className="hidden md:flex w-10 h-10 bg-[#f5f5f4] rounded-xl items-center justify-center hover:bg-[#115e59] hover:text-white transition-all font-bold"
+                  >
+                    ✕
+                  </button>
+               </div>
+               
+               <div className="grid grid-cols-1 gap-8 mb-10">
+                  <div className="flex items-start gap-4 p-6 bg-[#f5f5f4] rounded-3xl group hover:bg-[#115e59]/5 transition-colors">
+                     <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm text-2xl">⏳</div>
+                     <div>
+                        <h4 className="font-black text-sm uppercase tracking-widest text-[#115e59] mb-1">Maturity Timeline</h4>
+                        <p className="text-[#111827] font-bold">{selectedPlant.details.timeline}</p>
+                     </div>
+                  </div>
+                  <div className="flex items-start gap-4 p-6 bg-[#f5f5f4] rounded-3xl group hover:bg-[#115e59]/5 transition-colors">
+                     <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm text-2xl">🧪</div>
+                     <div>
+                        <h4 className="font-black text-sm uppercase tracking-widest text-[#115e59] mb-1">Soil Requirements</h4>
+                        <p className="text-[#111827] font-bold">{selectedPlant.details.soil}</p>
+                     </div>
+                  </div>
+                  <div className="flex items-start gap-4 p-6 bg-[#f5f5f4] rounded-3xl group hover:bg-[#115e59]/5 transition-colors">
+                     <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm text-2xl">🥗</div>
+                     <div>
+                        <h4 className="font-black text-sm uppercase tracking-widest text-[#115e59] mb-1">Nutritional Benefits</h4>
+                        <p className="text-[#111827] font-bold">{selectedPlant.details.nutrition}</p>
+                     </div>
+                  </div>
+               </div>
+
+               <div className="p-8 bg-[#115e59] rounded-3xl text-white">
+                  <h4 className="font-black text-lg font-heading mb-2 flex items-center gap-2">
+                    <Sprout className="w-5 h-5 text-[#2ecc71]" />
+                    Expert Grower Tip
+                  </h4>
+                  <p className="text-sm font-medium text-white/70 leading-relaxed italic">
+                    "{selectedPlant.description}"
+                  </p>
+               </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
