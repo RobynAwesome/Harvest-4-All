@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Check, Leaf, AlertTriangle, Sprout, ArrowRight, RotateCcw } from "lucide-react";
 import confetti from "canvas-confetti";
 import LogActionButton from "../components/LogActionButton";
-import { CROPS_DATA } from "../data/mockData";
+import { CROPS_DATA, PEST_CONTROL_DATA, COMPANION_PLANTING } from "../data/mockData";
 import { useAppContext } from "../context/useAppContext";
 
 const Grow = () => {
@@ -334,45 +334,67 @@ const Grow = () => {
           </div>
         </div>
 
-        {/* Know More: Pesticide Truth Section */}
+        {/* Organic Pest & Disease Guide */}
         <div className="mb-24">
           <div className="mb-12">
             <div className="inline-block bg-amber-100 text-amber-800 px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase mb-4">
-              Community Resilience
+              From Our Research Docs
             </div>
             <h3 className="text-4xl font-black font-heading">
-              Know <span className="text-amber-600">More</span>: The Pesticide Truth
+              Organic Pest <span className="text-amber-600">Control</span> Guide
             </h3>
+            <p className="text-[#111827]/50 font-medium mt-2">
+              100% chemical-free solutions. Safe for your family, your soil, and your neighbours' groundwater.
+            </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "The Invisible Cost",
-                icon: "⚠️",
-                content: "Chemical pesticides strip the soil of its natural biome, making it harder to grow food long-term without expensive refills.",
-                type: "con"
-              },
-              {
-                title: "Green Alternatives",
-                icon: "🌿",
-                content: "Neem oil and companion planting (Marigolds) naturally repel aphids without poisoning your family's dinner table.",
-                type: "pro"
-              },
-              {
-                title: "Water Contamination",
-                icon: "💧",
-                content: "In townships, runoff goes directly into shared groundwater. Pesticides turn community assets into toxic liabilities.",
-                type: "con"
-              }
-            ].map((item, i) => (
-              <div key={i} className="card-premium p-8 border-l-8 border-amber-500">
-                <div className="text-4xl mb-6">{item.icon}</div>
-                <h4 className="font-black text-xl mb-3 font-heading text-amber-900">{item.title}</h4>
-                <p className="text-sm font-medium text-amber-900/70 leading-relaxed">
-                  {item.content}
-                </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {PEST_CONTROL_DATA.map((pest) => (
+              <div key={pest.id} className="card-premium p-8 border-t-4 border-amber-500 flex flex-col">
+                {pest.img && (
+                  <div className="h-36 overflow-hidden rounded-2xl mb-6">
+                    <img src={pest.img} alt={pest.name} loading="lazy" className="w-full h-full object-cover" />
+                  </div>
+                )}
+                <h4 className="font-black text-lg mb-2 font-heading text-amber-900">{pest.name}</h4>
+                <div className="flex flex-wrap gap-1 mb-4">
+                  {pest.affectedCrops.map((c) => (
+                    <span key={c} className="bg-amber-50 text-amber-700 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-200">{c}</span>
+                  ))}
+                </div>
+                <div className="flex-1 space-y-3">
+                  <div className="bg-green-50 p-4 rounded-2xl border border-green-200">
+                    <div className="text-[10px] font-black text-green-700 uppercase tracking-widest mb-1">Solution</div>
+                    <p className="text-xs text-green-900 font-bold">{pest.solution}</p>
+                  </div>
+                  <div className="bg-[#f5f5f4] p-4 rounded-2xl">
+                    <div className="text-[10px] font-black text-[#115e59] uppercase tracking-widest mb-1">Recipe</div>
+                    <p className="text-xs text-[#111827]/70 font-medium leading-relaxed">{pest.recipe}</p>
+                  </div>
+                  <div className="text-[10px] font-bold text-amber-600 flex items-start gap-1.5">
+                    <span className="mt-0.5">🛡️</span> {pest.prevention}
+                  </div>
+                </div>
               </div>
             ))}
+          </div>
+
+          {/* Companion Planting */}
+          <div className="bg-[#115e59]/5 rounded-3xl p-8 border border-[#115e59]/10">
+            <h4 className="font-black text-xl mb-6 font-heading flex items-center gap-3">
+              <span className="text-2xl">🌺</span> Companion Planting Pairs
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {COMPANION_PLANTING.map((pair, i) => (
+                <div key={i} className="bg-white rounded-2xl p-4 border border-[#115e59]/10 flex items-start gap-3">
+                  <div className="text-center min-w-fit">
+                    <div className="font-black text-sm text-[#115e59]">{pair.plant}</div>
+                    <div className="text-[10px] text-[#115e59]/40 font-bold">+</div>
+                    <div className="font-black text-sm text-[#2ecc71]">{pair.companion}</div>
+                  </div>
+                  <p className="text-xs text-[#111827]/60 font-medium leading-relaxed">{pair.benefit}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 

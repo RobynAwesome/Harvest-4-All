@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowRight, TrendingUp, ChevronRight, Trash2, Quote, Leaf, Zap, Droplet, Recycle } from "lucide-react";
+import { ArrowRight, TrendingUp, ChevronRight, Quote, Leaf, Zap, Droplet, Recycle, Sprout, ShoppingBag, BarChart3 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/useAppContext";
 import AnimatedCounter from "../components/AnimatedCounter";
@@ -73,6 +73,26 @@ const Home = () => {
         </div>
       </div>
 
+      {/* Problem Statement — presentation alignment */}
+      <div className="bg-[#111827] py-8 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-red-900/20 via-transparent to-amber-900/20" />
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            {[
+              { stat: "15-18%", desc: "WC households face severe food insecurity" },
+              { stat: "68,000+", desc: "Subsistence farming households in Western Cape" },
+              { stat: "23%", desc: "Water lost through Cape Town's infrastructure leaks" },
+              { stat: "12.74%", desc: "Eskom tariff hike approved for 2025/26" },
+            ].map((s, i) => (
+              <div key={i} className="py-2">
+                <div className="text-2xl md:text-3xl font-black text-white mb-1">{s.stat}</div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-white/40 leading-tight">{s.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Stats Board */}
       <div className="max-w-7xl mx-auto px-4 -mt-20 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -130,6 +150,40 @@ const Home = () => {
         </div>
       </div>
 
+      {/* Our 5 Pillars — presentation solution slide */}
+      <div className="max-w-7xl mx-auto px-4 py-20">
+        <div className="text-center mb-14">
+          <div className="inline-block text-[10px] font-black uppercase tracking-[0.4em] text-[#115e59]/50 mb-4">How We Fix It</div>
+          <h2 className="text-5xl font-black text-[#111827] font-heading leading-none mb-4">
+            Our 5 <span className="text-[#2ecc71]">Pillars</span>
+          </h2>
+          <p className="text-[#111827]/50 max-w-lg mx-auto font-medium">
+            One platform. Five actions. Township-first design that creates measurable, gamified impact.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          {[
+            { icon: Sprout, label: "Grow", sub: "Urban & container farming guide for WC crops", route: "/grow", color: "bg-emerald-50 border-emerald-200 text-emerald-700", accent: "bg-emerald-500" },
+            { icon: Recycle, label: "Reduce", sub: "Zero waste challenge & local recycling hubs", route: "/reduce", color: "bg-green-50 border-green-200 text-green-700", accent: "bg-green-500" },
+            { icon: Droplet, label: "Save", sub: "Water & energy conservation tracker", route: "/save", color: "bg-blue-50 border-blue-200 text-blue-700", accent: "bg-blue-500" },
+            { icon: ShoppingBag, label: "Market", sub: "Community buy, sell & swap platform", route: "/market", color: "bg-amber-50 border-amber-200 text-amber-700", accent: "bg-amber-500" },
+            { icon: BarChart3, label: "Impact", sub: "Live dashboard — points, badges & stats", route: "/impact", color: "bg-purple-50 border-purple-200 text-purple-700", accent: "bg-purple-500" },
+          ].map((p, i) => (
+            <button
+              key={i}
+              onClick={() => navigate(p.route)}
+              className={`${p.color} border-2 rounded-3xl p-6 text-left hover:scale-105 transition-all group shadow-sm`}
+            >
+              <div className={`w-10 h-10 ${p.accent} rounded-xl flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform shadow-md`}>
+                <p.icon className="w-5 h-5" />
+              </div>
+              <div className="font-black text-lg mb-1">{p.label}</div>
+              <div className="text-xs font-medium opacity-70 leading-snug">{p.sub}</div>
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Live Feed */}
       <div className="max-w-7xl mx-auto px-4 py-32">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
@@ -151,9 +205,9 @@ const Home = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {[
-            { tag: "GROW", city: "Khayelitsha", title: "Thandi harvested 5kg", desc: "First harvest from my vertical tire garden. Fed the whole family tonight!", img: "https://images.unsplash.com/photo-1589923188900-85dae523342b", icon: "T", route: "/grow", color: "text-[#2ecc71]" },
-            { tag: "SAVE", city: "Mitchells Plain", title: "Leon saved R120", desc: "Reduced municipal water and energy cost using a greywater filtration system.", img: "https://images.unsplash.com/photo-1621451537084-482c73073a0f", icon: "L", route: "/save", color: "text-blue-500" },
-            { tag: "MARKET", city: "Gugulethu", title: "New Seedlings", desc: "I have 10 tomato seedlings to swap for some kale or compost. Let's grow!", img: "https://images.unsplash.com/photo-1542838132-92c53300491e", icon: "S", route: "/market", color: "text-amber-500" },
+            { tag: "GROW", city: "Khayelitsha", title: "Thandi harvested 5kg", desc: "First harvest from my vertical tyre garden. Fed the whole family tonight!", img: "/community resilience/growth.png", icon: "T", route: "/grow", color: "text-[#2ecc71]" },
+            { tag: "SAVE", city: "Mitchells Plain", title: "Leon saved R120", desc: "Reduced municipal water and energy cost using a greywater filtration system.", img: "/community resilience/reduce waste.png", icon: "L", route: "/save", color: "text-blue-500" },
+            { tag: "MARKET", city: "Gugulethu", title: "New Seedlings Available", desc: "I have 10 tomato seedlings to swap for kale or compost. Let's grow together!", img: "/community resilience/market.png", icon: "S", route: "/market", color: "text-amber-500" },
           ].map((post, i) => (
             <div 
               key={i}
@@ -162,8 +216,9 @@ const Home = () => {
             >
               <div className="h-64 overflow-hidden relative">
                 <img
-                  src={`${post.img}?auto=format&fit=crop&q=80&w=800`}
+                  src={post.img}
                   alt={post.title}
+                  loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
                 <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase">
