@@ -75,6 +75,17 @@ const PostListingModal = ({ isOpen, onClose, onSubmit }) => {
             </div>
           </div>
           
+          <div className="col-span-2">
+            <label className="block text-xs font-bold uppercase tracking-widest text-[#111827]/40 mb-1">Description</label>
+            <textarea
+              className="w-full bg-[#f5f5f4] border-none rounded-xl p-3 focus:ring-2 ring-[#166534]/20 resize-none"
+              rows={2}
+              placeholder="Describe your item..."
+              value={formData.description}
+              onChange={(e) => setFormData({...formData, description: e.target.value})}
+            />
+          </div>
+
           <div>
             <label className="block text-xs font-bold uppercase tracking-widest text-[#111827]/40 mb-1">Category</label>
             <select 

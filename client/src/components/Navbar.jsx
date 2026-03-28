@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Menu, X, Trophy, Download } from "lucide-react";
+import { Menu, X, Trophy, Download, LogIn, LogOut, User } from "lucide-react";
 import { useAppContext } from "../context/useAppContext";
+import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 
 const Navbar = () => {
@@ -10,6 +11,7 @@ const Navbar = () => {
   const [showInstallBtn, setShowInstallBtn] = useState(false);
   const navigate = useNavigate();
   const { totalPoints, earnedBadges } = useAppContext();
+  const { user, isAuthenticated, logout } = useAuth();
   const { cycleTheme, current, theme } = useTheme();
 
   useEffect(() => {
@@ -102,7 +104,7 @@ const Navbar = () => {
                 <Trophy className="w-4 h-4 text-amber-400" /> <span>{totalPoints} pts</span>
               </div>
               {earnedBadges.length > 0 && (
-                <div 
+                <div
                   className="bg-[#2ecc71] text-white font-black text-[10px] w-6 h-6 rounded-full flex items-center justify-center animate-bounce shadow-lg border-2 border-white"
                   aria-label={`${earnedBadges.length} badges earned`}
                 >
@@ -110,6 +112,25 @@ const Navbar = () => {
                 </div>
               )}
             </Link>
+
+            {isAuthenticated ? (
+              <button
+                onClick={logout}
+                className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-[#111827]/50 hover:text-red-500 transition-colors"
+                title={`Logged in as ${user?.username}`}
+              >
+                <User className="w-3.5 h-3.5" />
+                <span className="max-w-[60px] truncate">{user?.username}</span>
+                <LogOut className="w-3.5 h-3.5" />
+              </button>
+            ) : (
+              <Link
+                to="/login"
+                className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-[#115e59]/60 hover:text-[#2ecc71] transition-colors"
+              >
+                <LogIn className="w-3.5 h-3.5" /> Login
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -164,6 +185,22 @@ const Navbar = () => {
           >
             <span className="text-lg">{current.emoji}</span> {current.name} Mode
           </button>
+          {isAuthenticated ? (
+            <button
+              onClick={() => { logout(); setIsOpen(false); }}
+              className="w-full flex items-center justify-center gap-2 border border-red-200 text-red-500 py-3 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-red-50 transition-all"
+            >
+              <LogOut className="w-4 h-4" /> Logout ({user?.username})
+            </button>
+          ) : (
+            <Link
+              to="/login"
+              onClick={() => setIsOpen(false)}
+              className="block w-full text-center border border-[#115e59]/10 text-[#115e59] py-3 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-[#115e59]/5 transition-all"
+            >
+              <LogIn className="w-4 h-4 inline mr-2" /> Login / Register
+            </Link>
+          )}
         </div>
       )}
     </nav>

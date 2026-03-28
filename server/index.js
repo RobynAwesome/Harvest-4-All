@@ -21,12 +21,18 @@ const MONGODB_URI =
 mongoose
   .connect(MONGODB_URI)
   .then(() => console.log("✅ Connected to MongoDB"))
-  .catch((err) => console.error("❌ MongoDB Connection Error:", err));
+  .catch((err) => {
+    console.error("❌ MongoDB Connection Error:", err.message);
+    console.log("⚠️  Server will run but API calls requiring DB will fail.");
+  });
 
 // Routes
 app.get("/api/health", (req, res) => {
   res.json({ status: "OK", message: "Harvest For All API is running." });
 });
+
+// Auth Routes
+app.use("/api/auth", require("./routes/auth"));
 
 // Impact Routes
 app.use("/api/impact", require("./routes/impact"));

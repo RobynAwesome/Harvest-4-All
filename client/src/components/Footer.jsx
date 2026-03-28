@@ -1,9 +1,11 @@
 import React from "react";
 import { ShieldCheck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Footer = () => {
   const navigate = useNavigate();
+  const { isAdmin } = useAuth();
   return (
     <footer className="bg-[#111827] text-white/70 py-12 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -30,6 +32,9 @@ const Footer = () => {
             <p className="text-sm leading-relaxed max-w-xs">
               Empowering Western Cape communities through sustainable action,
               digital inclusion, and local economic resilience.
+            </p>
+            <p className="text-[10px] text-white/20 mt-3">
+              Free for communities. Premium features for organizations.
             </p>
           </div>
           <div>
@@ -74,11 +79,11 @@ const Footer = () => {
             </a>
             <a href="#" className="hover:text-white transition-colors">Discord</a>
             <button
-              onClick={() => navigate("/admin")}
+              onClick={() => navigate(isAdmin ? "/admin" : "/login")}
               className="flex items-center gap-1.5 text-white/20 hover:text-white/60 transition-colors"
-              aria-label="Admin login"
+              aria-label={isAdmin ? "Admin Panel" : "Login"}
             >
-              <ShieldCheck className="w-3 h-3" /> Admin
+              <ShieldCheck className="w-3 h-3" /> {isAdmin ? "Admin" : "Login"}
             </button>
           </div>
         </div>

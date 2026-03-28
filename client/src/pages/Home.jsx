@@ -44,7 +44,7 @@ const Home = () => {
                 onClick={() => navigate("/impact")}
                 className="btn-premium bg-[#111827] text-white hover:bg-[#115e59] flex items-center justify-center gap-3 text-lg shadow-xl"
               >
-                View Live Impact <TrendingUp className="w-5 s-5" />
+                View Live Impact <TrendingUp className="w-5 h-5" />
               </button>
             </div>
           </div>

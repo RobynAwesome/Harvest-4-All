@@ -97,18 +97,22 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [impactRes, marketRes, growRes, actionsRes, badgesRes, dispatchRes] =
+        const [impactRes, marketRes, growRes, actionsRes, badgesRes] =
           await Promise.all([
             axios.get(`${API_BASE_URL}/impact`),
             axios.get(`${API_BASE_URL}/market`),
             axios.get(`${API_BASE_URL}/grow`),
             axios.get(`${API_BASE_URL}/actions`),
             axios.get(`${API_BASE_URL}/actions/badges`),
-            axios.get(`${API_BASE_URL}/impact/dispatch`),
           ]);
-        
+
         setImpactData(impactRes.data);
-        setDispatchLogs(dispatchRes.data);
+
+        // Fetch dispatch logs separately so failure doesn't break main data
+        try {
+          const dispatchRes = await axios.get(`${API_BASE_URL}/impact/dispatch`);
+          setDispatchLogs(dispatchRes.data);
+        } catch (_) {}
         
         // Use server data if available, otherwise check local storage (which might have mock defaults)
         if (marketRes.data.length > 0) {
@@ -131,7 +135,7 @@ export const AppProvider = ({ children }) => {
           setBadges(MOCK_BADGES);
         }
       } catch (error) {
-        console.error("Backend connection error. Using local cached data if available.");
+        console.error("Backend offline:", error.message);
         // Fallback to mock data if nothing in state/storage
         if (badges.length === 0) setBadges(MOCK_BADGES);
         if (marketListings.length === 0) setMarketListings(MOCK_MARKET_LISTINGS);

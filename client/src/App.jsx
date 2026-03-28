@@ -1,6 +1,7 @@
 import React, { useState, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AppProvider } from "./context/AppContext";
+import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import { useAppContext } from "./context/useAppContext";
 import Navbar from "./components/Navbar";
@@ -15,6 +16,7 @@ const Save    = lazy(() => import("./pages/Save"));
 const Market  = lazy(() => import("./pages/Market"));
 const Impact  = lazy(() => import("./pages/Impact"));
 const Admin   = lazy(() => import("./pages/Admin"));
+const Login   = lazy(() => import("./pages/Login"));
 const Welcome = lazy(() => import("./pages/Welcome"));
 
 const PageLoader = () => (
@@ -30,8 +32,9 @@ function AppContent() {
     <>
       <Suspense fallback={<PageLoader />}>
         <Routes>
-          {/* Admin — standalone, no Navbar/Footer */}
+          {/* Standalone pages — no Navbar/Footer */}
           <Route path="/admin" element={<Admin />} />
+          <Route path="/login" element={<Login />} />
 
           {/* Main app */}
           <Route
@@ -63,6 +66,7 @@ function AppContent() {
 function App() {
   const [showWelcome, setShowWelcome] = useState(
     () => !window.location.pathname.startsWith("/admin") &&
+          !window.location.pathname.startsWith("/login") &&
           !sessionStorage.getItem("harvest_welcomed")
   );
 
@@ -72,14 +76,16 @@ function App() {
   };
 
   return (
-    <ThemeProvider>
-      <AppProvider>
-        <Router>
-          {showWelcome && <Welcome onDone={handleWelcomeDone} />}
-          <AppContent />
-        </Router>
-      </AppProvider>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <AppProvider>
+          <Router>
+            {showWelcome && <Welcome onDone={handleWelcomeDone} />}
+            <AppContent />
+          </Router>
+        </AppProvider>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 
