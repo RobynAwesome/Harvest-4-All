@@ -44,6 +44,9 @@ app.use("/api/messaging", require("./routes/messaging"));
 // USSD Routes (Interactive Menu)
 app.use("/api/ussd", require("./routes/ussd"));
 
+// Creator Submissions Routes
+app.use("/api/submissions", require("./routes/submissions"));
+
 // Handle SPA routing
 app.get(/^\/(?!api).*/, (req, res) => {
   res.sendFile(path.join(__dirname, "../client/dist/index.html"));

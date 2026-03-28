@@ -90,7 +90,7 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex space-x-8 items-center" role="menubar">
+          <div className="hidden md:flex space-x-4 items-center" role="menubar">
             {showInstallBtn && (
               <button
                 onClick={handleInstallClick}
@@ -100,24 +100,24 @@ const Navbar = () => {
               </button>
             )}
 
-            {["Grow", "Reduce", "Save", "Market"].map((item) => (
+            {["Grow", "Reduce", "Save", "Market", "About"].map((item) => (
               <Link
                 key={item}
                 to={`/${item.toLowerCase()}`}
-                className="text-sm font-black uppercase tracking-widest text-[#111827]/60 hover:text-[#115e59] transition-colors"
-                aria-label={item}
+                className="text-[11px] font-black uppercase tracking-[0.15em] text-[#111827]/60 hover:text-[#115e59] transition-colors"
+                aria-label={item === "About" ? "Creators and Sponsors" : item}
               >
-                {item}
+                {item === "About" ? "Mission" : item}
               </Link>
             ))}
 
             {user?.role === "admin" && (
               <Link
                 to="/admin"
-                className="bg-red-500/10 text-red-600 border border-red-500/20 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all animate-pulse"
+                className="bg-red-500/10 text-red-600 border border-red-500/20 px-2 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all animate-pulse"
                 aria-label="Admin Hub"
               >
-                Admin Hub
+                Admin
               </Link>
             )}
 

@@ -21,6 +21,10 @@ const Welcome = lazy(() => import("./pages/Welcome"));
 const About   = lazy(() => import("./pages/About"));
 const Terms   = lazy(() => import("./pages/Terms"));
 const Contact = lazy(() => import("./pages/Contact"));
+const CreatorHub = lazy(() => import("./pages/CreatorHub"));
+const CreatorMarket = lazy(() => import("./pages/CreatorMarket"));
+const CreatorSubmissions = lazy(() => import("./pages/CreatorSubmissions"));
+const CreatorsChoice = lazy(() => import("./pages/CreatorsChoice"));
 import TipBot from "./components/TipBot";
 
 const PageLoader = () => (
@@ -76,6 +80,10 @@ function AppContent() {
                     <Route path="/about"  element={<About />}  />
                     <Route path="/terms"  element={<Terms />}  />
                     <Route path="/contact" element={<Contact />} />
+                    <Route path="/creator" element={<CreatorHub />} />
+                    <Route path="/creator/market" element={<CreatorMarket />} />
+                    <Route path="/creator/submissions" element={<CreatorSubmissions />} />
+                    <Route path="/creators-choice" element={<CreatorsChoice />} />
                   </Routes>
                 </main>
                 <TipBot />

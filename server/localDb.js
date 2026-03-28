@@ -54,6 +54,28 @@ const defaultData = {
   logs: [],
   growProjects: [],
   actions: [],
+  submissions: [
+    {
+      id: "s-1",
+      title: "Vertical Wind Turbines for Townships",
+      description: "Low-cost, vertical axis turbines that capture wind in dense residential corridors.",
+      category: "Energy",
+      impact: "Reduces grid dependency by 30% for small shacks.",
+      status: "Pitched to Sponsors (UWC Innovation Hub)",
+      creatorId: "admin-kholofelo",
+      icon: "Zap"
+    },
+    {
+      id: "s-2",
+      title: "Closed-Loop Hydroponic Rainwater Harvesters",
+      description: "A system that captures runoff from corrugated iron roofs to feed vertical spinach trays.",
+      category: "Water/Food",
+      impact: "Saves 1500L of municipal water per month.",
+      status: "Pitched to Sponsors (CPUT Research)",
+      creatorId: "admin-kholofelo",
+      icon: "Droplets"
+    }
+  ],
   badges: [
     { id: "b-1", name: "Founder", icon: "Shield", description: "Platform Core Team" },
     { id: "b-2", name: "Champion", icon: "Trophy", description: "Top Sustainability Contributor" }

@@ -62,7 +62,68 @@
   "impacts": [],
   "logs": [],
   "growProjects": [],
-  "actions": [],
+  "actions": [
+    {
+      "id": "a-1774691984593",
+      "type": "market",
+      "description": "Participated in swap for Spare Composting Bin",
+      "value": 5,
+      "unit": "swap",
+      "location": "Gugulethu",
+      "notes": "Connected with neighbor in Gugulethu",
+      "points": 5,
+      "userId": "anonymous",
+      "date": "2026-03-28T09:59:44.593Z"
+    },
+    {
+      "id": "a-1774691986660",
+      "type": "market",
+      "description": "Participated in swap for Spare Composting Bin",
+      "value": 5,
+      "unit": "swap",
+      "location": "Gugulethu",
+      "notes": "Connected with neighbor in Gugulethu",
+      "points": 5,
+      "userId": "anonymous",
+      "date": "2026-03-28T09:59:46.660Z"
+    },
+    {
+      "id": "a-1774691988829",
+      "type": "market",
+      "description": "Participated in sale for Organic Spinach Bundles",
+      "value": 25,
+      "unit": "ZAR",
+      "location": "Khayelitsha",
+      "notes": "Connected with neighbor in Khayelitsha",
+      "points": 5,
+      "userId": "anonymous",
+      "date": "2026-03-28T09:59:48.830Z"
+    },
+    {
+      "id": "a-1774691990309",
+      "type": "market",
+      "description": "Participated in sale for Organic Spinach Bundles",
+      "value": 25,
+      "unit": "ZAR",
+      "location": "Khayelitsha",
+      "notes": "Connected with neighbor in Khayelitsha",
+      "points": 5,
+      "userId": "anonymous",
+      "date": "2026-03-28T09:59:50.309Z"
+    },
+    {
+      "id": "a-1774691990518",
+      "type": "market",
+      "description": "Participated in sale for Organic Spinach Bundles",
+      "value": 25,
+      "unit": "ZAR",
+      "location": "Khayelitsha",
+      "notes": "Connected with neighbor in Khayelitsha",
+      "points": 5,
+      "userId": "anonymous",
+      "date": "2026-03-28T09:59:50.518Z"
+    }
+  ],
   "badges": [
     {
       "id": "b-1",
