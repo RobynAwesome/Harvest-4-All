@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Menu, X, Trophy, Download, LogIn, LogOut, User, Play } from "lucide-react";
+import { Menu, X, Trophy, Download, LogIn, LogOut, User, Play, Sparkles } from "lucide-react";
 import { useAppContext } from "../context/useAppContext";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
@@ -100,20 +100,37 @@ const Navbar = () => {
               </button>
             )}
 
-            {["Grow", "Reduce", "Save", "Market", "About"].map((item) => (
+            {[
+              { name: "Grow", path: "/grow" },
+              { name: "Reduce", path: "/reduce" },
+              { name: "Save", path: "/save" },
+              { name: "Market", path: "/market" },
+              { name: "Mission", path: "/about" },
+              { name: "Choice", path: "/creators-choice" }
+            ].map((item) => (
               <Link
-                key={item}
-                to={`/${item.toLowerCase()}`}
-                className="text-[11px] font-black uppercase tracking-[0.15em] text-[#111827]/60 hover:text-[#115e59] transition-colors"
-                aria-label={item === "About" ? "Creators and Sponsors" : item}
+                key={item.name}
+                to={item.path}
+                className="text-[10px] font-black uppercase tracking-[0.15em] text-[#111827]/60 hover:text-[#115e59] transition-colors"
+                aria-label={item.name}
               >
-                {item === "About" ? "Mission" : item}
+                {item.name}
               </Link>
             ))}
 
-            {user?.role === "admin" && (
+            {(user?.role === "admin" || user?.role === "creator") && user?.username !== "Kholofelo" && (
               <Link
-                to="/admin"
+                to="/creator"
+                className="flex items-center gap-1.5 bg-[#facc15]/10 text-amber-600 border border-[#facc15]/20 px-2.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest hover:bg-amber-500 hover:text-white transition-all shadow-sm group/hub"
+                aria-label="Creator Hub"
+              >
+                <Sparkles className="w-3 h-3 group-hover/hub:rotate-45 transition-transform" /> Hub
+              </Link>
+            )}
+
+            {user?.role === "admin" && user?.username !== "Kholofelo" && (
+              <Link
+                to="/admin/welcome"
                 className="bg-red-500/10 text-red-600 border border-red-500/20 px-2 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all animate-pulse"
                 aria-label="Admin Hub"
               >

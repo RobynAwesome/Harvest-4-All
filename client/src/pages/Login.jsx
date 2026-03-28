@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
-import { Mail, Lock, User, MapPin, LogIn, UserPlus, Eye, EyeOff, ArrowLeft, Sprout, ShieldCheck, ShoppingBag } from "lucide-react";
+import { Mail, Lock, User, MapPin, LogIn, UserPlus, Eye, EyeOff, ArrowLeft, Sprout, ShieldCheck, ShoppingBag, Globe } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 /* ── Particle Background ── */
@@ -88,8 +88,12 @@ const Login = () => {
     setError("");
     setLoading(true);
     try {
-      await login(email, password);
-      navigate("/");
+      const res = await login(email, password);
+      if (res?.role === "admin") {
+        navigate("/admin/welcome");
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       setError(err.response?.data?.message || "Login failed. Server may be offline.");
     } finally {
@@ -419,9 +423,38 @@ const Login = () => {
 
            <div className="grid grid-cols-1 gap-3">
               {[
-                { id: "admin-kholofelo", name: "Kholofelo (Founder/Admin)", role: "Access All Interfaces", icon: ShieldCheck, color: "from-emerald-600/20 to-teal-600/20", border: "border-emerald-500/30" },
-                { id: "u-1", name: "Kea (Resident)", role: "View Basic Impact", icon: User, color: "from-blue-600/10 to-indigo-600/10", border: "border-blue-500/20" },
-                { id: "u-2", name: "Karabo (Resident)", role: "View Marketplace", icon: ShoppingBag, color: "from-amber-600/10 to-orange-600/10", border: "border-amber-500/20" }
+                {
+                  id: "admin-kholofelo",
+                  name: "Kholofelo (Founder/Admin)",
+                  role: "Access all interfaces",
+                  color: "from-emerald-900/50 to-emerald-800/50",
+                  border: "border-emerald-500/30",
+                  icon: ShieldCheck
+                },
+                {
+                  id: "sponsor-uwc",
+                  name: "Sponsor (UWC / CPUT)",
+                  role: "View Creator Contact Info",
+                  color: "from-blue-900/50 to-blue-800/50",
+                  border: "border-blue-500/30",
+                  icon: Globe
+                },
+                {
+                  id: "u-1",
+                  name: "Kea (Resident)",
+                  role: "View Basic Impact",
+                  color: "from-sky-900/50 to-sky-800/50",
+                  border: "border-sky-500/30",
+                  icon: User
+                },
+                {
+                  id: "u-2",
+                  name: "Karabo (Resident)",
+                  role: "View Marketplace",
+                  color: "from-amber-900/50 to-orange-800/50",
+                  border: "border-amber-500/30",
+                  icon: ShoppingBag
+                }
               ].map((u) => (
                 <button
                   key={u.id}
@@ -432,7 +465,12 @@ const Login = () => {
                       // Mock login logic manually since we are bypassing the form
                       localStorage.setItem("harvest_token", res.data.token);
                       localStorage.setItem("harvest_user", JSON.stringify(res.data.user));
-                      window.location.href = "/"; // Force refresh to update context
+                      
+                      if (res.data.user.role === "admin") {
+                        window.location.href = "/admin/welcome";
+                      } else {
+                        window.location.href = "/";
+                      }
                     } catch (err) {
                       setError("Demo mode connection failed.");
                     } finally {

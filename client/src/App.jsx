@@ -25,6 +25,8 @@ const CreatorHub = lazy(() => import("./pages/CreatorHub"));
 const CreatorMarket = lazy(() => import("./pages/CreatorMarket"));
 const CreatorSubmissions = lazy(() => import("./pages/CreatorSubmissions"));
 const CreatorsChoice = lazy(() => import("./pages/CreatorsChoice"));
+const AdminWelcome = lazy(() => import("./pages/AdminWelcome"));
+const SponsorDashboard = lazy(() => import("./pages/SponsorDashboard"));
 import TipBot from "./components/TipBot";
 
 const PageLoader = () => (
@@ -61,6 +63,8 @@ function AppContent() {
         <Routes>
           {/* Standalone pages — no Navbar/Footer */}
           <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/welcome" element={<AdminWelcome />} />
+          <Route path="/sponsor/dashboard" element={<SponsorDashboard />} />
           <Route path="/login" element={<Login />} />
 
           {/* Main app */}
