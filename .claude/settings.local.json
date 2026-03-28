@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(cp -r \"C:/Users/rkhol/Harvest-4-All/Harvest-4-All/public/community resilience\" \"C:/Users/rkhol/Harvest-4-All/Harvest-4-All/client/public/\")",
+      "Bash(cp -r \"C:/Users/rkhol/Harvest-4-All/Harvest-4-All/public/General images\" \"C:/Users/rkhol/Harvest-4-All/Harvest-4-All/client/public/\")",
+      "Bash(cp -r \"C:/Users/rkhol/Harvest-4-All/Harvest-4-All/public/Pest & diseases\" \"C:/Users/rkhol/Harvest-4-All/Harvest-4-All/client/public/\")",
+      "Bash(cp -r \"C:/Users/rkhol/Harvest-4-All/Harvest-4-All/public/more crop focused indigenous & common crops\" \"C:/Users/rkhol/Harvest-4-All/Harvest-4-All/client/public/\")",
+      "Bash(cp -r \"C:/Users/rkhol/Harvest-4-All/Harvest-4-All/public/community profile pictures\" \"C:/Users/rkhol/Harvest-4-All/Harvest-4-All/client/public/\")"
     ]
   }
 }

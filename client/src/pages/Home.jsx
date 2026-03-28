@@ -52,7 +52,7 @@ const Home = () => {
             <div className="absolute -z-10 bg-[#2ecc71]/20 w-80 h-80 rounded-full blur-[100px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
             <div className="relative p-4 md:p-8 bg-white/40 backdrop-blur-sm rounded-[3rem] border border-[#115e59]/10 shadow-2xl">
               <img
-                src="https://images.unsplash.com/photo-1592419044706-39796d40f98c?auto=format&fit=crop&q=80&w=1000"
+                src="/General images/Gemini_Generated_Image_emx36yemx36yemx3.png"
                 alt="Urban container garden with fresh vegetables"
                 loading="lazy"
                 className="rounded-[2rem] shadow-lg w-full h-[400px] object-cover"
@@ -74,46 +74,68 @@ const Home = () => {
       </div>
 
       {/* Problem Statement — presentation alignment */}
-      <div className="bg-[#111827] py-8 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-red-900/20 via-transparent to-amber-900/20" />
+      <div className="bg-gradient-to-br from-[#111827] via-[#0f2b29] to-[#111827] py-16 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-red-900/10 via-transparent to-amber-900/10" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-red-500/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-amber-500/5 rounded-full blur-[120px]" />
         <div className="max-w-7xl mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 bg-red-500/10 text-red-400 px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase border border-red-500/20 mb-4">
+              <span className="relative flex h-2 w-2"><span className="animate-ping absolute h-full w-full rounded-full bg-red-400 opacity-75"></span><span className="relative rounded-full h-2 w-2 bg-red-400"></span></span>
+              The Crisis We're Solving
+            </div>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { stat: "15-18%", desc: "WC households face severe food insecurity" },
-              { stat: "68,000+", desc: "Subsistence farming households in Western Cape" },
-              { stat: "23%", desc: "Water lost through Cape Town's infrastructure leaks" },
-              { stat: "12.74%", desc: "Eskom tariff hike approved for 2025/26" },
+              { stat: "15-18%", desc: "WC households face severe food insecurity", icon: "🚨", gradient: "from-red-500/20 to-red-900/10" },
+              { stat: "68,000+", desc: "Subsistence farming households in Western Cape", icon: "🏘️", gradient: "from-amber-500/20 to-amber-900/10" },
+              { stat: "23%", desc: "Water lost through Cape Town's infrastructure leaks", icon: "���", gradient: "from-blue-500/20 to-blue-900/10" },
+              { stat: "12.74%", desc: "Eskom tariff hike approved for 2025/26", icon: "⚡", gradient: "from-yellow-500/20 to-yellow-900/10" },
             ].map((s, i) => (
-              <div key={i} className="py-2">
-                <div className="text-2xl md:text-3xl font-black text-white mb-1">{s.stat}</div>
-                <div className="text-[10px] font-bold uppercase tracking-widest text-white/40 leading-tight">{s.desc}</div>
+              <div key={i} className={`bg-gradient-to-br ${s.gradient} backdrop-blur-sm rounded-2xl p-6 border border-white/5 text-center hover:scale-105 transition-all cursor-default group`}>
+                <div className="text-3xl mb-3 group-hover:scale-110 transition-transform">{s.icon}</div>
+                <div className="text-3xl md:text-4xl font-black text-white mb-2 font-heading">{s.stat}</div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-white/50 leading-tight">{s.desc}</div>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Stats Board */}
-      <div className="max-w-7xl mx-auto px-4 -mt-20 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            { label: "Meals Grown", val: totalMeals, suf: "", icon: Leaf, color: "text-[#2ecc71]", border: "border-[#2ecc71]" },
-            { label: "Water Saved", val: waterSaved, suf: "L", icon: Droplet, color: "text-blue-500", border: "border-blue-500" },
-            { label: "Energy Saved", val: energySaved, suf: "pts", icon: Zap, color: "text-amber-500", border: "border-amber-500" },
-            { label: "Waste Diverted", val: wasteReduced, suf: "kg", icon: Recycle, color: "text-emerald-500", border: "border-emerald-500" },
-          ].map((stat, i) => (
-            <div key={i} className={`bg-white p-10 rounded-3xl shadow-xl border-t-8 ${stat.border} transition-all hover:scale-105`}>
-              <div className={`${stat.color} mb-4`}>
-                <stat.icon className="w-10 h-10" />
+      {/* Stats Board — Community Impact */}
+      <div className="bg-gradient-to-b from-[#f5f5f4] to-white py-20">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <div className="inline-block text-[10px] font-black uppercase tracking-[0.4em] text-[#2ecc71] mb-3">Live Community Impact</div>
+            <h2 className="text-4xl font-black text-[#111827] font-heading leading-none">What We've Built <span className="text-[#2ecc71]">Together</span></h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { label: "Meals Grown", val: totalMeals, suf: "", icon: Leaf, color: "text-[#2ecc71]", bg: "bg-emerald-50", border: "border-emerald-200", glow: "shadow-emerald-100", route: "/grow" },
+              { label: "Water Saved", val: waterSaved, suf: "L", icon: Droplet, color: "text-blue-500", bg: "bg-blue-50", border: "border-blue-200", glow: "shadow-blue-100", route: "/save" },
+              { label: "Energy Saved", val: energySaved, suf: "pts", icon: Zap, color: "text-amber-500", bg: "bg-amber-50", border: "border-amber-200", glow: "shadow-amber-100", route: "/save" },
+              { label: "Waste Diverted", val: wasteReduced, suf: "kg", icon: Recycle, color: "text-emerald-600", bg: "bg-green-50", border: "border-green-200", glow: "shadow-green-100", route: "/reduce" },
+            ].map((stat, i) => (
+              <div
+                key={i}
+                onClick={() => navigate(stat.route)}
+                className={`${stat.bg} p-8 rounded-3xl border-2 ${stat.border} shadow-xl ${stat.glow} transition-all hover:scale-105 hover:shadow-2xl cursor-pointer group relative overflow-hidden`}
+              >
+                <div className={`absolute top-0 right-0 w-32 h-32 ${stat.bg} rounded-full -translate-y-1/2 translate-x-1/2 opacity-50`} />
+                <div className={`${stat.color} mb-4 relative z-10`}>
+                  <div className={`w-14 h-14 ${stat.bg} rounded-2xl flex items-center justify-center border ${stat.border} group-hover:scale-110 transition-transform`}>
+                    <stat.icon className="w-7 h-7" />
+                  </div>
+                </div>
+                <div className="text-4xl font-black text-[#111827] font-heading leading-none mb-2 relative z-10">
+                  <AnimatedCounter end={stat.val} suffix={stat.suf} />
+                </div>
+                <div className="text-xs font-black text-[#111827]/40 uppercase tracking-widest leading-none relative z-10">
+                  {stat.label}
+                </div>
               </div>
-              <div className="text-4xl font-black text-[#111827] font-heading leading-none mb-2">
-                <AnimatedCounter end={stat.val} suffix={stat.suf} />
-              </div>
-              <div className="text-xs font-black text-[#111827]/40 uppercase tracking-widest leading-none">
-                {stat.label}
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
@@ -151,36 +173,45 @@ const Home = () => {
       </div>
 
       {/* Our 5 Pillars — presentation solution slide */}
-      <div className="max-w-7xl mx-auto px-4 py-20">
-        <div className="text-center mb-14">
-          <div className="inline-block text-[10px] font-black uppercase tracking-[0.4em] text-[#115e59]/50 mb-4">How We Fix It</div>
-          <h2 className="text-5xl font-black text-[#111827] font-heading leading-none mb-4">
-            Our 5 <span className="text-[#2ecc71]">Pillars</span>
-          </h2>
-          <p className="text-[#111827]/50 max-w-lg mx-auto font-medium">
-            One platform. Five actions. Township-first design that creates measurable, gamified impact.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {[
-            { icon: Sprout, label: "Grow", sub: "Urban & container farming guide for WC crops", route: "/grow", color: "bg-emerald-50 border-emerald-200 text-emerald-700", accent: "bg-emerald-500" },
-            { icon: Recycle, label: "Reduce", sub: "Zero waste challenge & local recycling hubs", route: "/reduce", color: "bg-green-50 border-green-200 text-green-700", accent: "bg-green-500" },
-            { icon: Droplet, label: "Save", sub: "Water & energy conservation tracker", route: "/save", color: "bg-blue-50 border-blue-200 text-blue-700", accent: "bg-blue-500" },
-            { icon: ShoppingBag, label: "Market", sub: "Community buy, sell & swap platform", route: "/market", color: "bg-amber-50 border-amber-200 text-amber-700", accent: "bg-amber-500" },
-            { icon: BarChart3, label: "Impact", sub: "Live dashboard — points, badges & stats", route: "/impact", color: "bg-purple-50 border-purple-200 text-purple-700", accent: "bg-purple-500" },
-          ].map((p, i) => (
-            <button
-              key={i}
-              onClick={() => navigate(p.route)}
-              className={`${p.color} border-2 rounded-3xl p-6 text-left hover:scale-105 transition-all group shadow-sm`}
-            >
-              <div className={`w-10 h-10 ${p.accent} rounded-xl flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform shadow-md`}>
-                <p.icon className="w-5 h-5" />
-              </div>
-              <div className="font-black text-lg mb-1">{p.label}</div>
-              <div className="text-xs font-medium opacity-70 leading-snug">{p.sub}</div>
-            </button>
-          ))}
+      <div className="relative py-24 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-[#115e59]/[0.03] to-white" />
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 bg-[#115e59]/10 text-[#115e59] px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase border border-[#115e59]/20 mb-4">
+              Our Solution
+            </div>
+            <h2 className="text-5xl md:text-6xl font-black text-[#111827] font-heading leading-none mb-5">
+              Five <span className="text-gradient">Pillars</span> of Change
+            </h2>
+            <p className="text-[#111827]/50 max-w-xl mx-auto font-medium text-lg">
+              One platform. Five actions. Township-first design that creates measurable, gamified community impact.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+            {[
+              { icon: Sprout, label: "Grow", sub: "Urban & container farming guide for WC crops", route: "/grow", color: "from-emerald-500 to-green-600", lightBg: "bg-emerald-50", border: "border-emerald-200", num: "01" },
+              { icon: Recycle, label: "Reduce", sub: "Zero waste challenge & local recycling hubs", route: "/reduce", color: "from-green-500 to-teal-600", lightBg: "bg-green-50", border: "border-green-200", num: "02" },
+              { icon: Droplet, label: "Save", sub: "Water & energy conservation tracker", route: "/save", color: "from-blue-500 to-cyan-600", lightBg: "bg-blue-50", border: "border-blue-200", num: "03" },
+              { icon: ShoppingBag, label: "Market", sub: "Community buy, sell & swap platform", route: "/market", color: "from-amber-500 to-orange-600", lightBg: "bg-amber-50", border: "border-amber-200", num: "04" },
+              { icon: BarChart3, label: "Impact", sub: "Live dashboard — points, badges & stats", route: "/impact", color: "from-purple-500 to-indigo-600", lightBg: "bg-purple-50", border: "border-purple-200", num: "05" },
+            ].map((p, i) => (
+              <button
+                key={i}
+                onClick={() => navigate(p.route)}
+                className={`${p.lightBg} border-2 ${p.border} rounded-3xl p-7 text-left hover:scale-[1.08] hover:shadow-2xl transition-all group relative overflow-hidden`}
+              >
+                <div className="absolute top-0 right-0 text-[80px] font-black opacity-[0.04] leading-none -mt-2 -mr-2 select-none">{p.num}</div>
+                <div className={`w-12 h-12 bg-gradient-to-br ${p.color} rounded-2xl flex items-center justify-center text-white mb-5 group-hover:scale-110 group-hover:rotate-3 transition-all shadow-lg`}>
+                  <p.icon className="w-6 h-6" />
+                </div>
+                <div className="font-black text-xl mb-2 text-[#111827]">{p.label}</div>
+                <div className="text-xs font-medium text-[#111827]/50 leading-snug">{p.sub}</div>
+                <div className={`mt-4 inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-r ${p.color} bg-clip-text text-transparent`}>
+                  Explore <ArrowRight className="w-3 h-3 text-[#115e59]" />
+                </div>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 

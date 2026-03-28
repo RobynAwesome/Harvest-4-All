@@ -206,11 +206,14 @@ const Grow = () => {
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-24">
           {displayCrops.map((crop, i) => {
-            // Augmented Data for Modal
             const details = {
               timeline: `${crop.time} ${crop.unit.toLowerCase()}`,
-              soil: crop.difficulty === "EASY" ? "Well-drained sandy loam with mulch layer" : "Rich organic compost mix, deep tilling",
-              nutrition: crop.category.includes("Nutrient") ? "High Vitamin K, Iron, and Dietary Fiber" : "Rich in antioxidants and Vitamin C",
+              soil: crop.soilType || (crop.difficulty === "EASY" ? "Well-drained sandy loam with mulch layer" : "Rich organic compost mix, deep tilling"),
+              nutrition: crop.nutrition
+                ? `Iron ${crop.nutrition.iron}mg · Calcium ${crop.nutrition.calcium}mg · Vitamin C ${crop.nutrition.vitC}mg per 100g`
+                : crop.category.includes("Nutrient") ? "High Vitamin K, Iron, and Dietary Fiber" : "Rich in antioxidants and Vitamin C",
+              waterNeeds: crop.waterNeeds,
+              containerInfo: crop.containerDepth ? `Depth: ${crop.containerDepth} · ${crop.containerSize}` : null,
             };
 
             return (
@@ -229,7 +232,11 @@ const Grow = () => {
                   <div className="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-[10px] font-black text-[#115e59] uppercase tracking-widest border border-[#115e59]/10">
                     {crop.difficulty}
                   </div>
-                  {crop.container && (
+                  {crop.category === "Indigenous" ? (
+                    <div className="absolute top-4 left-4 bg-emerald-700 px-3 py-1 rounded-lg text-[10px] font-black text-white uppercase tracking-widest shadow-lg">
+                      Indigenous
+                    </div>
+                  ) : crop.container && (
                     <div className="absolute top-4 left-4 bg-[#2ecc71] px-3 py-1 rounded-lg text-[10px] font-black text-white uppercase tracking-widest shadow-lg">
                       Container OK
                     </div>
@@ -563,6 +570,24 @@ const Grow = () => {
                         <p className="text-[#111827] font-bold">{selectedPlant.details.nutrition}</p>
                      </div>
                   </div>
+                  {selectedPlant.details.waterNeeds && (
+                    <div className="flex items-start gap-4 p-6 bg-blue-50 rounded-3xl border border-blue-100">
+                       <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm text-2xl">💧</div>
+                       <div>
+                          <h4 className="font-black text-sm uppercase tracking-widest text-blue-700 mb-1">Water Needs</h4>
+                          <p className="text-blue-900 font-bold capitalize">{selectedPlant.details.waterNeeds}</p>
+                       </div>
+                    </div>
+                  )}
+                  {selectedPlant.details.containerInfo && (
+                    <div className="flex items-start gap-4 p-6 bg-[#f5f5f4] rounded-3xl group hover:bg-[#115e59]/5 transition-colors">
+                       <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm text-2xl">🪴</div>
+                       <div>
+                          <h4 className="font-black text-sm uppercase tracking-widest text-[#115e59] mb-1">Container Specs</h4>
+                          <p className="text-[#111827] font-bold">{selectedPlant.details.containerInfo}</p>
+                       </div>
+                    </div>
+                  )}
                </div>
 
                <div className="p-8 bg-[#115e59] rounded-3xl text-white">

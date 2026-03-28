@@ -140,8 +140,9 @@ html.read section, html.read main { background-color: #faf7f2 !important; }
 html.read *,
 html.read *::before,
 html.read *::after {
-  animation: none !important;
-  transition-duration: 0.15s !important;
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+  transition-duration: 0.2s !important;
 }
 
 /* ── Crazy pulse-neon animation ────────────────────── */
@@ -181,7 +182,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .card-premium:hover {
-  transform: translateY(-8px);
   box-shadow: 0 25px 50px -12px rgba(17, 94, 89, 0.15);
   border-color: rgba(46, 204, 113, 0.3);
 }
@@ -254,3 +254,21 @@ h1, h2, h3, h4, h5, h6 {
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+/* ── Modal animations ─────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
+.animate-scale-in { animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+/* ── Dark / Crazy mode hover text fix ─────────────── */
+html.dark .group:hover .group-hover\:text-white { color: #ffffff !important; }
+html.crazy .group:hover .group-hover\:text-white { color: #ffffff !important; }
+html.dark .hover\:text-white:hover { color: #ffffff !important; }
+html.crazy .hover\:text-white:hover { color: #ffffff !important; }
