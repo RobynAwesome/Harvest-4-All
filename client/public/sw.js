@@ -2,8 +2,15 @@ const CACHE_NAME = 'harvest-v1';
 const urlsToCache = [
   '/',
   '/index.html',
-  '/src/main.jsx',
-  '/manifest.json'
+  '/manifest.json',
+  '/logo.png',
+  '/logo512.png',
+  '/community profile pictures/growth.png',
+  '/community resilience/growth.png',
+  '/community resilience/reduce waste.png',
+  '/community resilience/market.png',
+  '/favicon.svg',
+  '/icons.svg'
 ];
 
 self.addEventListener('install', event => {

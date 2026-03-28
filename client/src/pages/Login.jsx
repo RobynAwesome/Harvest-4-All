@@ -428,7 +428,7 @@ const Login = () => {
                   onClick={async () => {
                     setLoading(true);
                     try {
-                      const res = await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:5000/api"}/auth/demo-login`, { userId: u.id });
+                      const res = await axios.post("/api/auth/demo-login", { userId: u.id });
                       // Mock login logic manually since we are bypassing the form
                       localStorage.setItem("harvest_token", res.data.token);
                       localStorage.setItem("harvest_user", JSON.stringify(res.data.user));

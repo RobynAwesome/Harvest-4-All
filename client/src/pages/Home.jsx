@@ -48,16 +48,17 @@ const Home = () => {
               </button>
             </div>
           </div>
-          <div className="flex-1 relative animate-float">
+          <div className="flex-1 relative animate-float group">
             <div className="absolute -z-10 bg-[#2ecc71]/20 w-80 h-80 rounded-full blur-[100px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
-            <div className="relative p-4 md:p-8 bg-white/40 backdrop-blur-sm rounded-[3rem] border border-[#115e59]/10 shadow-2xl">
-              <div className="absolute inset-0 z-0">
+            <div className="relative p-1 overflow-hidden bg-white/40 backdrop-blur-sm rounded-[3rem] border border-[#115e59]/10 shadow-2xl min-h-[440px] flex items-center justify-center">
+              <div className="absolute inset-0 z-0 overflow-hidden rounded-[3rem]">
                 <img 
-                  src="/General images/Gemini_Generated_Image_plo495plo495plo4.png" 
-                  alt="Harvest Background" 
-                  className="w-full h-full object-cover opacity-30"
+                  src="/community profile pictures/growth.png" 
+                  alt="Harvest Community Growth" 
+                  className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-[2s]"
+                  style={{ opacity: 0.85 }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-[#f5f5f4]/50 via-transparent to-[#f5f5f4]" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#111827]/40 via-transparent to-transparent" />
               </div>
               <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-3xl shadow-2xl border border-[#115e59]/5 animate-bounce">
                 <div className="flex items-center gap-3">

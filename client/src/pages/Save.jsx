@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Zap, Droplet, AlertTriangle, CloudRain, Sun, Wrench, CheckCircle2, ChevronDown, ChevronUp } from "lucide-react";
+import { Zap, Droplet, AlertTriangle, CloudRain, Sun, Wrench, CheckCircle2, ChevronDown, ChevronUp, ShieldCheck, BatteryCharging, Lightbulb } from "lucide-react";
 import { useAppContext } from "../context/useAppContext";
 import LogActionButton from "../components/LogActionButton";
 import { WATER_TIPS } from "../data/mockData";

@@ -111,6 +111,16 @@ const Navbar = () => {
               </Link>
             ))}
 
+            {user?.role === "admin" && (
+              <Link
+                to="/admin"
+                className="bg-red-500/10 text-red-600 border border-red-500/20 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all animate-pulse"
+                aria-label="Admin Hub"
+              >
+                Admin Hub
+              </Link>
+            )}
+
             <button
               onClick={cycleTheme}
               title={`Switch theme (current: ${current.name})`}

@@ -29,11 +29,30 @@ const PageLoader = () => (
   </div>
 );
 
+const AssetPreloader = () => {
+  React.useEffect(() => {
+    const images = [
+      "/logo.png",
+      '/logo512.png',
+      '/community profile pictures/growth.png',
+      '/community resilience/growth.png',
+      '/community resilience/reduce waste.png',
+      "/community resilience/market.png"
+    ];
+    images.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+  return null;
+};
+
 function AppContent() {
   const { badgePopup, setBadgePopup } = useAppContext();
 
   return (
     <>
+      <AssetPreloader />
       <Suspense fallback={<PageLoader />}>
         <Routes>
           {/* Standalone pages — no Navbar/Footer */}
