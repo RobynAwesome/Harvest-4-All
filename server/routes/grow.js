@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const Grow = require("../models/Grow");
+const { db } = require("../localDb");
 
 // GET all grow projects
-router.get("/", async (req, res) => {
+router.get("/", (req, res) => {
   try {
-    const grows = await Grow.find().sort({ createdAt: -1 });
+    const grows = db.get("growProjects").value().reverse();
     res.json(grows);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -13,31 +13,35 @@ router.get("/", async (req, res) => {
 });
 
 // POST new grow project
-router.post("/", async (req, res) => {
-  const grow = new Grow({
-    crop: req.body.crop,
-    season: req.body.season,
-    location: req.body.location,
-    startDate: req.body.startDate,
-    expectedHarvest: req.body.expectedHarvest,
-    status: req.body.status,
-    notes: req.body.notes,
-    userId: req.body.userId,
-  });
-
+router.post("/", (req, res) => {
   try {
-    const newGrow = await grow.save();
-    res.status(201).json(newGrow);
+    const grow = {
+      id: "g-" + Date.now(),
+      crop: req.body.crop,
+      season: req.body.season,
+      location: req.body.location,
+      startDate: req.body.startDate || new Date().toISOString(),
+      expectedHarvest: req.body.expectedHarvest,
+      status: req.body.status || "Planting",
+      notes: req.body.notes,
+      userId: req.body.userId,
+      createdAt: new Date().toISOString()
+    };
+
+    db.get("growProjects").push(grow).write();
+    res.status(201).json(grow);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
 // DELETE grow project
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", (req, res) => {
   try {
-    const grow = await Grow.findByIdAndDelete(req.params.id);
+    const grow = db.get("growProjects").find({ id: req.params.id }).value();
     if (!grow) return res.status(404).json({ message: "Project not found" });
+    
+    db.get("growProjects").remove({ id: req.params.id }).write();
     res.json({ message: "Project deleted" });
   } catch (err) {
     res.status(500).json({ message: err.message });

@@ -178,7 +178,8 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 20px;
   border: 1px solid rgba(17, 94, 89, 0.08);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  /* Fix: Exclude 'transform' from CSS transitions to prevent fight with Framer Motion */
+  transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .card-premium:hover {
@@ -267,7 +268,10 @@ h1, h2, h3, h4, h5, h6 {
 .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
 .animate-scale-in { animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
-/* ── Dark / Crazy mode hover text fix ─────────────── */
+/* ── Hover Text Fixes ──────────────────────────────── */
+.group:hover .group-hover\:text-white { color: #ffffff !important; }
+.group:hover .group-hover\:text-emerald-500 { color: #10b981 !important; }
+
 html.dark .group:hover .group-hover\:text-white { color: #ffffff !important; }
 html.crazy .group:hover .group-hover\:text-white { color: #ffffff !important; }
 html.dark .hover\:text-white:hover { color: #ffffff !important; }

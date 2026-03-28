@@ -1,12 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const Action = require("../models/Action");
-const Badge = require("../models/Badge");
+const { db } = require("../localDb");
 
 // GET all actions
-router.get("/", async (req, res) => {
+router.get("/", (req, res) => {
   try {
-    const actions = await Action.find().sort({ date: -1 }).limit(50);
+    const actions = db.get("actions").value().reverse();
     res.json(actions);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -14,19 +13,19 @@ router.get("/", async (req, res) => {
 });
 
 // POST new action
-router.post("/", async (req, res) => {
+router.post("/", (req, res) => {
   try {
-    const { type, description, value, unit, location, notes } = req.body;
+    const { type, description, value, unit, location, notes, userId } = req.body;
 
-    // Calculate points based on action type
-    let points = 5; // default
+    // Calculate points
+    let points = 5;
     if (type === "grow") points = value * 0.5;
-    if (type === "save") points = value * 2; // e.g. 2 pts per liter
-    if (type === "save_energy") points = value * 5; // e.g. 5 pts per kWh or R1 saved
-    if (type === "reduce") points = value * 10; // e.g. 10 pts per kg
+    if (type === "save") points = value * 2;
+    if (type === "save_energy") points = value * 5;
+    if (type === "reduce") points = value * 10;
 
-    // Build the action
-    const action = new Action({
+    const action = {
+      id: "a-" + Date.now(),
       type,
       description,
       value: parseFloat(value),
@@ -34,65 +33,40 @@ router.post("/", async (req, res) => {
       location,
       notes,
       points: Math.round(points),
-      userId: "anonymous", // Or handle auth if implemented
-    });
+      userId: userId || "anonymous",
+      date: new Date().toISOString()
+    };
 
-    // Check for badges earned (Simplified logic for now)
-    const earnedBadgeIds = await checkBadgesEarned(action);
-    action.badgesEarned = earnedBadgeIds;
+    db.get("actions").push(action).write();
 
-    const savedAction = await action.save();
-    res.status(201).json(savedAction);
+    // Update user points if userId is provided
+    if (userId) {
+      const user = db.get("users").find({ id: userId }).value();
+      if (user) {
+        db.get("users").find({ id: userId })
+          .assign({ points: (user.points || 0) + action.points })
+          .write();
+      }
+    }
+
+    res.status(201).json(action);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
-// GET badges
-router.get("/badges", async (req, res) => {
+// GET badges (Seed if empty)
+router.get("/badges", (req, res) => {
   try {
-    let badges = await Badge.find();
-    if (badges.length === 0) {
-      // Seed if empty (First time)
+    let badges = db.get("badges").value();
+    if (!badges || badges.length === 0) {
       const seedBadges = [
-        {
-          name: "First Harvest",
-          description: "Successfully logged your first crop harvest.",
-          icon: "🌱",
-          requirement: { type: "harvest", count: 1 }
-        },
-        {
-          name: "Water Warrior",
-          description: "Saved over 100L of water through greywater recycling.",
-          icon: "💧",
-          requirement: { type: "water_saved", count: 100 }
-        },
-        {
-          name: "Eco Champion",
-          description: "Completed a 7-day Zero Waste challenge.",
-          icon: "🏆",
-          requirement: { type: "any", count: 50 }
-        },
-        {
-          name: "Market Maven",
-          description: "Completed your first community swap or sale.",
-          icon: "🤝",
-          requirement: { type: "market", count: 1 }
-        },
-        {
-          name: "Green Guardian",
-          description: "Shared 5 gardening tips with the community.",
-          icon: "🛡️",
-          requirement: { type: "any", count: 10 }
-        },
-        {
-          name: "Community Hero",
-          description: "Earned 500 total sustainability points.",
-          icon: "❤️",
-          requirement: { type: "points", count: 500 }
-        }
+        { id: "b-1", name: "First Harvest", description: "Successfully logged your first crop harvest.", icon: "🌱" },
+        { id: "b-2", name: "Water Warrior", description: "Saved over 100L of water.", icon: "💧" },
+        { id: "b-3", name: "Eco Champion", description: "Completed a 7-day Zero Waste challenge.", icon: "🏆" }
       ];
-      badges = await Badge.insertMany(seedBadges);
+      db.set("badges", seedBadges).write();
+      badges = seedBadges;
     }
     res.json(badges);
   } catch (err) {
@@ -100,53 +74,13 @@ router.get("/badges", async (req, res) => {
   }
 });
 
-// Helper function to check badges earned
-async function checkBadgesEarned(action) {
-  const earned = [];
-  try {
-    // 1. Get all badges
-    const allBadges = await Badge.find();
-    
-    // 2. Get user stats
-    const totalActionCount = await Action.countDocuments({ userId: "anonymous" });
-    const totalPointsResult = await Action.aggregate([
-      { $match: { userId: "anonymous" } },
-      { $group: { _id: null, total: { $sum: "$points" } } }
-    ]);
-    const currentPoints = (totalPointsResult[0]?.total || 0) + action.points;
-
-    const totalValueResult = await Action.aggregate([
-      { $match: { type: action.type, userId: "anonymous" } },
-      { $group: { _id: null, total: { $sum: "$value" } } }
-    ]);
-    const totalValue = (totalValueResult[0]?.total || 0) + action.value;
-
-    for (const badge of allBadges) {
-      const req = badge.requirement;
-      if (!req) continue;
-
-      let earnedBadge = false;
-      if (req.type === "any" && totalActionCount + 1 >= req.count) earnedBadge = true;
-      else if (req.type === "points" && currentPoints >= req.count) earnedBadge = true;
-      else if (req.type === action.type && totalValue >= req.count) earnedBadge = true;
-      // Map 'save' (water) to 'water_saved' for badge compatibility
-      else if (req.type === "water_saved" && action.type === "save" && totalValue >= req.count) earnedBadge = true;
-
-      if (earnedBadge) {
-        earned.push(badge._id);
-      }
-    }
-  } catch (err) {
-    console.error("Badge check error:", err);
-  }
-  return earned;
-}
-
 // DELETE action
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", (req, res) => {
   try {
-    const action = await Action.findByIdAndDelete(req.params.id);
+    const action = db.get("actions").find({ id: req.params.id }).value();
     if (!action) return res.status(404).json({ message: "Action not found" });
+    
+    db.get("actions").remove({ id: req.params.id }).write();
     res.json({ message: "Action deleted" });
   } catch (err) {
     res.status(500).json({ message: err.message });

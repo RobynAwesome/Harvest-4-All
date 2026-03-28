@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
   });
   const [token, setToken] = useState(() => localStorage.getItem("harvest_token"));
   const [loading, setLoading] = useState(true);
+  const [isSimulating, setIsSimulating] = useState(() => !!localStorage.getItem("harvest_sim_admin"));
 
   useEffect(() => {
     const validateToken = async () => {
@@ -57,8 +58,28 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     setToken(null);
+    setIsSimulating(false);
     localStorage.removeItem("harvest_token");
     localStorage.removeItem("harvest_user");
+    localStorage.removeItem("harvest_sim_admin");
+  };
+
+  const simulateUser = (userData) => {
+    // Save current admin to restore later
+    if (!isSimulating) {
+      localStorage.setItem("harvest_sim_admin", JSON.stringify(user));
+    }
+    setUser({ ...userData, isSimulated: true });
+    setIsSimulating(true);
+  };
+
+  const stopSimulation = () => {
+    const adminData = localStorage.getItem("harvest_sim_admin");
+    if (adminData) {
+      setUser(JSON.parse(adminData));
+      localStorage.removeItem("harvest_sim_admin");
+    }
+    setIsSimulating(false);
   };
 
   return (
@@ -68,10 +89,13 @@ export const AuthProvider = ({ children }) => {
         token,
         loading,
         isAuthenticated: !!user,
-        isAdmin: user?.role === "admin",
+        isAdmin: user?.role === "admin" && !isSimulating,
+        isSimulating,
         login,
         register,
         logout,
+        simulateUser,
+        stopSimulation,
       }}
     >
       {children}

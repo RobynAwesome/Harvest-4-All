@@ -12,7 +12,12 @@ import {
   Lock,
   ArrowLeft,
   RotateCcw,
+  Users as UsersIcon,
+  Play,
 } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
+import axios from "axios";
+import { useEffect } from "react";
 
 const ADMIN_PIN = "harvest2026";
 
@@ -37,6 +42,35 @@ const Admin = () => {
     restoreItem,
     emptyTrash,
   } = useAppContext();
+
+  const { simulateUser, token } = useAuth();
+  const [users, setUsers] = useState([]);
+  const [loadingUsers, setLoadingUsers] = useState(false);
+
+  useEffect(() => {
+    if (authed && activeTab === "users") {
+      fetchUsers();
+    }
+  }, [authed, activeTab]);
+
+  const fetchUsers = async () => {
+    setLoadingUsers(true);
+    try {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL || "http://localhost:5000/api"}/auth/users`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setUsers(res.data);
+    } catch (err) {
+      console.error("Failed to fetch users:", err);
+    } finally {
+      setLoadingUsers(false);
+    }
+  };
+
+  const handleSimulate = (user) => {
+    simulateUser(user);
+    navigate("/");
+  };
 
   const handlePinSubmit = (e) => {
     e.preventDefault();
@@ -63,6 +97,7 @@ const Admin = () => {
     { id: "market", label: "Market Listings", icon: ShoppingBag, count: marketListings.length },
     { id: "actions", label: "Action Log", icon: Zap, count: actions.length },
     { id: "grow", label: "Grow Projects", icon: Sprout, count: growProjects.length },
+    { id: "users", label: "Users", icon: UsersIcon, count: users.length },
     { id: "trash", label: "Trash", icon: Trash2, count: trash.length },
   ];
 
@@ -375,6 +410,55 @@ const Admin = () => {
                     </div>
                   );
                 })}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Users / Simulator Tab */}
+        {activeTab === "users" && (
+          <div className="animate-fade-in">
+            <div className="flex items-center justify-between mb-6">
+               <h2 className="text-xs font-black uppercase tracking-[0.3em] text-white/30">
+                 {users.length} registered user{users.length !== 1 ? "s" : ""} — Select to simulate perspective
+               </h2>
+               <button onClick={fetchUsers} className="p-2 bg-white/5 hover:bg-white/10 rounded-lg">
+                  <RefreshCw className={`w-4 h-4 ${loadingUsers && "animate-spin"}`} />
+               </button>
+            </div>
+            {users.length === 0 ? (
+              <EmptyState message={loadingUsers ? "Loading users..." : "No users found"} />
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {users.map((u) => (
+                  <div
+                    key={u.id || u._id}
+                    className="bg-white/5 border border-white/5 rounded-3xl p-6 hover:bg-white/8 transition-all group relative overflow-hidden"
+                  >
+                    <div className="flex items-center gap-4 mb-4">
+                       <div className="w-12 h-12 bg-[#115e59] rounded-2xl flex items-center justify-center font-black text-xl">
+                          {u.username[0].toUpperCase()}
+                       </div>
+                       <div>
+                          <div className="font-black text-white">{u.username}</div>
+                          <div className="text-white/30 text-xs font-bold uppercase tracking-widest">{u.role} · {u.location || "Western Cape"}</div>
+                       </div>
+                    </div>
+                    <div className="text-xs text-white/40 mb-6 truncate">{u.email}</div>
+                    <button
+                      onClick={() => handleSimulate(u)}
+                      disabled={u.role === "admin"}
+                      className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all ${
+                        u.role === "admin" 
+                        ? "bg-white/5 text-white/20 cursor-not-allowed" 
+                        : "bg-[#2ecc71]/20 text-[#2ecc71] hover:bg-[#2ecc71] hover:text-white"
+                      }`}
+                    >
+                      <Play className="w-3.5 h-3.5" /> 
+                      {u.role === "admin" ? "Admin (Primary)" : "Simulate User"}
+                    </button>
+                  </div>
+                ))}
               </div>
             )}
           </div>

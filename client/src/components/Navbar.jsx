@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Menu, X, Trophy, Download, LogIn, LogOut, User } from "lucide-react";
+import { Menu, X, Trophy, Download, LogIn, LogOut, User, Play } from "lucide-react";
 import { useAppContext } from "../context/useAppContext";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
@@ -11,7 +11,7 @@ const Navbar = () => {
   const [showInstallBtn, setShowInstallBtn] = useState(false);
   const navigate = useNavigate();
   const { totalPoints, earnedBadges } = useAppContext();
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, logout, isSimulating, stopSimulation } = useAuth();
   const { cycleTheme, current, theme } = useTheme();
 
   useEffect(() => {
@@ -39,6 +39,20 @@ const Navbar = () => {
 
   return (
     <nav className="sticky top-0 z-50 glass border-b border-[#115e59]/10" aria-label="Main Navigation">
+      {isSimulating && (
+        <div className="bg-amber-500 text-white px-4 py-2 flex items-center justify-between text-xs font-black uppercase tracking-[0.2em] shadow-lg relative z-[60]">
+          <div className="flex items-center gap-2">
+             <Play className="w-4 h-4 fill-white animate-pulse" />
+             <span>Simulation Perspective: <span className="underline decoration-white/40 underline-offset-4">{user?.username}</span></span>
+          </div>
+          <button 
+            onClick={stopSimulation}
+            className="flex items-center gap-2 bg-white/20 hover:bg-white/30 px-3 py-1 rounded-lg transition-all border border-white/20"
+          >
+             <LogOut className="w-3.5 h-3.5" /> Stop Simulation
+          </button>
+        </div>
+      )}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
           <div
@@ -56,12 +70,21 @@ const Navbar = () => {
                 style={{ width: 52, height: 52, objectFit: "cover", objectPosition: "top" }}
               />
             </div>
-            <div className="leading-none">
-              <div className="text-2xl font-black text-[#111827] tracking-tighter font-heading">
-                HARVEST <span className="text-[#2ecc71]">4</span> ALL
+            <div className="leading-none flex items-center gap-3">
+              <div>
+                <div className="text-2xl font-black text-[#111827] tracking-tighter font-heading">
+                  HARVEST <span className="text-[#2ecc71]">4</span> ALL
+                </div>
+                <div className="text-[9px] font-black uppercase tracking-[0.2em] text-[#115e59]/60 mt-0.5">
+                  Sustainable Communities
+                </div>
               </div>
-              <div className="text-[9px] font-black uppercase tracking-[0.2em] text-[#115e59]/60 mt-0.5">
-                Sustainable Communities
+              <div className="hidden lg:flex items-center gap-2 bg-[#2ecc71]/15 text-[#115e59] text-[9px] font-black px-3 py-1.5 rounded-full border border-[#2ecc71]/20 shadow-sm animate-pulse-slow">
+                 <span className="relative flex h-2 w-2">
+                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2ecc71] opacity-75"></span>
+                   <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2ecc71]"></span>
+                 </span>
+                 🌍 OFFLINE RESILIENT
               </div>
             </div>
           </div>

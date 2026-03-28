@@ -1,12 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const Impact = require("../models/Impact");
-const DispatchLog = require("../models/DispatchLog");
+const { db } = require("../localDb");
 
 // GET all impact data
-router.get("/", async (req, res) => {
+router.get("/", (req, res) => {
   try {
-    const impacts = await Impact.find().sort({ date: -1 }).limit(100);
+    const impacts = db.get("impacts").value().reverse();
     res.json(impacts);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -14,9 +13,9 @@ router.get("/", async (req, res) => {
 });
 
 // Get Dispatch Activity Logs
-router.get("/dispatch", async (req, res) => {
+router.get("/dispatch", (req, res) => {
   try {
-    const logs = await DispatchLog.find().sort({ timestamp: -1 }).limit(50);
+    const logs = db.get("logs").value().reverse();
     res.json(logs);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -24,28 +23,31 @@ router.get("/dispatch", async (req, res) => {
 });
 
 // POST new impact action
-router.post("/", async (req, res) => {
+router.post("/", (req, res) => {
   try {
-    const impact = new Impact({
+    const impact = {
+      id: "i-" + Date.now(),
       type: req.body.type,
       value: parseFloat(req.body.value),
       unit: req.body.unit,
       location: req.body.location,
       notes: req.body.notes,
-      date: new Date(),
-    });
-    const savedImpact = await impact.save();
-    res.status(201).json(savedImpact);
+      date: new Date().toISOString()
+    };
+    db.get("impacts").push(impact).write();
+    res.status(201).json(impact);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
 // DELETE impact record
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", (req, res) => {
   try {
-    const impact = await Impact.findByIdAndDelete(req.params.id);
+    const impact = db.get("impacts").find({ id: req.params.id }).value();
     if (!impact) return res.status(404).json({ message: "Impact not found" });
+    
+    db.get("impacts").remove({ id: req.params.id }).write();
     res.json({ message: "Impact deleted" });
   } catch (err) {
     res.status(500).json({ message: err.message });

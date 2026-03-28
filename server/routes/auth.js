@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+const bcrypt = require("bcryptjs");
+const { db } = require("../localDb");
 const { authMiddleware, JWT_SECRET } = require("../middleware/auth");
 
 const generateToken = (user) => {
   return jwt.sign(
-    { id: user._id, email: user.email, role: user.role },
+    { id: user.id || user._id, email: user.email, role: user.role },
     JWT_SECRET,
     { expiresIn: "7d" }
   );
@@ -17,30 +18,29 @@ router.post("/register", async (req, res) => {
   try {
     const { username, email, password, location } = req.body;
 
-    if (!username || username.length < 2) {
-      return res.status(400).json({ message: "Username must be at least 2 characters" });
-    }
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return res.status(400).json({ message: "Valid email is required" });
-    }
-    if (!password || password.length < 6) {
-      return res.status(400).json({ message: "Password must be at least 6 characters" });
-    }
-
-    const existingUser = await User.findOne({ $or: [{ email }, { username }] });
+    const existingUser = db.get("users").find({ email }).value();
     if (existingUser) {
-      return res.status(400).json({
-        message: existingUser.email === email ? "Email already registered" : "Username already taken",
-      });
+      return res.status(400).json({ message: "Email already registered" });
     }
 
-    const user = new User({ username, email, password, location });
-    await user.save();
+    // Direct storage (for hackathon demo simplicity)
+    const newUser = {
+      id: "u-" + Date.now(),
+      username,
+      email,
+      password: bcrypt.hashSync(password, 10),
+      role: "user",
+      location,
+      points: 0,
+      badges: []
+    };
 
-    const token = generateToken(user);
+    db.get("users").push(newUser).write();
+
+    const token = generateToken(newUser);
     res.status(201).json({
       token,
-      user: { id: user._id, username: user.username, email: user.email, role: user.role, location: user.location },
+      user: { id: newUser.id, username: newUser.username, email: newUser.email, role: newUser.role, location: newUser.location },
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -52,45 +52,60 @@ router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    if (!email || !password) {
-      return res.status(400).json({ message: "Email and password are required" });
-    }
-
-    const user = await User.findOne({ email: email.toLowerCase() });
+    const user = db.get("users").find({ email: email.toLowerCase() }).value();
     if (!user) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    const isMatch = await user.comparePassword(password);
-    if (!isMatch) {
+    const isMatch = bcrypt.compareSync(password, user.password || "");
+    // Fallback for demo users with plain passwords
+    const plainMatch = password === user.password;
+    
+    if (!isMatch && !plainMatch) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
     const token = generateToken(user);
     res.json({
       token,
-      user: { id: user._id, username: user.username, email: user.email, role: user.role, location: user.location },
+      user: { id: user.id, username: user.username, email: user.email, role: user.role, location: user.location },
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
+// POST /api/auth/demo-login (Insta-Login)
+router.post("/demo-login", (req, res) => {
+  const { userId } = req.body; // e.g., 'admin-kholofelo'
+  const user = db.get("users").find({ id: userId }).value();
+  
+  if (!user) return res.status(404).json({ message: "Demo user not found" });
+
+  const token = generateToken(user);
+  res.json({
+    token,
+    user: { id: user.id, username: user.username, email: user.email, role: user.role, location: user.location },
+  });
+});
+
+// GET /api/auth/users (for Demo Picker)
+router.get("/users", (req, res) => {
+  const users = db.get("users").value();
+  res.json(users);
+});
+
 // GET /api/auth/me (protected)
-router.get("/me", authMiddleware, async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id).select("-password");
-    if (!user) return res.status(404).json({ message: "User not found" });
-    res.json({
-      id: user._id,
-      username: user.username,
-      email: user.email,
-      role: user.role,
-      location: user.location,
-    });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+router.get("/me", authMiddleware, (req, res) => {
+  const user = db.get("users").find({ id: req.user.id }).value();
+  if (!user) return res.status(404).json({ message: "User not found" });
+  res.json({
+    id: user.id,
+    username: user.username,
+    email: user.email,
+    role: user.role,
+    location: user.location,
+  });
 });
 
 module.exports = router;

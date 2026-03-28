@@ -51,12 +51,14 @@ const Home = () => {
           <div className="flex-1 relative animate-float">
             <div className="absolute -z-10 bg-[#2ecc71]/20 w-80 h-80 rounded-full blur-[100px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
             <div className="relative p-4 md:p-8 bg-white/40 backdrop-blur-sm rounded-[3rem] border border-[#115e59]/10 shadow-2xl">
-              <img
-                src="/General images/Gemini_Generated_Image_emx36yemx36yemx3.png"
-                alt="Urban container garden with fresh vegetables"
-                loading="lazy"
-                className="rounded-[2rem] shadow-lg w-full h-[400px] object-cover"
-              />
+              <div className="absolute inset-0 z-0">
+                <img 
+                  src="/General images/Gemini_Generated_Image_plo495plo495plo4.png" 
+                  alt="Harvest Background" 
+                  className="w-full h-full object-cover opacity-30"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-[#f5f5f4]/50 via-transparent to-[#f5f5f4]" />
+              </div>
               <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-3xl shadow-2xl border border-[#115e59]/5 animate-bounce">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-[#2ecc71] rounded-2xl flex items-center justify-center text-white shadow-lg">
@@ -73,69 +75,66 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Problem Statement — presentation alignment */}
-      <div className="bg-gradient-to-br from-[#111827] via-[#0f2b29] to-[#111827] py-16 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-red-900/10 via-transparent to-amber-900/10" />
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-red-500/5 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-amber-500/5 rounded-full blur-[120px]" />
-        <div className="max-w-7xl mx-auto px-4 relative z-10">
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 bg-red-500/10 text-red-400 px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase border border-red-500/20 mb-4">
-              <span className="relative flex h-2 w-2"><span className="animate-ping absolute h-full w-full rounded-full bg-red-400 opacity-75"></span><span className="relative rounded-full h-2 w-2 bg-red-400"></span></span>
-              The Crisis We're Solving
+      {/* Problem Stats Banner */}
+      <div className="bg-[#111827] text-white py-20 rounded-[3rem] mx-4 relative overflow-hidden shadow-2xl">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
+        <div className="max-w-7xl mx-auto px-10 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <h2 className="text-4xl md:text-5xl font-black mb-6 font-heading leading-tight">
+                The <span className="text-emerald-400">Township</span> Crisis
+              </h2>
+              <p className="text-xl text-gray-400 font-medium leading-relaxed">
+                Food insecurity and unemployment are not just numbers—they are the barriers to our community's future. 
+                Harvest For All turns space into source.
+              </p>
             </div>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              { stat: "15-18%", desc: "WC households face severe food insecurity", icon: "🚨", gradient: "from-red-500/20 to-red-900/10" },
-              { stat: "68,000+", desc: "Subsistence farming households in Western Cape", icon: "🏘️", gradient: "from-amber-500/20 to-amber-900/10" },
-              { stat: "23%", desc: "Water lost through Cape Town's infrastructure leaks", icon: "���", gradient: "from-blue-500/20 to-blue-900/10" },
-              { stat: "12.74%", desc: "Eskom tariff hike approved for 2025/26", icon: "⚡", gradient: "from-yellow-500/20 to-yellow-900/10" },
-            ].map((s, i) => (
-              <div key={i} className={`bg-gradient-to-br ${s.gradient} backdrop-blur-sm rounded-2xl p-6 border border-white/5 text-center hover:scale-105 transition-all cursor-default group`}>
-                <div className="text-3xl mb-3 group-hover:scale-110 transition-transform">{s.icon}</div>
-                <div className="text-3xl md:text-4xl font-black text-white mb-2 font-heading">{s.stat}</div>
-                <div className="text-[10px] font-bold uppercase tracking-widest text-white/50 leading-tight">{s.desc}</div>
-              </div>
-            ))}
+            <div className="grid grid-cols-2 gap-6">
+              {[
+                { label: "Unemployment Rate", val: "23%", sub: "Western Cape avg" },
+                { label: "Food Insecure", val: "15-18%", sub: "Daily struggle" },
+                { label: "Township Households", val: "68,000+", sub: "In our target zone" },
+                { label: "Tariff Hike", val: "12.74%", sub: "Energy cost '25" }
+              ].map((s, i) => (
+                <div key={i} className="bg-white/5 border border-white/10 p-6 rounded-3xl backdrop-blur-sm">
+                  <div className="text-3xl font-black text-emerald-400 mb-1">{s.val}</div>
+                  <div className="text-[10px] uppercase font-black tracking-widest text-gray-500 mb-1">{s.label}</div>
+                  <div className="text-[10px] text-gray-600 font-bold">{s.sub}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Stats Board — Community Impact */}
-      <div className="bg-gradient-to-b from-[#f5f5f4] to-white py-20">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-12">
-            <div className="inline-block text-[10px] font-black uppercase tracking-[0.4em] text-[#2ecc71] mb-3">Live Community Impact</div>
-            <h2 className="text-4xl font-black text-[#111827] font-heading leading-none">What We've Built <span className="text-[#2ecc71]">Together</span></h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { label: "Meals Grown", val: totalMeals, suf: "", icon: Leaf, color: "text-[#2ecc71]", bg: "bg-emerald-50", border: "border-emerald-200", glow: "shadow-emerald-100", route: "/grow" },
-              { label: "Water Saved", val: waterSaved, suf: "L", icon: Droplet, color: "text-blue-500", bg: "bg-blue-50", border: "border-blue-200", glow: "shadow-blue-100", route: "/save" },
-              { label: "Energy Saved", val: energySaved, suf: "pts", icon: Zap, color: "text-amber-500", bg: "bg-amber-50", border: "border-amber-200", glow: "shadow-amber-100", route: "/save" },
-              { label: "Waste Diverted", val: wasteReduced, suf: "kg", icon: Recycle, color: "text-emerald-600", bg: "bg-green-50", border: "border-green-200", glow: "shadow-green-100", route: "/reduce" },
-            ].map((stat, i) => (
-              <div
-                key={i}
-                onClick={() => navigate(stat.route)}
-                className={`${stat.bg} p-8 rounded-3xl border-2 ${stat.border} shadow-xl ${stat.glow} transition-all hover:scale-105 hover:shadow-2xl cursor-pointer group relative overflow-hidden`}
-              >
-                <div className={`absolute top-0 right-0 w-32 h-32 ${stat.bg} rounded-full -translate-y-1/2 translate-x-1/2 opacity-50`} />
-                <div className={`${stat.color} mb-4 relative z-10`}>
-                  <div className={`w-14 h-14 ${stat.bg} rounded-2xl flex items-center justify-center border ${stat.border} group-hover:scale-110 transition-transform`}>
-                    <stat.icon className="w-7 h-7" />
-                  </div>
-                </div>
-                <div className="text-4xl font-black text-[#111827] font-heading leading-none mb-2 relative z-10">
-                  <AnimatedCounter end={stat.val} suffix={stat.suf} />
-                </div>
-                <div className="text-xs font-black text-[#111827]/40 uppercase tracking-widest leading-none relative z-10">
-                  {stat.label}
+      {/* Global Impact Stats - Clean Stack */}
+      <div className="max-w-7xl mx-auto px-4 py-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            { label: "Meals Grown", val: totalMeals, suf: "", icon: Leaf, color: "text-[#2ecc71]", bg: "bg-emerald-50", border: "border-emerald-200", glow: "shadow-emerald-100", route: "/grow" },
+            { label: "Water Saved", val: waterSaved, suf: "L", icon: Droplet, color: "text-blue-500", bg: "bg-blue-50", border: "border-blue-200", glow: "shadow-blue-100", route: "/save" },
+            { label: "Energy Saved", val: energySaved, suf: "pts", icon: Zap, color: "text-amber-500", bg: "bg-amber-50", border: "border-amber-200", glow: "shadow-amber-100", route: "/save" },
+            { label: "Waste Diverted", val: wasteReduced, suf: "kg", icon: Recycle, color: "text-emerald-600", bg: "bg-green-50", border: "border-green-200", glow: "shadow-green-100", route: "/reduce" },
+          ].map((stat, i) => (
+            <div
+              key={i}
+              onClick={() => navigate(stat.route)}
+              className={`${stat.bg} p-8 rounded-3xl border-2 ${stat.border} shadow-xl ${stat.glow} transition-all hover:scale-105 hover:shadow-2xl cursor-pointer group relative overflow-hidden`}
+            >
+              <div className={`absolute top-0 right-0 w-32 h-32 ${stat.bg} rounded-full -translate-y-1/2 translate-x-1/2 opacity-50`} />
+              <div className={`${stat.color} mb-4 relative z-10`}>
+                <div className={`w-14 h-14 ${stat.bg} rounded-2xl flex items-center justify-center border ${stat.border} group-hover:scale-110 transition-transform`}>
+                  <stat.icon className="w-7 h-7" />
                 </div>
               </div>
-            ))}
-          </div>
+              <div className="text-4xl font-black text-[#111827] font-heading leading-none mb-2 relative z-10">
+                <AnimatedCounter end={stat.val} suffix={stat.suf} />
+              </div>
+              <div className="text-xs font-black text-[#111827]/40 uppercase tracking-widest leading-none relative z-10">
+                {stat.label}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -247,13 +246,13 @@ const Home = () => {
             >
               <div className="h-64 overflow-hidden relative">
                 <img
-                  src={post.img}
+                  src={post.imageUrl || post.img}
                   alt={post.title}
                   loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
                 <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase">
-                  {post.city}
+                  {post.city || post.location}
                 </div>
               </div>
               <div className="p-8">

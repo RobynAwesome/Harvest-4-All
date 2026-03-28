@@ -53,9 +53,9 @@ const Footer = () => {
               Resources
             </h4>
             <ul className="space-y-3 text-sm font-medium">
-              <li><a href="#" className="hover:text-white transition-colors">MICT SETA 2026</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Township Farming Guides</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Impact Reporting</a></li>
+              <li><a href="/about" className="hover:text-white transition-colors uppercase tracking-widest text-[10px]">About the Mission</a></li>
+              <li><a href="/grow" className="hover:text-white transition-colors uppercase tracking-widest text-[10px]">Township Farming Guides</a></li>
+              <li><a href="/impact" className="hover:text-white transition-colors uppercase tracking-widest text-[10px]">Impact Reporting</a></li>
             </ul>
           </div>
           <div>
@@ -63,9 +63,9 @@ const Footer = () => {
               Support
             </h4>
             <ul className="space-y-3 text-sm font-medium">
-              <li><a href="mailto:contact@harvest4all.org" className="hover:text-white transition-colors">contact@harvest4all.org</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Feedback Loop</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Privacy & Terms</a></li>
+              <li><a href="/contact" className="hover:text-white transition-colors">Contact Support</a></li>
+              <li><a href="/contact" className="hover:text-white transition-colors">Feedback Loop</a></li>
+              <li><a href="/terms" className="hover:text-white transition-colors">Privacy & Terms</a></li>
             </ul>
           </div>
         </div>

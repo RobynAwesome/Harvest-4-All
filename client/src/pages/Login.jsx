@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Lock, User, MapPin, LogIn, UserPlus, Eye, EyeOff, ArrowLeft, Sprout } from "lucide-react";
+import axios from "axios";
+import { Mail, Lock, User, MapPin, LogIn, UserPlus, Eye, EyeOff, ArrowLeft, Sprout, ShieldCheck, ShoppingBag } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 /* ── Particle Background ── */
@@ -396,6 +397,66 @@ const Login = () => {
             </AnimatePresence>
           </div>
         </div>
+
+        {/* Demo / Insta-Login Dashboard */}
+        <motion.div
+           initial={{ opacity: 0, y: 10 }}
+           animate={{ opacity: 1, y: 0 }}
+           transition={{ delay: 0.4 }}
+           className="mt-12 bg-gray-900/40 backdrop-blur-xl rounded-[2.5rem] border border-emerald-500/10 p-8 shadow-2xl relative overflow-hidden"
+        >
+           <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
+           
+           <div className="flex items-center justify-between mb-8">
+              <div>
+                 <h3 className="text-sm font-black text-emerald-400 uppercase tracking-widest leading-none mb-1">PITCH DEMO MODE</h3>
+                 <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest italic">Insta-Login Simulation</p>
+              </div>
+              <div className="bg-emerald-500/20 text-emerald-400 text-[8px] font-black px-3 py-1 rounded-full border border-emerald-500/20">
+                 OFFLINE READY
+              </div>
+           </div>
+
+           <div className="grid grid-cols-1 gap-3">
+              {[
+                { id: "admin-kholofelo", name: "Kholofelo (Founder/Admin)", role: "Access All Interfaces", icon: ShieldCheck, color: "from-emerald-600/20 to-teal-600/20", border: "border-emerald-500/30" },
+                { id: "u-1", name: "Kea (Resident)", role: "View Basic Impact", icon: User, color: "from-blue-600/10 to-indigo-600/10", border: "border-blue-500/20" },
+                { id: "u-2", name: "Karabo (Resident)", role: "View Marketplace", icon: ShoppingBag, color: "from-amber-600/10 to-orange-600/10", border: "border-amber-500/20" }
+              ].map((u) => (
+                <button
+                  key={u.id}
+                  onClick={async () => {
+                    setLoading(true);
+                    try {
+                      const res = await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:5000/api"}/auth/demo-login`, { userId: u.id });
+                      // Mock login logic manually since we are bypassing the form
+                      localStorage.setItem("harvest_token", res.data.token);
+                      localStorage.setItem("harvest_user", JSON.stringify(res.data.user));
+                      window.location.href = "/"; // Force refresh to update context
+                    } catch (err) {
+                      setError("Demo mode connection failed.");
+                    } finally {
+                      setLoading(false);
+                    }
+                  }}
+                  className={`group relative flex items-center justify-between p-4 bg-gradient-to-r ${u.color} ${u.border} border rounded-[1.5rem] hover:scale-[1.02] transition-all text-left overflow-hidden`}
+                >
+                  <div className="flex items-center gap-4 relative z-10">
+                     <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center">
+                        <u.icon className="w-5 h-5 text-white/70" />
+                     </div>
+                     <div>
+                        <div className="text-xs font-black text-white group-hover:text-emerald-400 transition-colors uppercase tracking-tight">{u.name}</div>
+                        <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">{u.role}</div>
+                     </div>
+                  </div>
+                  <div className="bg-white/5 p-2 rounded-lg group-hover:bg-emerald-500 group-hover:text-white transition-all">
+                     <LogIn className="w-3.5 h-3.5" />
+                  </div>
+                </button>
+              ))}
+           </div>
+        </motion.div>
 
         {/* Bottom text */}
         <p className="text-center text-gray-600 text-xs mt-6">

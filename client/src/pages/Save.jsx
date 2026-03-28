@@ -415,6 +415,34 @@ const Save = () => {
                   </ul>
                 </div>
 
+                {/* Energy Survival Carousel */}
+                <div className="bg-white p-10 rounded-[3rem] border border-emerald-100 shadow-xl overflow-hidden relative">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-amber-50 rounded-full -translate-y-1/2 translate-x-1/2" />
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="bg-amber-100 p-4 rounded-2xl">
+                    <Zap className="w-8 h-8 text-amber-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-black font-heading leading-tight">Energy <span className="text-amber-600">Survival</span></h3>
+                    <p className="text-xs font-bold uppercase tracking-widest text-[#111827]/40">Load-shedding Mastery</p>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                   {[
+                     { t: "Paraffin Safety", d: "Keep stove 1m from walls. Never leave unattended. Impact: Reduces fire risk by 90% in informal housing.", icon: ShieldCheck },
+                     { t: "Communal Charging", d: "Charge power banks at community hubs during Stage 1. Share resources with neighbors.", icon: BatteryCharging },
+                     { t: "LED Retrofit", d: "Replace one 60W bulb with 9W LED. Save R15/month per bulb in pre-paid credits.", icon: Lightbulb }
+                   ].map((item, i) => (
+                     <div key={i} className="bg-amber-50/50 p-6 rounded-3xl border border-amber-100/50">
+                        <item.icon className="w-6 h-6 text-amber-600 mb-4" />
+                        <h4 className="font-black text-[#111827] mb-2">{item.t}</h4>
+                        <p className="text-xs text-[#111827]/60 font-medium leading-relaxed">{item.d}</p>
+                     </div>
+                   ))}
+                </div>
+              </div>
+
                 {/* Load-Shedding Preparedness Checklist */}
                 <div className="bg-amber-50 p-8 rounded-[3rem] border border-amber-200">
                   <div className="flex items-center gap-3 mb-4">

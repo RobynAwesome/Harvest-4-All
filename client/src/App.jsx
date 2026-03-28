@@ -18,6 +18,10 @@ const Impact  = lazy(() => import("./pages/Impact"));
 const Admin   = lazy(() => import("./pages/Admin"));
 const Login   = lazy(() => import("./pages/Login"));
 const Welcome = lazy(() => import("./pages/Welcome"));
+const About   = lazy(() => import("./pages/About"));
+const Terms   = lazy(() => import("./pages/Terms"));
+const Contact = lazy(() => import("./pages/Contact"));
+import TipBot from "./components/TipBot";
 
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-[#f5f5f4]">
@@ -50,8 +54,12 @@ function AppContent() {
                     <Route path="/save"   element={<Save />}   />
                     <Route path="/market" element={<Market />} />
                     <Route path="/impact" element={<Impact />} />
+                    <Route path="/about"  element={<About />}  />
+                    <Route path="/terms"  element={<Terms />}  />
+                    <Route path="/contact" element={<Contact />} />
                   </Routes>
                 </main>
+                <TipBot />
                 <Footer />
               </div>
             }
