@@ -5,15 +5,14 @@ import {
   CreditCard, 
   Mail, 
   Phone, 
-  Github, 
   MessageCircle, 
   ExternalLink, 
-  ShieldCheck, 
-  TrendingUp,
-  Loader2,
-  Sparkles,
-  Search,
-  ArrowUpRight
+  Shield, 
+  BarChart3, 
+  RefreshCw, 
+  Sparkles, 
+  Search, 
+  ArrowRight
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -79,7 +78,7 @@ const SponsorDashboard = () => {
                        <h2 className="text-4xl font-black font-heading tracking-tight">PLATINUM SPONSOR</h2>
                     </div>
                     <div className="bg-[#2ecc71]/20 text-[#2ecc71] px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border border-[#2ecc71]/20 flex items-center gap-2">
-                       <ShieldCheck className="w-4 h-4" /> Active
+                       <Shield className="w-4 h-4" /> Active
                     </div>
                  </div>
 
@@ -130,7 +129,7 @@ const SponsorDashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
            {loading ? (
              <div className="col-span-full py-32 flex justify-center">
-                <Loader2 className="w-10 h-10 animate-spin text-blue-600" />
+                <RefreshCw className="w-10 h-10 animate-spin text-blue-600" />
              </div>
            ) : submissions.map((s, i) => {
              const contacts = creatorContacts[s.creatorId] || creatorContacts["admin-kholofelo"];
@@ -181,20 +180,20 @@ const SponsorDashboard = () => {
                         <span className="text-[10px] font-black uppercase tracking-widest truncate">WhatsApp</span>
                      </a>
                      <a href={contacts.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-4 bg-gray-50 rounded-2xl hover:bg-[#111827] hover:text-white transition-all group/link shadow-sm">
-                        <Github className="w-4 h-4 text-[#111827] group-hover/link:text-white" />
+                        <Globe className="w-4 h-4 text-[#111827] group-hover/link:text-white" />
                         <span className="text-[10px] font-black uppercase tracking-widest truncate">GitHub</span>
                      </a>
                   </div>
 
                   <div className="mt-8 p-6 bg-blue-50/50 rounded-[1.5rem] border border-blue-100 flex items-center justify-between group-hover:bg-blue-100/50 transition-colors relative z-10">
                      <div className="flex items-center gap-3">
-                        <TrendingUp className="w-5 h-5 text-blue-600" />
+                        <BarChart3 className="w-5 h-5 text-blue-600" />
                         <div>
                            <div className="text-[9px] font-black uppercase tracking-widest opacity-40">Pitch Readiness</div>
                            <div className="text-[10px] font-black text-blue-700">GRANT READY (98%)</div>
                         </div>
                      </div>
-                     <ArrowUpRight className="w-5 h-5 text-blue-300" />
+                     <ArrowRight className="w-5 h-5 text-blue-300" />
                   </div>
                </motion.div>
              );

@@ -4,12 +4,12 @@ import {
   Sparkles, 
   Zap, 
   Droplets, 
-  ArrowUpRight, 
+  ArrowRight, 
   Search, 
   Globe, 
-  TrendingUp, 
-  ShieldCheck,
-  Loader2
+  BarChart3, 
+  Shield,
+  RefreshCw
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
@@ -50,7 +50,7 @@ const CreatorsChoice = () => {
             animate={{ opacity: 1, y: 0 }}
             className="inline-flex items-center gap-2 bg-[#115e59]/10 text-[#115e59] px-6 py-2 rounded-full text-xs font-black tracking-widest uppercase mb-8 border border-[#115e59]/20"
           >
-             <ShieldCheck className="w-3.5 h-3.5" /> Verified Sustainable Vision
+             <Shield className="w-3.5 h-3.5" /> Verified Sustainable Vision
           </motion.div>
           <h1 className="text-6xl md:text-8xl font-black font-heading text-[#111827] mb-8 leading-none tracking-tight">
              Creators <br /><span className="text-gradient">Choice Gallery</span>
@@ -102,7 +102,7 @@ const CreatorsChoice = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
            {loading ? (
              <div className="col-span-full py-32 flex flex-col items-center gap-6">
-                <Loader2 className="w-16 h-16 animate-spin text-[#115e59]" />
+                <RefreshCw className="w-16 h-16 animate-spin text-[#115e59]" />
                 <p className="font-black text-xs uppercase tracking-[0.3em] text-[#115e59]/40">Vetting Sustainable Projects...</p>
              </div>
            ) : filtered.length === 0 ? (
@@ -135,34 +135,34 @@ const CreatorsChoice = () => {
                      {s.description}
                   </p>
 
-                  <div className="flex flex-col gap-3 mb-10">
-                     <div className="flex items-center gap-3 text-[#115e59]">
-                        <TrendingUp className="w-4 h-4 opacity-40" />
-                        <span className="text-[10px] font-black uppercase tracking-widest">Impact: {s.impact}</span>
+                     <div className="flex flex-col gap-3 mb-10">
+                        <div className="flex items-center gap-3 text-[#115e59]">
+                           <BarChart3 className="w-4 h-4 opacity-40" />
+                           <span className="text-[10px] font-black uppercase tracking-widest">Impact: {s.impact}</span>
+                        </div>
+                        <div className="flex items-center gap-3 text-[#2ecc71]">
+                           <Search className="w-4 h-4 opacity-40" />
+                           <span className="text-[10px] font-black uppercase tracking-widest font-bold">{s.status}</span>
+                        </div>
                      </div>
-                     <div className="flex items-center gap-3 text-[#2ecc71]">
-                        <Search className="w-4 h-4 opacity-40" />
-                        <span className="text-[10px] font-black uppercase tracking-widest font-bold">{s.status}</span>
-                     </div>
-                  </div>
 
-                  {user?.role === "sponsor" || user?.role === "admin" ? (
-                    <button className="w-full bg-[#111827] text-white py-5 rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-[#115e59] transition-all flex items-center justify-center gap-3 shadow-xl shadow-emerald-900/10">
-                       Contact {s.creatorName || "Visionary"} <ArrowUpRight className="w-4 h-4" />
-                    </button>
-                  ) : (
-                    <div className="space-y-4">
-                       <div className="w-full bg-[#f5f5f4] text-[#111827]/30 py-4 rounded-2xl font-black text-[9px] uppercase tracking-widest flex items-center justify-center gap-2 border border-[#111827]/5">
-                          Creator Contact Protected <ShieldCheck className="w-3.5 h-3.5" />
+                     {user?.role === "sponsor" || user?.role === "admin" ? (
+                       <button className="w-full bg-[#111827] text-white py-5 rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-[#115e59] transition-all flex items-center justify-center gap-3 shadow-xl shadow-emerald-900/10">
+                          Contact {s.creatorName || "Visionary"} <ArrowRight className="w-4 h-4" />
+                       </button>
+                     ) : (
+                       <div className="space-y-4">
+                          <div className="w-full bg-[#f5f5f4] text-[#111827]/30 py-4 rounded-2xl font-black text-[9px] uppercase tracking-widest flex items-center justify-center gap-2 border border-[#111827]/5">
+                             Creator Contact Protected <Shield className="w-3.5 h-3.5" />
+                          </div>
+                          <Link 
+                            to="/login"
+                            className="block text-center text-[10px] font-black text-[#115e59] hover:underline uppercase tracking-widest"
+                          >
+                             Sponsor Login Required to Pitch
+                          </Link>
                        </div>
-                       <Link 
-                         to="/login"
-                         className="block text-center text-[10px] font-black text-[#115e59] hover:underline uppercase tracking-widest"
-                       >
-                          Sponsor Login Required to Pitch
-                       </Link>
-                    </div>
-                  )}
+                     )}
                </motion.div>
              ))
            )}

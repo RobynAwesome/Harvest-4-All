@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
-import { Mail, Lock, User, MapPin, LogIn, UserPlus, Eye, EyeOff, ArrowLeft, Sprout, ShieldCheck, ShoppingBag, Globe } from "lucide-react";
+import { Mail, Lock, User, MapPin, LogIn, UserPlus, Eye, EyeOff, ArrowLeft, Sprout, Shield, ShoppingBag, Globe } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 /* ── Particle Background ── */
@@ -91,6 +91,8 @@ const Login = () => {
       const res = await login(email, password);
       if (res?.role === "admin") {
         navigate("/admin/welcome");
+      } else if (res?.role === "sponsor") {
+        navigate("/sponsor/dashboard");
       } else {
         navigate("/");
       }
@@ -429,7 +431,7 @@ const Login = () => {
                   role: "Access all interfaces",
                   color: "from-emerald-900/50 to-emerald-800/50",
                   border: "border-emerald-500/30",
-                  icon: ShieldCheck
+                  icon: Shield
                 },
                 {
                   id: "sponsor-uwc",
@@ -468,6 +470,8 @@ const Login = () => {
                       
                       if (res.data.user.role === "admin") {
                         window.location.href = "/admin/welcome";
+                      } else if (res.data.user.role === "sponsor") {
+                        window.location.href = "/sponsor/dashboard";
                       } else {
                         window.location.href = "/";
                       }

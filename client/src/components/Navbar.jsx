@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Menu, X, Trophy, Download, LogIn, LogOut, User, Play, Sparkles } from "lucide-react";
+import { Menu, X, Trophy, Download, LogIn, LogOut, User, Play, Sparkles, Globe } from "lucide-react";
 import { useAppContext } from "../context/useAppContext";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
@@ -105,6 +105,7 @@ const Navbar = () => {
               { name: "Reduce", path: "/reduce" },
               { name: "Save", path: "/save" },
               { name: "Market", path: "/market" },
+              { name: "Membership", path: "/membership" },
               { name: "Mission", path: "/about" },
               { name: "Choice", path: "/creators-choice" }
             ].map((item) => (
@@ -135,6 +136,16 @@ const Navbar = () => {
                 aria-label="Admin Hub"
               >
                 Admin
+              </Link>
+            )}
+
+            {user?.role === "sponsor" && (
+              <Link
+                to="/sponsor/dashboard"
+                className="bg-blue-500/10 text-blue-600 border border-blue-500/20 px-2.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all flex items-center gap-1.5"
+                aria-label="Investor Dashboard"
+              >
+                <Globe className="w-3.5 h-3.5" /> Dashboard
               </Link>
             )}
 

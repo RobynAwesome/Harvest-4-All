@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
-  ShieldCheck, 
+  Shield, 
   Sparkles, 
   Home, 
   Users, 
   Play, 
   ArrowRight,
   LogOut,
-  Zap
+  Zap,
+  Globe
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
@@ -21,7 +22,7 @@ const AdminWelcome = () => {
     {
       title: "Control Panel",
       desc: "Manage users, market listings, and platform health.",
-      icon: ShieldCheck,
+      icon: Shield,
       path: "/admin",
       color: "from-emerald-600 to-teal-700",
       tag: "ADMIN ONLY"
@@ -70,7 +71,7 @@ const AdminWelcome = () => {
             animate={{ opacity: 1, scale: 1 }}
             className="w-20 h-20 bg-emerald-500/20 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl border border-emerald-500/20"
           >
-            <ShieldCheck className="w-10 h-10 text-emerald-400" />
+            <Shield className="w-10 h-10 text-emerald-400" />
           </motion.div>
           <h1 className="text-5xl md:text-7xl font-black font-heading mb-4 tracking-tighter">
             Welcome, <span className="text-emerald-400">Kholofelo</span>.

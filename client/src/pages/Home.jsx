@@ -60,7 +60,7 @@ const Home = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#111827]/40 via-transparent to-transparent" />
               </div>
-              <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-3xl shadow-2xl border border-[#115e59]/5 animate-bounce">
+              <div className="absolute bottom-8 left-8 bg-white p-6 rounded-3xl shadow-2xl border border-[#115e59]/5 animate-bounce">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-[#2ecc71] rounded-2xl flex items-center justify-center text-white shadow-lg">
                     <Leaf className="w-7 h-7" />

@@ -16,18 +16,21 @@ const Save    = lazy(() => import("./pages/Save"));
 const Market  = lazy(() => import("./pages/Market"));
 const Impact  = lazy(() => import("./pages/Impact"));
 const Admin   = lazy(() => import("./pages/Admin"));
-const Login   = lazy(() => import("./pages/Login"));
-const Welcome = lazy(() => import("./pages/Welcome"));
 const About   = lazy(() => import("./pages/About"));
 const Terms   = lazy(() => import("./pages/Terms"));
 const Contact = lazy(() => import("./pages/Contact"));
-const CreatorHub = lazy(() => import("./pages/CreatorHub"));
-const CreatorMarket = lazy(() => import("./pages/CreatorMarket"));
-const CreatorSubmissions = lazy(() => import("./pages/CreatorSubmissions"));
-const CreatorsChoice = lazy(() => import("./pages/CreatorsChoice"));
-const AdminWelcome = lazy(() => import("./pages/AdminWelcome"));
-const SponsorDashboard = lazy(() => import("./pages/SponsorDashboard"));
+
+// Non-lazy for critical entry points
+import Welcome from "./pages/Welcome";
+import AdminWelcome from "./pages/AdminWelcome";
+import SponsorDashboard from "./pages/SponsorDashboard";
+import Membership from "./pages/Membership";
 import TipBot from "./components/TipBot";
+import Login from "./pages/Login";
+import CreatorHub from "./pages/CreatorHub";
+import CreatorMarket from "./pages/CreatorMarket";
+import CreatorSubmissions from "./pages/CreatorSubmissions";
+import CreatorsChoice from "./pages/CreatorsChoice";
 
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-[#f5f5f4]">
@@ -61,12 +64,6 @@ function AppContent() {
       <AssetPreloader />
       <Suspense fallback={<PageLoader />}>
         <Routes>
-          {/* Standalone pages — no Navbar/Footer */}
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/admin/welcome" element={<AdminWelcome />} />
-          <Route path="/sponsor/dashboard" element={<SponsorDashboard />} />
-          <Route path="/login" element={<Login />} />
-
           {/* Main app */}
           <Route
             path="*"
@@ -88,6 +85,13 @@ function AppContent() {
                     <Route path="/creator/market" element={<CreatorMarket />} />
                     <Route path="/creator/submissions" element={<CreatorSubmissions />} />
                     <Route path="/creators-choice" element={<CreatorsChoice />} />
+                    <Route path="/membership" element={<Membership />} />
+                    
+                    {/* Specialized Portals (Now with Navbar) */}
+                    <Route path="/admin" element={<Admin />} />
+                    <Route path="/admin/welcome" element={<AdminWelcome />} />
+                    <Route path="/sponsor/dashboard" element={<SponsorDashboard />} />
+                    <Route path="/login" element={<Login />} />
                   </Routes>
                 </main>
                 <TipBot />
@@ -106,6 +110,7 @@ function App() {
   const [showWelcome, setShowWelcome] = useState(
     () => !window.location.pathname.startsWith("/admin") &&
           !window.location.pathname.startsWith("/login") &&
+          !window.location.pathname.startsWith("/sponsor") &&
           !sessionStorage.getItem("harvest_welcomed")
   );
 
