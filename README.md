@@ -69,4 +69,4 @@ MIT License
 **Built for MICT SETA Hackathon 2026**  
 **Slogan:** *Creating Sustainable Crops for All*
 
-Made with ❤️ by Kholofelo Robyn Rababalela for Western Cape communities 🌍🌱
+Made with ❤️ by Harvest 4 All for Western Cape communities 🌍🌱
