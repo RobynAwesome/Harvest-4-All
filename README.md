@@ -1,72 +1,37 @@
-![Harvest For All Banner](./README-banner.png)
+# Harvest 4 All — Food Security & Agriculture | KPGS Ecosystem
 
-# 🌱 Harvest For All
+> *"The one who plants and the one who waters have one purpose, and they will each be rewarded."* — 1 Corinthians 3:8
 
-**Creating Sustainable Crops for All**
+[![KPGS](https://img.shields.io/badge/KPGS-Governed-7b61ff)](https://kopanolabs.com)
+[![APWA](https://img.shields.io/badge/APWA-6_Dimensions-00d4aa)](https://kopanolabs.com)
+[![Freddy](https://img.shields.io/badge/Sector_01-Freddy_NW-228B22)](https://kopanolabs.com)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
-[![Hackathon](https://img.shields.io/badge/MICT%20SETA%20Hackathon-2026-4ade80)](https://www.cxia4irhack.co.za) 
-[![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)](https://react.dev) 
-[![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)](https://vitejs.dev)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B67F?logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
-[![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?logo=chart.js&logoColor=white)](https://www.chartjs.org)
-[![Leaflet](https://img.shields.io/badge/Leaflet-199900?logo=leaflet&logoColor=white)](https://leafletjs.com)
-[![Font Awesome](https://img.shields.io/badge/Font%20Awesome-538DD7?logo=font-awesome&logoColor=white)](https://fontawesome.com)
-[![Lucide](https://img.shields.io/badge/Lucide-2C3E50?logo=lucide&logoColor=white)](https://lucide.dev)
+## What Is This
 
-A **community-driven sustainability action platform** that empowers Western Cape township residents, university students and middle-class families to grow their own food, reduce waste, save money on utilities, and earn small income through local trading — all in one lightweight, mobile-first website.
+Harvest 4 All is the **food security and agriculture** node of the KPGS ecosystem. Governed by **Freddy NW Alfalfa** — Sector 01 Lead.
 
-Built in **3 days** for the **MICT SETA Hackathon 2026** (Theme: Food Insecurity).
+An **Adaptive PWA** for agricultural communities — operates on cheap Android phones with intermittent rural connectivity.
 
----
+## APWA Agriculture Dimensions
 
-## 🛠 Tech Stack
+| # | Dimension | Implementation |
+|---|-----------|---------------|
+| 1 | **Connectivity** | Offline crop data · Store-and-forward sync |
+| 2 | **Role** | Farmer · Extension officer · Buyer · Logistics |
+| 3 | **Urgency** | Standard → drought alert → cold-chain emergency |
+| 4 | **Device** | Budget Android priority · Low-data payloads |
+| 5 | **Trust** | Verified produce origin · Price verification |
+| 6 | **Local Context** | Province · Soil type · Season · Crop type |
 
-* **Frontend**: React + Vite + Tailwind CSS  
-* **Charts**: Chart.js  
-* **Maps**: Leaflet.js  
-* **State**: localStorage (no backend needed for prototype)  
-* **Icons**: Font Awesome + Lucide  
+## KPGS Ecosystem Mesh
 
-**Fully responsive & lightweight** (< 2 MB) — perfect for township data connections
+| Node | URL | SWFUS |
+|------|-----|-------|
+| KopanoLabs | [kopanolabs.com](https://kopanolabs.com) | Soil |
+| KRRababalela | [krrababalela.com](https://krrababalela.com) | Sky |
+| KasiLink | [kasilink.com](https://kasilink.com) | Water |
+| CrisisConnect | [crisisconnect.kopanolabs.com](https://crisisconnect.kopanolabs.com) | Fire |
+| FivesArena | [fivesarena.com](https://fivesarena.com) | Underground |
+| KopanoContext | [kopanocontext.kopanolabs.com](https://kopanocontext.kopanolabs.com) | Sky |
 
-**Developed by:**  
-**Kholofelo Robyn Rababalela** | Full-Stack MERN Developer
-
----
-
-## 📍 Problem We Solve
-
-Western Cape townships face severe food insecurity (15–18% of households, projected to reach **41% by 2025** — NFNSS 2024).  
-People struggle with rising food prices, lack of practical knowledge for urban gardening, high electricity/water costs, and no easy way to earn from surplus produce.
-
-**Harvest For All** turns knowledge into **action** — no more dependency, only self-sufficiency.
-
----
-
-## ✨ Key Features
-
-- **🌱 Grow** – “What can I grow?” quiz + container gardening guides (WC crops: spinach, kale, tomatoes, herbs) + photo upload + gamification badges  
-- **♻️ Reduce** – Mock recycling hub map + DIY reuse ideas + waste logging  
-- **⚡ Save** – Energy & water trackers showing real Rands & litres saved (Eskom tariffs + drought tips)  
-- **🛒 Market** – Local buy/sell marketplace for produce, seedlings & kits  
-- **⭐ My Impact Dashboard** – Live personal stats, charts & achievements
-
----
-
-## 🤝 Contributing
-
-Open-source for social impact. Pull requests are welcome!
-
----
-
-## 📜 License
-
-MIT License
-
----
-
-**Built for MICT SETA Hackathon 2026**  
-**Slogan:** *Creating Sustainable Crops for All*
-
-Made with ❤️ by Harvest 4 All for Western Cape communities 🌍🌱
+**Jesus is King. Classify before interpret. Receipt or HOLD.**
