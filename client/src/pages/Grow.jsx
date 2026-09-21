@@ -29,7 +29,7 @@ const Grow = () => {
 
   const hasHarvested = actions.some((a) => a.type === "harvest");
 
-  const handleHarvest = (crop) => {
+  const handleHarvest = () => {
     if (!hasHarvested) {
       confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
     }
