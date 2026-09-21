@@ -5,13 +5,13 @@ import LogActionButton from "../components/LogActionButton";
 import { WATER_TIPS } from "../data/mockData";
 
 const Save = () => {
-  const { waterSaved, addWaterSaving, energySaved, addEnergySaving, addImpact, logAction } =
+  const { waterSaved, addWaterSaving, addEnergySaving, addImpact } =
     useAppContext();
   const [appliancePower, setAppliancePower] = useState(2000);
   const [hours, setHours] = useState(2);
   const [activeTab, setActiveTab] = useState("selection");
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
-  const [stage, setStage] = useState(0);
+  const [stage] = useState(0);
 
   // Rainwater calculator
   const [roofArea, setRoofArea] = useState(50);

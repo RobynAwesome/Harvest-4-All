@@ -60,12 +60,10 @@ export const THEMES = {
 };
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState("light");
-
-  useEffect(() => {
+  const [theme, setTheme] = useState(() => {
     const saved = localStorage.getItem("h4a_theme");
-    if (saved && THEMES[saved]) setTheme(saved);
-  }, []);
+    return saved && THEMES[saved] ? saved : "light";
+  });
 
   useEffect(() => {
     localStorage.setItem("h4a_theme", theme);

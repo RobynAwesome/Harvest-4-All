@@ -14,7 +14,7 @@ import {
   Search, 
   ArrowRight
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 
 const SponsorDashboard = () => {
   const [submissions, setSubmissions] = useState([]);
@@ -134,7 +134,7 @@ const SponsorDashboard = () => {
            ) : submissions.map((s, i) => {
              const contacts = creatorContacts[s.creatorId] || creatorContacts["admin-kholofelo"];
              return (
-               <motion.div 
+               <Motion.div 
                  key={s.id || i}
                  initial={{ opacity: 0, scale: 0.95 }}
                  animate={{ opacity: 1, scale: 1 }}
@@ -195,7 +195,7 @@ const SponsorDashboard = () => {
                      </div>
                      <ArrowRight className="w-5 h-5 text-blue-300" />
                   </div>
-               </motion.div>
+               </Motion.div>
              );
            })}
         </div>

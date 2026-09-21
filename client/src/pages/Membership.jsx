@@ -9,7 +9,7 @@ import {
   Award,
   ArrowRight
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion as Motion, AnimatePresence } from "framer-motion";
 
 const Membership = () => {
   const [tier, setTier] = useState("creator"); // creator or sponsor
@@ -157,14 +157,14 @@ const Membership = () => {
 
         {/* Pricing Grid */}
         <AnimatePresence mode="wait">
-           <motion.div 
+           <Motion.div 
              key={tier}
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
              exit={{ opacity: 0, y: -20 }}
              className="grid grid-cols-1 md:grid-cols-3 gap-8"
            >
-              {plans[tier].map((p, i) => {
+              {plans[tier].map((p) => {
                 const Icon = p.icon;
                 return (
                   <div 
@@ -211,7 +211,7 @@ const Membership = () => {
                   </div>
                 );
               })}
-           </motion.div>
+           </Motion.div>
         </AnimatePresence>
 
         {/* Confidence Badge */}

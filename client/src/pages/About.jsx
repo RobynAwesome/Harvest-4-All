@@ -1,6 +1,6 @@
 import React from "react";
 import { Users, GraduationCap, Handshake, Sprout, Globe, Heart } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 
 const About = () => {
   const team = [
@@ -22,13 +22,13 @@ const About = () => {
       <div className="max-w-7xl mx-auto">
         {/* Hero Section */}
         <div className="text-center mb-24">
-          <motion.div 
+          <Motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="inline-block bg-[#166534]/10 text-[#166534] px-6 py-2 rounded-full text-xs font-black tracking-widest uppercase mb-6"
           >
             The Mission
-          </motion.div>
+          </Motion.div>
           <h1 className="text-5xl md:text-7xl font-black font-heading mb-8 leading-none">
             Space into <span className="text-[#166534]">Source</span>.
           </h1>
@@ -45,7 +45,7 @@ const About = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {team.map((member, i) => (
-              <motion.div 
+              <Motion.div 
                 key={i}
                 whileHover={{ y: -10 }}
                 className="bg-white p-8 rounded-[3rem] border border-emerald-100 shadow-xl relative overflow-hidden group"
@@ -54,7 +54,7 @@ const About = () => {
                 <h3 className="text-xl font-black text-[#111827] mb-1 relative z-10">{member.name}</h3>
                 <p className="text-[#166534] text-xs font-black uppercase tracking-widest mb-4 relative z-10">{member.role}</p>
                 <p className="text-sm text-[#111827]/60 font-medium leading-relaxed relative z-10">{member.bio}</p>
-              </motion.div>
+              </Motion.div>
             ))}
           </div>
         </div>

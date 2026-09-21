@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { 
   Shield, 
@@ -12,11 +12,11 @@ import {
   Globe
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 
 const AdminWelcome = () => {
   const navigate = useNavigate();
-  const { user, logout, simulateUser } = useAuth();
+  const { logout, simulateUser } = useAuth();
 
   const perspectives = [
     {
@@ -66,13 +66,13 @@ const AdminWelcome = () => {
       <div className="w-full max-w-6xl relative z-10">
         {/* Header */}
         <div className="text-center mb-16">
-          <motion.div 
+          <Motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             className="w-20 h-20 bg-emerald-500/20 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl border border-emerald-500/20"
           >
             <Shield className="w-10 h-10 text-emerald-400" />
-          </motion.div>
+          </Motion.div>
           <h1 className="text-5xl md:text-7xl font-black font-heading mb-4 tracking-tighter">
             Welcome, <span className="text-emerald-400">Kholofelo</span>.
           </h1>
@@ -84,7 +84,7 @@ const AdminWelcome = () => {
         {/* Main Selection Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           {perspectives.map((p, i) => (
-            <motion.div
+            <Motion.div
               key={p.title}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -111,7 +111,7 @@ const AdminWelcome = () => {
               <div className="flex items-center justify-between text-xs font-black uppercase tracking-widest text-emerald-400 group-hover:gap-2 transition-all">
                  Enter Perspective <ArrowRight className="w-4 h-4" />
               </div>
-            </motion.div>
+            </Motion.div>
           ))}
         </div>
 
