@@ -170,7 +170,7 @@ const Impact = () => {
                   { label: "Water Saved", val: `${waterSaved.toLocaleString()}L`, color: "bg-white/10" },
                   { label: "Energy Impact", val: `R${typeof energySaved === "number" ? energySaved.toLocaleString() : energySaved}`, color: "bg-white/10" },
                   { label: "Waste Diverted", val: `${wasteReduced}kg`, color: "bg-white/10" },
-                ].map((stat, i) => (
+                ].map((stat) => (
                   <div key={stat.label} className={`flex justify-between items-center ${stat.color} p-4 rounded-2xl`}>
                     <span className="text-xs font-black uppercase tracking-widest text-white/70">
                       {stat.label}
