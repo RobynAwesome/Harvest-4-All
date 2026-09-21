@@ -1,5 +1,7 @@
 name: Repository dependency security
 
+# Receipt gate: committed lockfiles are verified, never repaired in CI.
+
 on:
   pull_request:
     paths:
