@@ -17,7 +17,7 @@
 | Root `NOW.md` | ABSENT | Not present in audited tree |
 | Root `AGENTS.md` | ABSENT | Not present in audited tree |
 | Open GitHub issues | KNOWN: 0 | Live GitHub query at audit time |
-| Open GitHub PRs | KNOWN: 6 | #9, #10, #11, #12, #13, #14. Prior handoff claim of 0 open PRs is STALE. |
+| Open GitHub PRs | KNOWN: 3 | #15 recovery/IAOM truth floor, #16 repo dependency hardening, #17 client verification hardening. Prior handoff claim of 0 open PRs is STALE. |
 | Combined commit-status API checks at HEAD | KNOWN: none | No statuses surfaced for audited HEAD |
 | Repository-native CI workflows | ABSENT | `.github/` contains `FUNDING.yml` only; no `.github/workflows/` tree |
 | GitHub Actions activity | PARTIAL | Dependabot dynamic runs exist; they are not an application build/test CI receipt |
