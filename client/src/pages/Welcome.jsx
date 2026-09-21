@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 
 /* ─── Static particle positions (no random on re-render) ─── */
 const PARTICLES = [
@@ -20,6 +20,13 @@ const Welcome = ({ onDone }) => {
   const [exiting, setExiting] = useState(false);
   const doneRef               = useRef(false);
 
+  const triggerDone = useCallback(() => {
+    if (doneRef.current) return;
+    doneRef.current = true;
+    setExiting(true);
+    setTimeout(onDone, 750);
+  }, [onDone]);
+
   useEffect(() => {
     const ts = [
       setTimeout(() => setPhase(1), 350),   // watering can tilts, drops fall
@@ -28,14 +35,7 @@ const Welcome = ({ onDone }) => {
       setTimeout(() => triggerDone(), 7200),// auto-advance
     ];
     return () => ts.forEach(clearTimeout);
-  }, []);
-
-  const triggerDone = () => {
-    if (doneRef.current) return;
-    doneRef.current = true;
-    setExiting(true);
-    setTimeout(onDone, 750);
-  };
+  }, [triggerDone]);
 
   const w = phase >= 1; // watering
   const g = phase >= 2; // growing
