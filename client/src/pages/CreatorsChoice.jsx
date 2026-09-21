@@ -11,15 +11,15 @@ import {
   Shield,
   RefreshCw
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 
 const CreatorsChoice = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { user } = useAuth();
   const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState("All");
+  const [filter] = useState("All");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,13 +45,13 @@ const CreatorsChoice = () => {
         
         {/* Public Hero Selection */}
         <div className="text-center mb-24">
-          <motion.div 
+          <Motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="inline-flex items-center gap-2 bg-[#115e59]/10 text-[#115e59] px-6 py-2 rounded-full text-xs font-black tracking-widest uppercase mb-8 border border-[#115e59]/20"
           >
              <Shield className="w-3.5 h-3.5" /> Verified Sustainable Vision
-          </motion.div>
+          </Motion.div>
           <h1 className="text-6xl md:text-8xl font-black font-heading text-[#111827] mb-8 leading-none tracking-tight">
              Creators <br /><span className="text-gradient">Choice Gallery</span>
           </h1>
@@ -112,7 +112,7 @@ const CreatorsChoice = () => {
              </div>
            ) : (
              filtered.map((s, i) => (
-               <motion.div 
+               <Motion.div 
                  key={s.id || i}
                  initial={{ opacity: 0, y: 20 }}
                  whileInView={{ opacity: 1, y: 0 }}
@@ -163,7 +163,7 @@ const CreatorsChoice = () => {
                           </Link>
                        </div>
                      )}
-               </motion.div>
+               </Motion.div>
              ))
            )}
         </div>
