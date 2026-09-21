@@ -6,6 +6,7 @@ on:
       - "client/package.json"
       - "client/package-lock.json"
       - ".github/workflows/client-dependency-security.yml"
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -15,7 +16,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  resolve-build-manifest:
+  verify-client:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -31,14 +32,19 @@ jobs:
           cache: npm
           cache-dependency-path: client/package-lock.json
 
-      - name: Resolve lockfile from declared manifest
+      - name: Clean install
         working-directory: client
-        run: |
-          npm install --package-lock-only
-          echo "HARVEST_BUILD_LOCK_BEGIN"
-          cat package-lock.json
-          echo "HARVEST_BUILD_LOCK_END"
+        run: npm ci
 
-      - name: Verify resolved audit state
+      - name: Audit dependencies
         working-directory: client
         run: npm audit --audit-level=moderate
+
+      - name: Legacy lint inventory
+        continue-on-error: true
+        working-directory: client
+        run: npm run lint
+
+      - name: Build
+        working-directory: client
+        run: npm run build
