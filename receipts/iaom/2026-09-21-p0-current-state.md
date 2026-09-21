@@ -22,6 +22,32 @@
 | Repository-native CI workflows | ABSENT | `.github/` contains `FUNDING.yml` only; no `.github/workflows/` tree |
 | GitHub Actions activity | PARTIAL | Dependabot dynamic runs exist; they are not an application build/test CI receipt |
 
+## 1A. Live-state refinement after initial audit
+
+The initial P0 snapshot above remains a valid receipt for the state observed at `b3aca98341f8844630ea2bd3eb9325f5f00f575d`, but it is no longer the latest `main`.
+
+During the same recovery window, `main` advanced by one commit to:
+
+`c7cf2bfc9a2e8f3ca51835fe9aab3f44107d8408`
+
+via PR #14: `fix(security): reconcile client Dependabot alerts`.
+
+Compared with the original audited HEAD, that commit:
+- added `.github/workflows/client-dependency-security.yml`;
+- materially regenerated `client/package-lock.json`;
+- modified `client/package.json`;
+- adjusted `client/vite.config.js`.
+
+This supersedes two initial P0 observations:
+- repository-native CI is no longer wholly absent; a client dependency-security workflow now exists;
+- the original client manifest/lock conflict must be re-evaluated against `c7cf2bfc...`, not assumed to remain unchanged.
+
+It does **not** prove application build/lint/runtime health. PR #17 exists specifically because PR #14's green workflow tolerated lint failure, so a green dependency workflow must not be promoted to a full readiness receipt.
+
+**Branch boundary:** this recovery branch was created from the earlier `b3aca983...` base and does not itself contain the PR #14 application/dependency changes. Do not begin overlapping application mutation on this branch until it is reconciled with current `main`.
+
+**Disposition:** historical P0 snapshot = retained; current-main assertions = refine against `c7cf2bfc...`; application mutation = HOLD until branch/base reconciliation.
+
 ## 2. Repository map
 
 ### Root
