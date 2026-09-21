@@ -12,7 +12,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { totalPoints, earnedBadges } = useAppContext();
   const { user, isAuthenticated, logout, isSimulating, stopSimulation } = useAuth();
-  const { cycleTheme, current, theme } = useTheme();
+  const { cycleTheme, current } = useTheme();
 
   useEffect(() => {
     window.addEventListener("beforeinstallprompt", (e) => {
