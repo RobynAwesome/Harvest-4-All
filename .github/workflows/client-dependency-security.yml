@@ -3,9 +3,7 @@ name: Client dependency security
 on:
   pull_request:
     paths:
-      - "client/package.json"
-      - "client/package-lock.json"
-      - "client/vite.config.js"
+      - "client/**"
       - ".github/workflows/client-dependency-security.yml"
   workflow_dispatch:
 
@@ -41,8 +39,7 @@ jobs:
         working-directory: client
         run: npm audit --audit-level=moderate
 
-      - name: Legacy lint inventory
-        continue-on-error: true
+      - name: Lint
         working-directory: client
         run: npm run lint
 
