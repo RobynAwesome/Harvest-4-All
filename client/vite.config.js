@@ -43,7 +43,7 @@ export default defineConfig({
         ]
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,json,woff,woff2}'],
+        // Precache the app shell, not multi-megabyte crop/community imagery.\n        // Required logo PNGs remain explicitly admitted through includeAssets above.\n        globPatterns: ['**/*.{js,css,html,ico,svg,json,woff,woff2}'],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
