@@ -1,22 +1,24 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion as Motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import { Mail, Lock, User, MapPin, LogIn, UserPlus, Eye, EyeOff, ArrowLeft, Sprout, Shield, ShoppingBag, Globe } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 /* ── Particle Background ── */
+const PARTICLES = Array.from({ length: 14 }, (_, i) => ({
+  id: i,
+  size: 4 + Math.random() * 8,
+  x: Math.random() * 100,
+  y: Math.random() * 100,
+  duration: 8 + Math.random() * 12,
+  delay: Math.random() * 6,
+  shape: i % 3,
+  color: i % 2 === 0 ? "bg-emerald-500/20" : "bg-teal-400/15",
+}));
+
 const ParticleField = () => {
-  const particles = Array.from({ length: 14 }, (_, i) => ({
-    id: i,
-    size: 4 + Math.random() * 8,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    duration: 8 + Math.random() * 12,
-    delay: Math.random() * 6,
-    shape: i % 3, // 0=circle, 1=square, 2=rotated square
-    color: i % 2 === 0 ? "bg-emerald-500/20" : "bg-teal-400/15",
-  }));
+  const particles = PARTICLES;
 
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none">
@@ -147,7 +149,7 @@ const Login = () => {
       </button>
 
       {/* Glass card */}
-      <motion.div
+      <Motion.div
         initial={{ opacity: 0, y: 20, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
@@ -189,7 +191,7 @@ const Login = () => {
                 }`}
               >
                 {activeTab === tab.id && (
-                  <motion.div
+                  <Motion.div
                     layoutId="authTab"
                     className="absolute inset-0 bg-gradient-to-r from-emerald-600/30 to-teal-600/30 rounded-lg border border-emerald-500/20"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
@@ -204,14 +206,14 @@ const Login = () => {
           {/* Error */}
           <AnimatePresence mode="wait">
             {error && (
-              <motion.div
+              <Motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 className="mx-8 mb-2 bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2.5 text-red-400 text-sm"
               >
                 {error}
-              </motion.div>
+              </Motion.div>
             )}
           </AnimatePresence>
 
@@ -219,7 +221,7 @@ const Login = () => {
           <div className="px-8 pb-8">
             <AnimatePresence mode="wait">
               {activeTab === "login" ? (
-                <motion.form
+                <Motion.form
                   key="login"
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -259,7 +261,7 @@ const Login = () => {
                     </button>
                   </div>
 
-                  <motion.button
+                  <Motion.button
                     type="submit"
                     disabled={loading}
                     whileHover={{ scale: 1.02 }}
@@ -273,7 +275,7 @@ const Login = () => {
                         <LogIn className="w-4 h-4" /> Sign In
                       </>
                     )}
-                  </motion.button>
+                  </Motion.button>
 
                   <p className="text-center text-gray-500 text-sm">
                     Don't have an account?{" "}
@@ -281,9 +283,9 @@ const Login = () => {
                       Register
                     </button>
                   </p>
-                </motion.form>
+                </Motion.form>
               ) : (
-                <motion.form
+                <Motion.form
                   key="register"
                   initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -341,7 +343,7 @@ const Login = () => {
                     {password && (
                       <div className="mt-2 flex items-center gap-2">
                         <div className="flex-1 h-1.5 bg-gray-700/50 rounded-full overflow-hidden">
-                          <motion.div
+                          <Motion.div
                             className={`h-full ${strength.color} rounded-full`}
                             initial={{ width: 0 }}
                             animate={{ width: strength.width }}
@@ -376,7 +378,7 @@ const Login = () => {
                     />
                   </div>
 
-                  <motion.button
+                  <Motion.button
                     type="submit"
                     disabled={loading}
                     whileHover={{ scale: 1.02 }}
@@ -390,7 +392,7 @@ const Login = () => {
                         <Sprout className="w-4 h-4" /> Create Account
                       </>
                     )}
-                  </motion.button>
+                  </Motion.button>
 
                   <p className="text-center text-gray-500 text-sm">
                     Already have an account?{" "}
@@ -398,14 +400,14 @@ const Login = () => {
                       Sign In
                     </button>
                   </p>
-                </motion.form>
+                </Motion.form>
               )}
             </AnimatePresence>
           </div>
         </div>
 
         {/* Demo / Insta-Login Dashboard */}
-        <motion.div
+        <Motion.div
            initial={{ opacity: 0, y: 10 }}
            animate={{ opacity: 1, y: 0 }}
            transition={{ delay: 0.4 }}
@@ -475,7 +477,7 @@ const Login = () => {
                       } else {
                         window.location.href = "/";
                       }
-                    } catch (err) {
+                    } catch {
                       setError("Demo mode connection failed.");
                     } finally {
                       setLoading(false);
@@ -498,13 +500,13 @@ const Login = () => {
                 </button>
               ))}
            </div>
-        </motion.div>
+        </Motion.div>
 
         {/* Bottom text */}
         <p className="text-center text-gray-600 text-xs mt-6">
           Creating Sustainable Crops for All
         </p>
-      </motion.div>
+      </Motion.div>
 
       {/* Particle animation keyframes */}
       <style>{`
