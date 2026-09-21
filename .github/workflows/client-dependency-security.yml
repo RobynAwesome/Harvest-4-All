@@ -1,8 +1,12 @@
-name: Client dependency security
+name: Repository dependency security
 
 on:
   pull_request:
     paths:
+      - "package.json"
+      - "package-lock.json"
+      - "server/package.json"
+      - "server/package-lock.json"
       - "client/package.json"
       - "client/package-lock.json"
       - "client/vite.config.js"
@@ -13,17 +17,18 @@ permissions:
   contents: read
 
 concurrency:
-  group: client-dependency-security-${{ github.ref }}
+  group: repository-dependency-security-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  verify-client:
+  verify-repository:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Checkout exact revision
+      - name: Checkout exact PR head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
 
       - name: Set up Node.js
@@ -31,21 +36,26 @@ jobs:
         with:
           node-version: "22"
           cache: npm
-          cache-dependency-path: client/package-lock.json
+          cache-dependency-path: |
+            package-lock.json
+            server/package-lock.json
+            client/package-lock.json
 
-      - name: Clean install
-        working-directory: client
-        run: npm ci
+      - name: Verify root dependencies
+        run: |
+          npm ci
+          npm audit --audit-level=moderate
 
-      - name: Audit dependencies
-        working-directory: client
-        run: npm audit --audit-level=moderate
+      - name: Verify server dependencies
+        working-directory: server
+        run: |
+          npm ci
+          npm audit --audit-level=moderate
+          node -e "const AT=require('africastalking'); const client=AT({apiKey:'sandbox-key-placeholder',username:'sandbox'}); if (!client.SMS) throw new Error('Africa\'s Talking SMS client unavailable'); console.log('Africa\'s Talking SDK smoke: OK')"
 
-      - name: Legacy lint inventory
-        continue-on-error: true
+      - name: Verify client dependencies and build
         working-directory: client
-        run: npm run lint
-
-      - name: Build
-        working-directory: client
-        run: npm run build
+        run: |
+          npm ci
+          npm audit --audit-level=moderate
+          npm run build

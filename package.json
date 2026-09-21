@@ -24,9 +24,9 @@
     "concurrently": "^9.2.1"
   },
   "overrides": {
-    "shell-quote": ">=1.8.2",
-    "lodash": ">=4.17.21",
     "axios": ">=1.9.0",
-    "form-data": ">=4.0.4"
+    "form-data": ">=4.0.4",
+    "lodash": ">=4.17.21",
+    "shell-quote": ">=1.8.5 <2"
   }
 }
