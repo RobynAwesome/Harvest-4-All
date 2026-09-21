@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion as Motion, AnimatePresence } from "framer-motion";
 import { Sprout, X, Lightbulb, Droplets, Zap, Recycle, ArrowRight } from "lucide-react";
 
 const TIPS = [
@@ -28,7 +28,7 @@ const TipBot = () => {
     <div className="fixed bottom-8 right-8 z-[100] flex flex-col items-end">
       <AnimatePresence>
         {isOpen && (
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, scale: 0.8, y: 20, x: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20, x: 20 }}
@@ -58,11 +58,11 @@ const TipBot = () => {
             <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#115e59] hover:gap-3 transition-all">
               Learn More <ArrowRight className="w-3 h-3" />
             </button>
-          </motion.div>
+          </Motion.div>
         )}
       </AnimatePresence>
 
-      <motion.button
+      <Motion.button
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         onMouseEnter={() => setIsHovered(true)}
@@ -83,17 +83,17 @@ const TipBot = () => {
 
         <AnimatePresence>
           {isHovered && !isOpen && (
-            <motion.div
+            <Motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: -10 }}
               exit={{ opacity: 0, x: -20 }}
               className="absolute right-full whitespace-nowrap bg-[#111827] text-white text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full mr-2"
             >
               Ask Planty!
-            </motion.div>
+            </Motion.div>
           )}
         </AnimatePresence>
-      </motion.button>
+      </Motion.button>
     </div>
   );
 };
