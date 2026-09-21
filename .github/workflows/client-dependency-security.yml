@@ -5,6 +5,7 @@ on:
     paths:
       - "client/package.json"
       - "client/package-lock.json"
+      - "client/vite.config.js"
       - ".github/workflows/client-dependency-security.yml"
   workflow_dispatch:
 
